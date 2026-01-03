@@ -1,71 +1,152 @@
-<!DOCTYPE html>
-<html lang="de" dir="ltr">
-  <head>
+<!doctype html>
+<html lang="de">
+<head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <script type="text/javascript" src="java/script.js"> </script>
-    <title>Curlys Com-Server</title>
-    <link rel="icon" type="image/png" href="img/skin.png"/>
-  </head>
-  <style>
-  body {
-    background-image: url('img/BG.png');
-    z-index: -1;
-    height: 100vh;
-    width: 100vw;
-    background-size: cover;
-    background-position: center;
-  }
-</style>
-  <FONT COLOR=#ffffff>
-  <body text="#ffffff" link="#ffffff" vlink="#ffffff" alink="#ffffff">
-    <img style="position: absolute;
-    top: 10px;
-    right: 10px"src="img/Skin.png" width = "50">
-    <div class="flex" id="transp">
-      <h1 class="white shadow"><u><b>Home</b></u></h1>
-    </div>
-    <nav>
-          <div style="background-image: url('img/Nav.jpg')" id="Nav" class="flex">
-            <p width="400" height="80">
-               <a tabindex="0" aria-current="page"> Startseite </a>
-              <a href="html/Projekte.html"> How To Join? </a>
-              <a href="html/Regeln.html"> Regeln </a>
-              <a href="html/online-map.html"> Web-Map </a>
-              <a href="html/News.html"> Downloads </a>
-               <a href="html/Social.html"> Social Media </a></p>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>HD — Links</title>
+    <meta name="description" content="HD - Streamplan, Ressourcen, Socials und Clips.">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+<header id="hero" class="hero">
+    <div class="hero-overlay">
+        <div class="container">
+            <div class="profile-box">
+                <img src="img/HDProfile.webp" alt="HD Profilbild" class="profile-img">
+                <div class="profile-info">
+                    <h1>HD1920x1080</h1>
+                    <p>FullHD Media - Gaming, Streams & Clips</p>
+                </div>
             </div>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    <!-- Haupt-Links (keine Impressum-Karte hier) -->
+    <section class="links-box" aria-label="Wichtige Links">
+      <div class="link-grid">
+
+        <a class="link-card"
+           href="https://kalender.digital/4ccef74582e0eb8d7026?utm_medium=social&utm_source=heylink.me" target="_blank"
+           rel="noopener noreferrer">
+            <img src="img/StreamPlan.webp" alt="Streamplan Icon" class="icon">
+            <div class="card-text">
+                <strong>Streamplan</strong>
+                <span>Live-Termine</span>
             </div>
-    </nav>
-    <div class="flex" id="transp">
-    <h2 style="align-items: center;">Herzlich Wilkommen!</h2>
-    </div>
-    <div class="flex" id="transp">
-    <p style="align-items: center;">Homepage von Curlys Community Server!</p>
-    </div>
-    <div class="flex" id="transp">
-    <p style="align-items: center;">Wähle oben einen Tab aus :D</p>
-    </div>
-    <div class="flex" id="transp">
-    <p style="align-items: center;">Den Download für die Mods und die alten Welten findet ihr  <a href="html/News.html"> hier </a>.</p>
-    </div>
-    <div class="flex" id="transp">
-    <p style="align-items: center;">Wieder da. Mehr Infos findet ihr im Discord.</p>
-    </div>
-    </font>
+        </a>
 
+        <a class="link-card"
+           href="https://drive.google.com/file/d/1zb60AcfXtj-WzbE56mu9e8EVp72ox4uQ/view?usp=sharing&utm_medium=social&utm_source=heylink.me"
+           target="_blank" rel="noopener noreferrer">
+            <img src="img/MinecraftRessourcePack.webp" alt="Ressource Pack" class="icon">
+            <div class="card-text">
+                <strong>Minecraft ResourcePack</strong>
+                <span>Download</span>
+            </div>
+        </a>
 
-    <img src="img/Sign.png" class="bottomleft" width="250">
-    <p class="bottomleft1"><b>Server-IP:</b></p>
-    <div class="bottomleft2" id="mytext">play.curlyceddy.de:20013</div>
+        <a class="link-card" href="https://youtube.com/@hawedereplus" target="_blank" rel="noopener noreferrer">
+            <img src="img/youtube.svg" alt="YouTube" class="icon">
+            <div class="card-text">
+                <strong>YouTube</strong>
+                <span>Hauptkanal</span>
+            </div>
+        </a>
 
-    <button class="bottomleft3" onclick="copyTextFromElement('mytext')">Kopieren</button>
-    <p></p>
-    <!-- IDEA: <iframe src="http://176.57.160.35:28275/" width="1000" height="800" /> -->
-    </body>
-    <FONT COLOR=#ffffff>
-    <footer>
-      <p class="bottomright">Made by Sommer2019 for CurlyCeddy</p>
+        <a class="link-card" href="https://www.twitch.tv/hd1920x1080" target="_blank" rel="noopener noreferrer">
+            <img src="img/twitch.svg" alt="Twitch" class="icon">
+            <div class="card-text">
+                <strong>Twitch</strong>
+                <span>Live-Streams</span>
+            </div>
+        </a>
+
+        <a class="link-card" href="https://www.instagram.com/hd1920x1080/" target="_blank" rel="noopener noreferrer">
+            <img src="img/instagram.svg" alt="Instagram" class="icon">
+            <div class="card-text">
+                <strong>Instagram</strong>
+                <span>Hauptkanal</span>
+            </div>
+        </a>
+
+        <a class="link-card" href="https://tiktok.com/@hd1920x1080" target="_blank" rel="noopener noreferrer">
+            <img src="img/tiktok.svg" alt="TikTok" class="icon">
+            <div class="card-text">
+                <strong>TikTok</strong>
+                <span>Hauptkanal</span>
+            </div>
+        </a>
+
+        <a class="link-card" href="https://x.com/hd1920x1080" target="_blank" rel="noopener noreferrer">
+            <img src="img/X.svg" alt="Twitter" class="icon">
+            <div class="card-text">
+                <strong>Twitter</strong>
+                <span>Kanalseite</span>
+            </div>
+        </a>
+
+        <a class="link-card" href="https://discord.gg/Zp5KNqCHzc" target="_blank" rel="noopener noreferrer">
+            <img src="img/discord.svg" alt="Discord" class="icon">
+            <div class="card-text">
+                <strong>Discord</strong>
+                <span>Server beitreten</span>
+            </div>
+        </a>
+
+        <a class="link-card" href="mailto:Admin@HD1920x1080.de" target="_self" rel="noopener">
+            <img src="img/email.svg" alt="E-Mail" class="icon">
+            <div class="card-text">
+                <strong>Kontakt</strong>
+                <span>Kontakt per E‑Mail</span>
+            </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Getrennte Box für Clips / Shorts -->
+    <section class="clips-section" aria-label="Clips und Shorts">
+        <h2 class="section-title">Clips & Shorts</h2>
+        <div class="clips-grid">
+            <a class="link-card" href="https://www.youtube.com/@lesommer2019" target="_blank" rel="noopener noreferrer">
+                <img src="img/youtube.svg" alt="YouTube Shorts" class="icon">
+                <div class="card-text">
+                    <strong>YT Shorts</strong>
+                    <span>Shorts & Clips</span>
+                </div>
+            </a>
+
+            <a class="link-card" href="https://www.tiktok.com/@hawedereshorts" target="_blank"
+               rel="noopener noreferrer">
+                <img src="img/tiktok.svg" alt="TikTok Clips" class="icon">
+                <div class="card-text">
+                    <strong>TikTok Clips</strong>
+                    <span>Shorts & Clips</span>
+                </div>
+            </a>
+
+            <a class="link-card" href="https://www.instagram.com/hawedereshorts/" target="_blank"
+               rel="noopener noreferrer">
+                <img src="img/instagram.svg" alt="Instagram Clips" class="icon">
+                <div class="card-text">
+                    <strong>Insta Clips</strong>
+                    <span>Shorts & Clips</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© <span id="year"></span> HD - FullHD Media</p>
+        <p class="footer-links">
+            <a href="impressum.html">Impressum</a>
+        </p>
     </footer>
-  </font>
+</main>
+
+<script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
 </html>

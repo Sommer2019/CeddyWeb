@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Impressum — HD</title>
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+  <main class="container" style="padding-top:40px;padding-bottom:80px;">
+    <section class="impressum-card" style="max-width:760px;margin:0 auto;padding:24px;border-radius:14px;background:linear-gradient(180deg, rgba(124,77,255,0.04), rgba(0,0,0,0.06));border:1px solid rgba(124,77,255,0.06);">
+      <h1 style="margin-top:0;color:var(--accent);">Impressum</h1>
+      <p>Angaben gemäß § 5 TMG:</p>
+      <address style="font-style:normal;line-height:1.6;">
+        <strong>Stefan Slapnik</strong><br>
+        FullHD Media<br>
+        Kolpingstraße 9<br>
+        95615 Marktredwitz
+      </address>
+      <p>Kontakt: <a href="mailto:Admin@HD1920x1080.de">Admin@HD1920x1080.de</a></p>
+      <p>Vertreten durch: Stefan Slapnik</p>
+      <p style="margin-top:18px;"><a class="btn" href="index.html">← Zurück zur Startseite</a></p>
+    </section>
+
+    <footer class="footer" style="margin-top:28px;">
+      <p>© <span id="year"></span> HD — FullHD Media</p>
+    </footer>
+  </main>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
