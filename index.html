@@ -11,13 +11,13 @@
 </head>
 <body>
 <header id="hero" class="hero">
-    <div class="hero-overlay">
+    <div class="hero-overlay fullwidth">
         <div class="container">
             <div class="profile-box">
                 <img src="img/HDProfile.webp" alt="HD Profilbild" class="profile-img">
                 <div class="profile-info">
                     <h1>HD1920x1080</h1>
-                    <p>FullHD Media - Gaming, Streams & Clips</p>
+                    <p>FullHD - Gaming, Streams & Clips</p>
                 </div>
             </div>
         </div>
@@ -29,23 +29,23 @@
     <section class="embed-section" aria-label="Live Streams und Kalender">
         <div class="embed-wrapper">
             <!-- Twitch Embed (responsive) -->
-            <div class="embed-card">
+            <div class="embed-card fullwidth">
                 <div class="embed-title">Live</div>
-                <div class="responsive-embed">
-                    <iframe
-                        src="https://player.twitch.tv/?channel=hd1920x1080&parent=localhost&parent=127.0.0.1&muted=true"
-                        allowfullscreen
-                        title="Twitch Live Player"></iframe>
-                </div>
-            </div>
-
-            <!-- Kalender Embed -->
-            <div class="embed-card">
-                <div class="embed-title">Stream-Kalender</div>
-                <div class="responsive-embed">
-                    <iframe
-                        src="https://kalender.digital/4ccef74582e0eb8d7026?utm_medium=social&utm_source=heylink.me"
-                        title="Stream Kalender" allowfullscreen></iframe>
+                <div class="responsive-embed-row" style="display:flex;gap:1rem;align-items:stretch;">
+                    <div class="responsive-embed player" style="flex:1 1 0;">
+                        <iframe
+                                src="https://player.twitch.tv/?channel=hd1920x1080&parent=hd1920x1080.netlify.app&muted=true"
+                                allowfullscreen
+                                title="Twitch Live Player"
+                                style="width:100%;height:100%;border:0;"></iframe>
+                    </div>
+                    <div class="responsive-embed chat" style="flex:0 0 220px;max-width:420px;">
+                        <iframe
+                                src="https://www.twitch.tv/embed/hd1920x1080/chat?parent=hd1920x1080.netlify.app&darkpopout"
+                                title="Twitch Chat"
+                                sandbox="allow-scripts allow-same-origin allow-popups"
+                                style="width:100%;height:100%;border:0;"></iframe>
+                    </div>
                 </div>
             </div>
         </div>
@@ -53,84 +53,77 @@
 
     <!-- Haupt-Links (keine Impressum-Karte hier) -->
     <section class="links-box" aria-label="Wichtige Links">
-      <div class="link-grid">
+        <div class="link-grid">
 
-        <a class="link-card"
-           href="https://kalender.digital/4ccef74582e0eb8d7026?utm_medium=social&utm_source=heylink.me" target="_blank"
-           rel="noopener noreferrer">
-            <img src="img/StreamPlan.webp" alt="Streamplan Icon" class="icon">
-            <div class="card-text">
-                <strong>Streamplan</strong>
-                <span>Live-Termine</span>
-            </div>
-        </a>
+            <a class="link-card"
+               href="html/Streamplan.html"
+               rel="noopener noreferrer">
+                <img src="img/StreamPlan.webp" alt="Streamplan Icon" class="icon">
+                <div class="card-text">
+                    <strong>Streamplan</strong>
+                    <span>Live-Termine</span>
+                </div>
+            </a>
 
-        <a class="link-card"
-           href="https://drive.google.com/file/d/1zb60AcfXtj-WzbE56mu9e8EVp72ox4uQ/view?usp=sharing&utm_medium=social&utm_source=heylink.me"
-           target="_blank" rel="noopener noreferrer">
-            <img src="img/MinecraftRessourcePack.webp" alt="Ressource Pack" class="icon">
-            <div class="card-text">
-                <strong>Minecraft ResourcePack</strong>
-                <span>Download</span>
-            </div>
-        </a>
+            <a class="link-card"
+               href="https://drive.google.com/file/d/1zb60AcfXtj-WzbE56mu9e8EVp72ox4uQ/view?usp=sharing&utm_medium=social&utm_source=heylink.me"
+               target="_blank" rel="noopener noreferrer">
+                <img src="img/MinecraftRessourcePack.webp" alt="Ressource Pack" class="icon">
+                <div class="card-text">
+                    <strong>Minecraft ResourcePack</strong>
+                    <span>Download</span>
+                </div>
+            </a>
 
-        <a class="link-card" href="https://youtube.com/@hawedereplus" target="_blank" rel="noopener noreferrer">
-            <img src="img/youtube.svg" alt="YouTube" class="icon">
-            <div class="card-text">
-                <strong>YouTube</strong>
-                <span>Hauptkanal</span>
-            </div>
-        </a>
+            <a class="link-card" href="https://youtube.com/@hawedereplus" target="_blank" rel="noopener noreferrer">
+                <img src="img/youtube.svg" alt="YouTube" class="icon">
+                <div class="card-text">
+                    <strong>YouTube</strong>
+                    <span>Hauptkanal</span>
+                </div>
+            </a>
 
-        <a class="link-card" href="https://www.twitch.tv/hd1920x1080" target="_blank" rel="noopener noreferrer">
-            <img src="img/twitch.svg" alt="Twitch" class="icon">
-            <div class="card-text">
-                <strong>Twitch</strong>
-                <span>Live-Streams</span>
-            </div>
-        </a>
+            <a class="link-card" href="https://www.twitch.tv/hd1920x1080" target="_blank" rel="noopener noreferrer">
+                <img src="img/twitch.svg" alt="Twitch" class="icon">
+                <div class="card-text">
+                    <strong>Twitch</strong>
+                    <span>Live-Streams</span>
+                </div>
+            </a>
 
-        <a class="link-card" href="https://www.instagram.com/hd1920x1080/" target="_blank" rel="noopener noreferrer">
-            <img src="img/instagram.svg" alt="Instagram" class="icon">
-            <div class="card-text">
-                <strong>Instagram</strong>
-                <span>Hauptkanal</span>
-            </div>
-        </a>
+            <a class="link-card" href="https://www.instagram.com/hd1920x1080/" target="_blank"
+               rel="noopener noreferrer">
+                <img src="img/instagram.svg" alt="Instagram" class="icon">
+                <div class="card-text">
+                    <strong>Instagram</strong>
+                    <span>Hauptkanal</span>
+                </div>
+            </a>
 
-        <a class="link-card" href="https://tiktok.com/@hd1920x1080" target="_blank" rel="noopener noreferrer">
-            <img src="img/tiktok.svg" alt="TikTok" class="icon">
-            <div class="card-text">
-                <strong>TikTok</strong>
-                <span>Hauptkanal</span>
-            </div>
-        </a>
+            <a class="link-card" href="https://tiktok.com/@hd1920x1080" target="_blank" rel="noopener noreferrer">
+                <img src="img/tiktok.svg" alt="TikTok" class="icon">
+                <div class="card-text">
+                    <strong>TikTok</strong>
+                    <span>Hauptkanal</span>
+                </div>
+            </a>
 
-        <a class="link-card" href="https://x.com/hd1920x1080" target="_blank" rel="noopener noreferrer">
-            <img src="img/X.svg" alt="Twitter" class="icon">
-            <div class="card-text">
-                <strong>Twitter</strong>
-                <span>Kanalseite</span>
-            </div>
-        </a>
+            <a class="link-card" href="https://discord.gg/Zp5KNqCHzc" target="_blank" rel="noopener noreferrer">
+                <img src="img/discord.svg" alt="Discord" class="icon">
+                <div class="card-text">
+                    <strong>Discord</strong>
+                    <span>Server beitreten</span>
+                </div>
+            </a>
 
-        <a class="link-card" href="https://discord.gg/Zp5KNqCHzc" target="_blank" rel="noopener noreferrer">
-            <img src="img/discord.svg" alt="Discord" class="icon">
-            <div class="card-text">
-                <strong>Discord</strong>
-                <span>Server beitreten</span>
-            </div>
-        </a>
-
-        <a class="link-card" href="mailto:Admin@HD1920x1080.de" target="_self" rel="noopener">
-            <img src="img/email.svg" alt="E-Mail" class="icon">
-            <div class="card-text">
-                <strong>Kontakt</strong>
-                <span>Kontakt per E‑Mail</span>
-            </div>
-        </a>
-      </div>
+            <a class="link-card" href="mailto:Admin@HD1920x1080.de" target="_self" rel="noopener">
+                <img src="img/email.svg" alt="E-Mail" class="icon">
+                <div class="card-text">
+                    <strong>Kontakt</strong>
+                    <span>Kontakt per E‑Mail</span>
+                </div>
+            </a>
+        </div>
     </section>
 
     <!-- Getrennte Box für Clips / Shorts -->
@@ -166,15 +159,29 @@
     </section>
 
     <footer class="footer">
-        <p>© <span id="year"></span> HD - FullHD Media</p>
-        <p class="footer-links">
-            <a href="impressum.html">Impressum</a>
-        </p>
+        <p>© <span id="year"></span> FullHD Media <a href="html/impressum.html">Impressum</a></p>
     </footer>
 </main>
 
 <script>
+    // Jahr setzen
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Versuche, der eingebetteten Kalender-Instanz per postMessage die Listenansicht anzufordern.
+    // Hinweis: Viele Kalender-Widgets reagieren nicht auf postMessage; das ist ein harter Fallback.
+    (function () {
+        const iframe = document.getElementById('calendar-iframe');
+        // Wenn der iframe geladen ist, sende eine message (empfänger muss das unterstützen)
+        iframe.addEventListener('load', function () {
+            try {
+                // Wir senden eine generische Nachricht; falls der Embedded-Kalender eine API hat, kann er reagieren.
+                iframe.contentWindow.postMessage({type: 'setView', view: 'list'}, '*');
+                // zusätzlich versuchen, Hash- oder Query-Parameter zu nutzen (bereits in src gesetzt)
+            } catch (e) {
+                console.warn('postMessage to calendar iframe failed', e);
+            }
+        });
+    })();
 </script>
 </body>
 </html>
