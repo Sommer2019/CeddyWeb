@@ -40,9 +40,7 @@ body{
 .hero-overlay.fullwidth{
   position: relative;
   left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
+  transform: translateX(-50%);
   width: 100vw;
   box-sizing: border-box;
   overflow: hidden;
@@ -53,12 +51,33 @@ body{
   padding-bottom: 12px;
 }
 
+/* Fallback: falls die fullwidth-Klasse auf dem äußeren .hero sitzt
+   oder der Hintergrund auf dem äußeren .hero liegt, soll auch dieser full-bleed werden. */
+.hero.fullwidth{
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .profile-box{
   display:flex;align-items:center;gap:16px;
   /* lighter vertical gradient from top (lila) to bottom (schwarz) */
   background: linear-gradient(180deg, rgba(124,77,255,0.18), rgba(0,0,0,0.12));
   padding:14px;border-radius:14px;max-width:720px;box-shadow:0 6px 30px rgba(0,0,0,0.5);
 }
+
+/* Wenn die profile-box innerhalb der hero-overlay sitzt, soll sie die volle Breite
+   der inneren .container einnehmen (wie .links-box). */
+.hero-overlay .profile-box{
+  max-width: none; /* entfernen der bisherigen Begrenzung */
+  width: 100%;
+}
+
 .profile-img{width:84px;height:84px;object-fit:cover;border-radius:14px;border:2px solid rgba(255,255,255,0.06)}
 .profile-info h1{margin:0;font-size:28px;color:var(--accent)}
 .profile-info p{margin:2px 0 0;color:var(--muted)}
