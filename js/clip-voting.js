@@ -2,6 +2,12 @@
 (function () {
     'use strict';
 
+    // NOTE: Laufzeit-Keys (z.B. SUPABASE_PUBLISHABLE_KEY) müssen vom Hosting-Environment
+    // als globales JS-Variable injectiert werden, z.B. via Template oder build-step.
+    // Wenn nicht vorhanden, fällt das Skript auf die alte Date-basierte Lese-Logik zurück.
+    const SUPABASE_URL = window.SUPABASE_URL || null;
+    const SUPABASE_PUBLISHABLE_KEY = window.SUPABASE_PUBLISHABLE_KEY || null;
+
     const CONFIG_URL = './votingData/config.json';
     const CLIPS_URL = './votingData/clips.json';
     const RESULTS_URL = './votingData/results.json';
@@ -145,10 +151,55 @@
         }
     }
 
-    // Fetch JSON data
+    // Fetch JSON data or Supabase fallback
     async function fetchJSON(url) {
-        // Add cache busting for development. In production, consider using proper
-        // HTTP cache headers (Cache-Control, ETag) for better performance
+        // If Supabase is configured, try using the public REST endpoint for reads
+        if (SUPABASE_URL && SUPABASE_PUBLISHABLE_KEY) {
+            try {
+                // Map known file endpoints to table names
+                if (url.includes('clips.json')) {
+                    const resp = await fetch(`${SUPABASE_URL}/rest/v1/clips?select=*&order=created_at.desc`, {
+                        headers: {
+                            apikey: SUPABASE_PUBLISHABLE_KEY,
+                            Authorization: `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
+                        }
+                    });
+                    if (!resp.ok) throw new Error('Supabase clips request failed');
+                    const rows = await resp.json();
+                    return { clips: rows, fetchedAt: new Date().toISOString(), period: {} };
+                }
+                if (url.includes('results.json')) {
+                    // Fetch latest result by month_key descending
+                    const resp = await fetch(`${SUPABASE_URL}/rest/v1/results?select=*&order=month_key.desc&limit=1`, {
+                        headers: {
+                            apikey: SUPABASE_PUBLISHABLE_KEY,
+                            Authorization: `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
+                        }
+                    });
+                    if (!resp.ok) throw new Error('Supabase results request failed');
+                    const rows = await resp.json();
+                    if (rows.length === 0) return { results: [] };
+                    return rows[0].data || { results: [] };
+                }
+                if (url.includes('config.json')) {
+                    // Try to fetch a config row if exists
+                    const resp = await fetch(`${SUPABASE_URL}/rest/v1/config?select=*&limit=1`, {
+                        headers: {
+                            apikey: SUPABASE_PUBLISHABLE_KEY,
+                            Authorization: `Bearer ${SUPABASE_PUBLISHABLE_KEY}`
+                        }
+                    });
+                    if (!resp.ok) throw new Error('Supabase config request failed');
+                    const rows = await resp.json();
+                    return rows.length ? rows[0] : {};
+                }
+            } catch (err) {
+                console.warn('Supabase fallback failed, falling back to file fetch:', err);
+                // Fallthrough to file-based fetch
+            }
+        }
+
+        // File-based fetch (legacy fallback)
         const response = await fetch(url + '?t=' + Date.now());
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -273,28 +324,39 @@
         return card;
     }
 
-    // Vote for a clip
+    // Vote for a clip - send to server endpoint which records IP server-side
     async function voteForClip(clipId) {
-        // Confirm vote
         if (!confirm('Möchtest du wirklich für diesen Clip abstimmen? Du kannst nur einmal voten!')) {
             return;
         }
 
         try {
-            // Store vote in localStorage
-            localStorage.setItem(VOTE_STORAGE_KEY, clipId);
+            const resp = await fetch('/api/submit-vote', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ clip_id: clipId })
+            });
 
-            // In a real implementation, you would send this to a backend
-            // For now, we'll just show a success message
-            showVotedMessage(clipId);
+            if (resp.status === 200) {
+                // UX: mark as voted locally to prevent immediate re-vote attempts
+                try { localStorage.setItem(VOTE_STORAGE_KEY, clipId); } catch (e) { /* ignore */ }
+                showVotedMessage(clipId);
+                return;
+            }
 
-            // Note: In production, you would call a webhook or GitHub API here
-            // Example: await submitVoteToBackend(clipId);
+            if (resp.status === 409) {
+                // Already voted
+                showError('Du hast bereits für diesen Clip abgestimmt (gleiche IP).');
+                return;
+            }
+
+            // Other errors
+            const body = await resp.text();
+            throw new Error(`Vote failed: ${resp.status} ${body}`);
 
         } catch (error) {
             console.error('Error submitting vote:', error);
-            localStorage.removeItem(VOTE_STORAGE_KEY);
-            showError('Fehler beim Abstimmen. Bitte versuche es erneut.');
+            showError('Fehler beim Abstimmen. Bitte versuche es später erneut.');
         }
     }
 

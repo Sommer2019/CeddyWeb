@@ -1,18 +1,22 @@
 const fs = require('fs');
 const https = require('https');
 
-// Helper function to make HTTPS requests
+// Supabase helper
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_PUBLISHABLE_KEY;
+
+if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
+  console.error('Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY');
+  process.exit(1);
+}
+
 function httpsRequest(options, postData = null) {
   return new Promise((resolve, reject) => {
     const req = https.request(options, (res) => {
       let data = '';
       res.on('data', (chunk) => { data += chunk; });
       res.on('end', () => {
-        if (res.statusCode >= 200 && res.statusCode < 300) {
-          resolve({ statusCode: res.statusCode, body: data });
-        } else {
-          reject(new Error(`HTTP ${res.statusCode}: ${data}`));
-        }
+        resolve({ statusCode: res.statusCode, body: data, headers: res.headers });
       });
     });
     req.on('error', reject);
@@ -32,7 +36,7 @@ async function getAccessToken(clientId, clientSecret) {
       'Content-Length': Buffer.byteLength(postData)
     }
   };
-  
+
   const response = await httpsRequest(options, postData);
   const data = JSON.parse(response.body);
   return data.access_token;
@@ -48,7 +52,7 @@ async function getBroadcasterId(channelName, accessToken, clientId) {
       'Authorization': `Bearer ${accessToken}`
     }
   };
-  
+
   const response = await httpsRequest(options);
   const data = JSON.parse(response.body);
   if (data.data && data.data.length > 0) {
@@ -60,13 +64,13 @@ async function getBroadcasterId(channelName, accessToken, clientId) {
 async function getClips(broadcasterId, startDate, endDate, accessToken, clientId) {
   let allClips = [];
   let cursor = null;
-  
+
   do {
     let path = `/helix/clips?broadcaster_id=${broadcasterId}&started_at=${startDate}&ended_at=${endDate}&first=100`;
     if (cursor) {
       path += `&after=${cursor}`;
     }
-    
+
     const options = {
       hostname: 'api.twitch.tv',
       path: path,
@@ -76,59 +80,43 @@ async function getClips(broadcasterId, startDate, endDate, accessToken, clientId
         'Authorization': `Bearer ${accessToken}`
       }
     };
-    
+
     const response = await httpsRequest(options);
     const data = JSON.parse(response.body);
-    
+
     if (data.data) {
       allClips = allClips.concat(data.data);
     }
-    
+
     cursor = data.pagination && data.pagination.cursor;
   } while (cursor);
-  
+
   return allClips;
 }
 
 function getLastWeekOfMonth(year, month) {
-  // month is 0-indexed (0 = January, 11 = December)
-  // Get the last day of the month
   const lastDay = new Date(year, month + 1, 0);
   const lastDayOfMonth = lastDay.getDate();
-  
-  // Calculate the start of the last week (7 days before the last day)
   const startOfLastWeek = new Date(year, month, lastDayOfMonth - 6, 0, 0, 0, 0);
   const endOfLastWeek = new Date(year, month, lastDayOfMonth, 23, 59, 59, 999);
-  
   return { start: startOfLastWeek, end: endOfLastWeek };
 }
 
 function getSecondToLastWeekOfMonth(year, month) {
-  // month is 0-indexed
-  // Get the last day of the month
   const lastDay = new Date(year, month + 1, 0);
   const lastDayOfMonth = lastDay.getDate();
-  
-  // The second-to-last week ends 7 days before the last day
   const endOfSecondToLastWeek = new Date(year, month, lastDayOfMonth - 7, 23, 59, 59, 999);
-  
   return { end: endOfSecondToLastWeek };
 }
 
 function calculateVotingAndClipsPeriods(referenceDate = new Date()) {
   const year = referenceDate.getFullYear();
-  const month = referenceDate.getMonth(); // 0-indexed
-  
-  // Voting period: Last week of current month
+  const month = referenceDate.getMonth();
   const votingPeriod = getLastWeekOfMonth(year, month);
-  
-  // Clips period: Last week of previous month through second-to-last week of current month
   const prevMonth = month === 0 ? 11 : month - 1;
   const prevYear = month === 0 ? year - 1 : year;
-  
   const clipsStart = getLastWeekOfMonth(prevYear, prevMonth).start;
   const clipsEnd = getSecondToLastWeekOfMonth(year, month).end;
-  
   return {
     votingPeriod,
     clipsPeriod: {
@@ -138,111 +126,133 @@ function calculateVotingAndClipsPeriods(referenceDate = new Date()) {
   };
 }
 
+// Helper to call Supabase REST API
+async function supabaseRequest(path, method = 'GET', body = null, extraHeaders = {}) {
+  const url = new URL(path, SUPABASE_URL);
+  const options = {
+    hostname: url.hostname,
+    path: url.pathname + url.search,
+    method,
+    headers: Object.assign({
+      apikey: SUPABASE_SERVICE_KEY,
+      Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`
+    }, extraHeaders)
+  };
+  const postData = body ? JSON.stringify(body) : null;
+  if (postData) options.headers['Content-Type'] = 'application/json';
+  const res = await httpsRequest(options, postData);
+  return res;
+}
+
 async function main() {
   const clientId = process.env.TWITCH_CLIENT_ID;
   const clientSecret = process.env.TWITCH_CLIENT_SECRET;
-  
+
   if (!clientId || !clientSecret) {
     console.error('Missing TWITCH_CLIENT_ID or TWITCH_CLIENT_SECRET');
     process.exit(1);
   }
-  
-  // Read config
+
+  // Read config: prefer env TWITCH_CHANNEL, fallback to config file
+  let twitchChannel = process.env.TWITCH_CHANNEL;
   const configPath = './votingData/config.json';
-  const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-  
+  if (!twitchChannel) {
+    if (!fs.existsSync(configPath)) {
+      console.error('Missing TWITCH_CHANNEL env and no local config found');
+      process.exit(1);
+    }
+    const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+    twitchChannel = config.twitchChannel;
+    if (!twitchChannel) {
+      console.error('twitchChannel not defined in config');
+      process.exit(1);
+    }
+  }
+
   // Determine date range
   let clipsStartDate, clipsEndDate, votingStartDate, votingEndDate;
-  
+
   if (process.env.MANUAL_START_DATE && process.env.MANUAL_END_DATE) {
-    // Manual override: use provided dates for clips
-    // Note: For manual runs, we still calculate the voting period separately
-    // to maintain the design that voting is in the last week of the month
     const manualStart = new Date(process.env.MANUAL_START_DATE);
     const manualEnd = new Date(process.env.MANUAL_END_DATE);
-    
     clipsStartDate = manualStart.toISOString();
     clipsEndDate = manualEnd.toISOString();
-    
-    // Calculate voting period for the month containing the manual end date
     const endYear = manualEnd.getFullYear();
     const endMonth = manualEnd.getMonth();
     const votingPeriod = getLastWeekOfMonth(endYear, endMonth);
-    
     votingStartDate = votingPeriod.start.toISOString();
     votingEndDate = votingPeriod.end.toISOString();
   } else if (process.env.VOTING_START_DATE && process.env.VOTING_END_DATE) {
-    // Legacy environment variables: use as-is for backward compatibility
     clipsStartDate = new Date(process.env.VOTING_START_DATE).toISOString();
     clipsEndDate = new Date(process.env.VOTING_END_DATE).toISOString();
     votingStartDate = clipsStartDate;
     votingEndDate = clipsEndDate;
   } else {
-    // Default: Calculate based on current date
-    // Clips: last week of previous month through second-to-last week of current month
-    // Voting: last week of current month
     const now = new Date();
     const periods = calculateVotingAndClipsPeriods(now);
-    
     clipsStartDate = periods.clipsPeriod.start.toISOString();
     clipsEndDate = periods.clipsPeriod.end.toISOString();
     votingStartDate = periods.votingPeriod.start.toISOString();
     votingEndDate = periods.votingPeriod.end.toISOString();
   }
-  
+
   console.log(`Fetching clips from ${clipsStartDate} to ${clipsEndDate}`);
   console.log(`Voting period will be from ${votingStartDate} to ${votingEndDate}`);
-  
+
   // Get access token
   const accessToken = await getAccessToken(clientId, clientSecret);
-  
+
   // Get broadcaster ID
-  const broadcasterId = await getBroadcasterId(config.twitchChannel, accessToken, clientId);
+  const broadcasterId = await getBroadcasterId(twitchChannel, accessToken, clientId);
   console.log(`Broadcaster ID: ${broadcasterId}`);
-  
+
   // Fetch clips
   const clips = await getClips(broadcasterId, clipsStartDate, clipsEndDate, accessToken, clientId);
   console.log(`Fetched ${clips.length} clips`);
-  
-  // Save clips
-  const clipsData = {
-    clips: clips.map(clip => ({
-      id: clip.id,
-      url: clip.url,
-      embed_url: clip.embed_url,
-      broadcaster_id: clip.broadcaster_id,
-      broadcaster_name: clip.broadcaster_name,
-      creator_id: clip.creator_id,
-      creator_name: clip.creator_name,
-      video_id: clip.video_id,
-      game_id: clip.game_id,
-      language: clip.language,
-      title: clip.title,
-      view_count: clip.view_count,
-      created_at: clip.created_at,
-      thumbnail_url: clip.thumbnail_url,
-      duration: clip.duration,
-      vod_offset: clip.vod_offset
-    })),
-    fetchedAt: new Date().toISOString(),
-    period: {
-      start: clipsStartDate,
-      end: clipsEndDate
+
+  // Delete old clips in period from Supabase
+  // Supabase REST: DELETE /rest/v1/clips?created_at=gte.<start>&created_at=lte.<end>
+  const deletePath = `${SUPABASE_URL}/rest/v1/clips?created_at=gte.${encodeURIComponent(clipsStartDate)}&created_at=lte.${encodeURIComponent(clipsEndDate)}`;
+  const delRes = await supabaseRequest(deletePath, 'DELETE', null, { Prefer: 'return=representation' });
+  if (delRes.statusCode >= 400) {
+    console.error('Error deleting old clips:', delRes.statusCode, delRes.body);
+    process.exit(1);
+  }
+  console.log('Deleted old clips in the period (if any)');
+
+  // Upsert new clips
+  const clipsToUpsert = clips.map(clip => ({
+    id: clip.id,
+    url: clip.url,
+    embed_url: clip.embed_url,
+    broadcaster_id: clip.broadcaster_id,
+    broadcaster_name: clip.broadcaster_name,
+    creator_id: clip.creator_id,
+    creator_name: clip.creator_name,
+    video_id: clip.video_id,
+    game_id: clip.game_id,
+    language: clip.language,
+    title: clip.title,
+    view_count: clip.view_count,
+    created_at: clip.created_at,
+    thumbnail_url: clip.thumbnail_url,
+    duration: clip.duration,
+    vod_offset: clip.vod_offset
+  }));
+
+  if (clipsToUpsert.length > 0) {
+    const upsertPath = `${SUPABASE_URL}/rest/v1/clips`;
+    const upsertRes = await supabaseRequest(upsertPath, 'POST', clipsToUpsert, { Prefer: 'resolution=merge-duplicates,return=representation' });
+    if (upsertRes.statusCode >= 400) {
+      console.error('Error upserting clips:', upsertRes.statusCode, upsertRes.body);
+      process.exit(1);
     }
-  };
-  
-  fs.writeFileSync('./votingData/clips.json', JSON.stringify(clipsData, null, 2));
-  
-  // Update config with voting period
-  config.votingPeriod = {
-    start: votingStartDate,
-    end: votingEndDate
-  };
-  config.status = 'active';
-  
-  fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-  
-  console.log('Clips saved successfully');
+    console.log('Upserted clips to Supabase');
+  } else {
+    console.log('No clips to upsert');
+  }
+
+  console.log('Clips processed and saved to Supabase successfully');
 }
 
 main().catch(err => {
