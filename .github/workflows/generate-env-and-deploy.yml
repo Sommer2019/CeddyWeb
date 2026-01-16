@@ -4,7 +4,6 @@ on:
   push: {}
   workflow_dispatch: {}
 
-# Request write permission for repository contents so the action can push
 permissions:
   contents: write
 
@@ -15,7 +14,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # Use a token that may be provided via secret (preferred) or default GITHUB_TOKEN
           token: ${{ secrets.PAGES_DEPLOY_PAT || secrets.GITHUB_TOKEN }}
           persist-credentials: true
 
@@ -31,26 +29,39 @@ jobs:
           echo "---- env.js (first 20 lines) ----"
           head -n 20 env.js || true
 
-      # If you have a build step (e.g. npm run build), run it here before deploy
-      # - name: Build
-      #   run: npm ci && npm run build
+      - name: Prepare public directory
+        run: |
+          rm -rf public
+          mkdir -p public
+          mkdir -p public/votingData
+          # Copy root HTML files and static assets only (whitelist)
+          cp -v *.html public/ || true
+          cp -v CNAME public/ || true
+          cp -v 404.html public/ || true
+          cp -v env.js public/ || true
+          cp -rv css public/ || true
+          cp -rv js public/ || true
+          cp -rv img public/ || true
+          # Copy only JSON data files needed by the client
+          cp -v votingData/*.json public/votingData/ || true
+          # Remove any accidental server-side files
+          rm -f public/api/submit-vote.js || true
+          rm -f public/.env || true
+          # If you have a build step, run it here and move artifacts into public/
 
-      - name: Deploy to GitHub Pages (gh-pages branch)
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v1
         with:
-          # Prefer a Personal Access Token (PAT) stored in the secret PAGES_DEPLOY_PAT.
-          # If the secret is not set, the default GITHUB_TOKEN will be used (may be blocked by repo settings).
-          personal_token: ${{ secrets.PAGES_DEPLOY_PAT || secrets.GITHUB_TOKEN }}
-          publish_dir: ./
-          publish_branch: gh-pages
-          # optionally set user/name
-          user_name: github-actions
-          user_email: actions@github.com
+          path: ./public
 
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
 
 # Notes:
-# - If you still get 403 when pushing, create a Personal Access Token (classic) with 'repo' scope
-#   (or at least 'repo:contents') and add it as repository Secret named 'PAGES_DEPLOY_PAT'.
-# - Alternatively enable 'Allow GitHub Actions to create and approve pull requests' and ensure
-#   repository settings allow write by workflows and that branch protection doesn't block it.
+# - This workflow generates env.js and publishes the contents of ./public to GitHub Pages.
+# - If you need to publish a build output (e.g. from npm run build), run that build step and
+#   copy the build artifacts into ./public before the upload step.
 # - Do NOT put SUPABASE_SERVICE_ROLE_KEY into env.js. Keep the service key in GH secrets for server-side use only.
