@@ -1,8 +1,12 @@
 name: Generate env.js and deploy to GitHub Pages
 
 on:
-  push:
-    branches: [ feat/db ]
+  push: {}
+  workflow_dispatch: {}
+
+# Request write permission for repository contents so the action can push
+permissions:
+  contents: write
 
 jobs:
   build-and-deploy:
@@ -10,6 +14,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Use a token that may be provided via secret (preferred) or default GITHUB_TOKEN
+          token: ${{ secrets.PAGES_DEPLOY_PAT || secrets.GITHUB_TOKEN }}
+          persist-credentials: true
 
       - name: Create env.js from Secrets
         run: |
@@ -30,15 +38,19 @@ jobs:
       - name: Deploy to GitHub Pages (gh-pages branch)
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Prefer a Personal Access Token (PAT) stored in the secret PAGES_DEPLOY_PAT.
+          # If the secret is not set, the default GITHUB_TOKEN will be used (may be blocked by repo settings).
+          personal_token: ${{ secrets.PAGES_DEPLOY_PAT || secrets.GITHUB_TOKEN }}
           publish_dir: ./
           publish_branch: gh-pages
           # optionally set user/name
-          pusher_name: github-actions
-          pusher_email: actions@github.com
+          user_name: github-actions
+          user_email: actions@github.com
 
 
 # Notes:
-# - This will publish the repository root (including env.js) to the gh-pages branch.
-# - Make sure your repository GitHub Pages settings serve from the gh-pages branch / root.
+# - If you still get 403 when pushing, create a Personal Access Token (classic) with 'repo' scope
+#   (or at least 'repo:contents') and add it as repository Secret named 'PAGES_DEPLOY_PAT'.
+# - Alternatively enable 'Allow GitHub Actions to create and approve pull requests' and ensure
+#   repository settings allow write by workflows and that branch protection doesn't block it.
 # - Do NOT put SUPABASE_SERVICE_ROLE_KEY into env.js. Keep the service key in GH secrets for server-side use only.
