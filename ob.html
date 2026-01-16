@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8" />
+    <title>OnlyBart</title>
+    <link rel="icon" href="img/OF.png" type="image/jpeg">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style>
+        html, body { height: 100%; margin: 0; }
+        .center {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+        }
+        #logo {
+            width: 220px; /* anpassen nach Bedarf */
+            height: auto;
+            transform: scale(1);
+            animation: grow 1s ease forwards;
+        }
+        @keyframes grow {
+            from { transform: scale(1); }
+            to   { transform: scale(2); }
+        }
+    </style>
+</head>
+<body>
+<div class="center">
+    <!-- Pfad zu deinem Logo anpassen -->
+    <img id="logo" src="img/OnlyBart.png" alt="OnlyBart Logo" />
+</div>
+
+<script>
+    // Nach 1 Sekunde weiterleiten
+    window.addEventListener('load', function () {
+        setTimeout(function () {
+            window.location.href = 'ob/posts.html';
+        }, 1000);
+    });
+</script>
+</body>
+</html>

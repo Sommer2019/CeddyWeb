@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>HD1920x1080</title>
+    <meta name="description" content="HD - Streamplan, Ressourcen, Socials und Clips.">
+    <link rel="icon" href="img/HD.png" type="image/png">
+    <link rel="apple-touch-icon" href="img/HD.png">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+<header id="hero" class="hero fullwidth">
+    <div class="hero-overlay fullwidth">
+        <div class="container">
+            <div class="profile-box">
+                <img src="img/HDProfile.webp" alt="HD Profilbild" class="profile-img">
+                <div class="profile-info">
+                    <h1>HD1920x1080</h1>
+                    <p>FullHD - Gaming, Streams & Clips</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    <!-- Eingebettete Live-Feeds -->
+    <section class="embed-section" aria-label="Live Streams und Kalender">
+        <div class="embed-wrapper">
+            <!-- Twitch Embed (responsive) -->
+            <div class="embed-card fullwidth">
+                <a href="https://www.twitch.tv/hd1920x1080"><div class="embed-title">Live</div></a>
+                <div class="responsive-embed-row" style="display:flex;gap:1rem;align-items:stretch;">
+                    <div class="responsive-embed player" style="flex:1 1 0;">
+                        <iframe
+                                src="https://player.twitch.tv/?channel=hd1920x1080&parent=hd1920x1080.de&muted=true"
+                                allowfullscreen
+                                title="Twitch Live Player"
+                                style="width:100%;height:100%;border:0;"></iframe>
+                    </div>
+                    <div class="responsive-embed chat" style="flex:0 0 220px;max-width:420px;">
+                        <iframe
+                                src="https://www.twitch.tv/embed/hd1920x1080/chat?parent=hd1920x1080.de&darkpopout"
+                                title="Twitch Chat"
+                                sandbox="allow-scripts allow-same-origin allow-popups"
+                                style="width:100%;height:100%;border:0;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Haupt-Links (keine Impressum-Karte hier) -->
+    <section class="links-box" aria-label="Wichtige Links">
+        <div class="link-grid">
+
+            <a class="link-card"
+               href="streamplan.html"
+               rel="noopener noreferrer">
+                <img src="img/StreamPlan.webp" alt="Streamplan Icon" class="icon">
+                <div class="card-text">
+                    <strong>Streamplan</strong>
+                    <span>Live-Termine</span>
+                </div>
+            </a>
+
+            <a class="link-card"
+               href="streamelements.html"
+               target="_blank" rel="noopener noreferrer">
+                <img src="img/StreamElements.png" alt="StreamElements" class="icon">
+                <div class="card-text">
+                    <strong>StreamElements</strong>
+                    <span>Donation + Liste</span>
+                </div>
+            </a>
+
+           <a class="link-card"
+               href="http://tng.gl/c/hd1920x1080"
+               target="_blank" rel="noopener noreferrer">
+                <img src="img/Puzzle.svg" alt="Puzzle" class="icon">
+                <div class="card-text">
+                    <strong>Tanggle.io</strong>
+                    <span>Live mitpuzzeln</span>
+                </div>
+            </a>
+
+            <a class="link-card" href="https://youtube.com/@hawedereplus" target="_blank" rel="noopener noreferrer">
+                <img src="img/youtube.svg" alt="YouTube" class="icon">
+                <div class="card-text">
+                    <strong>YouTube</strong>
+                    <span>Hauptkanal</span>
+                </div>
+            </a>
+
+            <a class="link-card" href="https://tiktok.com/@hd1920x1080" target="_blank" rel="noopener noreferrer">
+                <img src="img/tiktok.svg" alt="TikTok" class="icon">
+                <div class="card-text">
+                    <strong>TikTok</strong>
+                    <span>Hauptkanal</span>
+                </div>
+            </a>
+
+            <a class="link-card" href="https://www.instagram.com/hd1920x1080/" target="_blank"
+               rel="noopener noreferrer">
+                <img src="img/instagram.svg" alt="Instagram" class="icon">
+                <div class="card-text">
+                    <strong>Instagram</strong>
+                    <span>Hauptkanal</span>
+                </div>
+            </a>
+
+            <a class="link-card"
+               href="https://github.com/HD1920x1080Media/Minecraft-Ressource-Pack/archive/refs/tags/latest.zip"
+               data-file="https://github.com/HD1920x1080Media/Minecraft-Ressource-Pack/archive/refs/tags/latest.zip"
+               onclick="event.preventDefault(); showDownloadConfirm(this.dataset.file);"
+               rel="noopener noreferrer">
+                <img src="img/MinecraftRessourcePack.webp" alt="Ressource Pack" class="icon">
+                <div class="card-text">
+                    <strong>Minecraft ResourcePack</strong>
+                    <span>Download</span>
+                </div>
+            </a>
+
+            <!-- einfacher Bestätigungsdialog -->
+            <div id="download-modal" class="download-modal" role="dialog" aria-modal="true" aria-hidden="true">
+                <div class="modal-backdrop" onclick="hideDownloadConfirm()" aria-hidden="true"></div>
+                <div class="modal-card" role="document">
+                    <h3 class="modal-title">Download bestätigen</h3>
+                    <p class="modal-message">Möchtest du das Resource-Pack herunterladen: <strong>HD1920x1080_V1.10.zip</strong>?</p>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" onclick="hideDownloadConfirm()">Abbrechen</button>
+                        <button type="button" class="btn btn-primary" onclick="confirmDownload()">Herunterladen</button>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                function showDownloadConfirm(file) {
+                    const modal = document.getElementById('download-modal');
+                    modal.dataset.file = file;
+                    modal.classList.add('is-open');
+                    modal.setAttribute('aria-hidden', 'false');
+                    // focus first action for keyboard users
+                    setTimeout(() => { modal.querySelector('.btn-secondary')?.focus(); }, 10);
+                }
+                function hideDownloadConfirm() {
+                    const modal = document.getElementById('download-modal');
+                    modal.classList.remove('is-open');
+                    modal.setAttribute('aria-hidden', 'true');
+                }
+                function confirmDownload() {
+                    const modal = document.getElementById('download-modal');
+                    const file = modal.dataset.file;
+                    hideDownloadConfirm();
+                    // programmgesteuerter Download (setzt a.download, falls gewünscht)
+                    const a = document.createElement('a');
+                    a.href = file;
+                    a.download = 'HD1920x1080_V1.10.zip';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    if (typeof showToast === 'function') showToast('Download gestartet: ' + file);
+                }
+            </script>
+
+            <a class="link-card" href="https://discord.gg/Zp5KNqCHzc" target="_blank" rel="noopener noreferrer">
+                <img src="img/discord.svg" alt="Discord" class="icon">
+                <div class="card-text">
+                    <strong>Discord</strong>
+                    <span>Server beitreten</span>
+                </div>
+            </a>
+
+            <a class="link-card" href="mailto:Admin@HD1920x1080.de?subject=Kontaktanfrage" target="_self" rel="noopener">
+                <img src="img/email.svg" alt="E-Mail" class="icon">
+                <div class="card-text">
+                    <strong>Kontakt</strong>
+                    <span>Kontakt per E‑Mail</span>
+                </div>
+            </a>
+
+            <a class="link-card" href="ob.html" target="_self" rel="noopener">
+                <img src="img/OF.png" alt="OnlyBart" class="icon">
+                <div class="card-text">
+                    <strong>OnlyBart</strong>
+                    <span>Ganz viel Bart :)</span>
+                </div>
+            </a>
+
+           <!--  <a class="link-card" href="clipdesmonats.html" target="_self" rel="noopener">
+                <img src="img/CDM.svg" alt="Clip des Monats" class="icon">
+                <div class="card-text">
+                    <strong>Clip des Monats TEST</strong>
+                    <span>Votet für die Top 10 Clips des letzten Monats</span>
+                </div>
+            </a>-->
+        </div>
+    </section>
+
+    <!-- Getrennte Box für Clips / Shorts -->
+    <section class="clips-section" aria-label="Clips und Shorts">
+        <h2 class="section-title">Clips & Shorts</h2>
+        <div class="clips-grid">
+            <a class="link-card" href="https://www.youtube.com/@lesommer2019" target="_blank" rel="noopener noreferrer">
+                <img src="img/youtube.svg" alt="YouTube Shorts" class="icon">
+                <div class="card-text">
+                    <strong>YT Shorts</strong>
+                    <span>Shorts & Clips</span>
+                </div>
+            </a>
+
+            <a class="link-card" href="https://www.tiktok.com/@hawedereshorts" target="_blank"
+               rel="noopener noreferrer">
+                <img src="img/tiktok.svg" alt="TikTok Clips" class="icon">
+                <div class="card-text">
+                    <strong>TikTok Clips</strong>
+                    <span>Shorts & Clips</span>
+                </div>
+            </a>
+
+            <a class="link-card" href="https://www.instagram.com/hawedereshorts/" target="_blank"
+               rel="noopener noreferrer">
+                <img src="img/instagram.svg" alt="Instagram Clips" class="icon">
+                <div class="card-text">
+                    <strong>Insta Clips</strong>
+                    <span>Shorts & Clips</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Getrennte Box für Partner -->
+    <section class="clips-section" aria-label="Clips und Shorts">
+        <h2 class="section-title">Partner</h2>
+        <div class="clips-grid">
+            <a class="link-card" href="https://yvolve.shop/?bg_ref=cnbZIhbZxH" target="_blank" rel="noopener noreferrer" data-code="FullHD" onclick="copyDiscountCode(event)">
+                <img src="img/Evolve.png" alt="Evolve" class="icon">
+                <div class="card-text">
+                    <strong>Yvolve</strong>
+                    <span>Code: FullHD</span>
+                    <span>10% Rabatt auf die gesamte Bestellung</span>
+                </div>
+            </a>
+
+            <a class="link-card" href="https://nclip.io/page/hd1920x1080" target="_blank"
+               rel="noopener noreferrer">
+                <img src="img/NClip.png" alt="NClip" class="icon">
+                <div class="card-text">
+                    <strong>NClip</strong>
+                </div>
+            </a>
+
+            <a class="link-card" href="https://frugends.com/?srsltid=AfmBOoqjyBjbK5TWs0tAS4ELgV93XqTXzl84OChVKd93OVkjeWfH8wFT" target="_blank"
+               rel="noopener noreferrer" data-code="FullHD" onclick="copyDiscountCode(event)">
+                <img src="img/Frugends.png" alt="Frugends" class="icon">
+                <div class="card-text">
+                    <strong>Frugends</strong>
+                    <span>Code: FullHD</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© <span id="year"></span> FullHD Media <a href="impressum.html">Impressum</a></p>
+    </footer>
+</main>
+
+<script>
+    // Jahr setzen
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Kleine Helfer: Clipboard-Fallback, Toast-Anzeige und Copy-Handler
+    function copyToClipboardFallback(text) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        // Vermeide Scrolljump
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        ta.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (e) { /* ignore */ }
+        document.body.removeChild(ta);
+    }
+
+    function showToast(message) {
+        const t = document.createElement('div');
+        t.textContent = message;
+        t.style.position = 'fixed';
+        t.style.right = '1rem';
+        t.style.bottom = '1rem';
+        t.style.padding = '0.5rem 0.75rem';
+        t.style.background = 'rgba(0,0,0,0.85)';
+        t.style.color = '#fff';
+        t.style.borderRadius = '6px';
+        t.style.zIndex = 9999;
+        t.style.fontSize = '0.9rem';
+        t.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
+        t.style.transition = 'opacity 0.3s ease';
+        document.body.appendChild(t);
+        // kurz sichtbar lassen
+        setTimeout(() => { t.style.opacity = '0'; }, 1400);
+        setTimeout(() => { if (t.parentNode) t.parentNode.removeChild(t); }, 1800);
+    }
+
+    function copyDiscountCode(event) {
+        // copy durchführen, bevor der Link das neue Tab öffnet
+        try {
+            const link = event.currentTarget || event.target;
+            const code = link && link.dataset && link.dataset.code;
+            if (!code) return;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(code).then(() => {
+                    showToast('Rabattcode kopiert: ' + code);
+                }).catch(() => {
+                    copyToClipboardFallback(code);
+                    showToast('Rabattcode kopiert: ' + code);
+                });
+            } else {
+                copyToClipboardFallback(code);
+                showToast('Rabattcode kopiert: ' + code);
+            }
+        } catch (e) {
+            // still fail silently
+            console.warn('copyDiscountCode failed', e);
+        }
+    }
+
+    // Versuche, der eingebetteten Kalender-Instanz per postMessage die Listenansicht anzufordern.
+    // Hinweis: Viele Kalender-Widgets reagieren nicht auf postMessage; das ist ein harter Fallback.
+    (function () {
+        const iframe = document.getElementById('calendar-iframe');
+        if (!iframe) return; // robust gegen fehlenden iframe
+        // Wenn der iframe geladen ist, sende eine message (empfänger muss das unterstützen)
+        iframe.addEventListener('load', function () {
+            try {
+                // Wir senden eine generische Nachricht; falls der Embedded-Kalender eine API hat, kann er reagieren.
+                iframe.contentWindow.postMessage({type: 'setView', view: 'list'}, '*');
+                // zusätzlich versuchen, Hash- oder Query-Parameter zu nutzen (bereits in src gesetzt)
+            } catch (e) {
+                console.warn('postMessage to calendar iframe failed', e);
+            }
+        });
+    })();
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+{
+  "deprecated": true,
+  "message": "Votes are now stored in Supabase. This local file is obsolete and kept for historical reference only. Use the Supabase project at https://itbmerllqlwoinsletkz.supabase.co for data management."
+}
