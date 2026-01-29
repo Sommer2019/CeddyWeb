@@ -13,6 +13,7 @@ const PRECACHE_URLS = [
   '/js/page-view-tracker.js',
   '/js/supabase-client.js',
   '/streamelements.html',
+  '/games/bartclicker.html',
   '/img/Logos/StreamElements.png',
   '/img/Logos/HDProfile.webp',
   '/img/logo128.png'

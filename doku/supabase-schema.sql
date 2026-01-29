@@ -277,3 +277,36 @@ CREATE POLICY "Allow service role to manage streams"
     USING (true)
     WITH CHECK (true);
 
+-- Table: bart_clicker_game_state
+-- Stores game state for the Beard Clicker game by hashed IP
+CREATE TABLE IF NOT EXISTS bart_clicker_game_state (
+    id BIGSERIAL PRIMARY KEY,
+    ip_hash TEXT NOT NULL UNIQUE,
+    energy NUMERIC NOT NULL DEFAULT 0,
+    total_ever NUMERIC NOT NULL DEFAULT 0,
+    shop_items JSONB NOT NULL DEFAULT '[]',
+    last_updated TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Index for better performance
+CREATE INDEX IF NOT EXISTS idx_bart_clicker_ip_hash ON bart_clicker_game_state(ip_hash);
+
+-- Enable RLS for bart_clicker_game_state table
+ALTER TABLE bart_clicker_game_state ENABLE ROW LEVEL SECURITY;
+
+-- RLS Policies for bart_clicker_game_state
+-- Allow users to read their own game state
+CREATE POLICY "Allow users to read their own game state"
+    ON bart_clicker_game_state FOR SELECT
+    USING (true);
+
+-- Allow users to insert their own game state
+CREATE POLICY "Allow users to insert their own game state"
+    ON bart_clicker_game_state FOR INSERT
+    WITH CHECK (true);
+
+-- Allow users to update their own game state
+CREATE POLICY "Allow users to update their own game state"
+    ON bart_clicker_game_state FOR UPDATE
+    USING (true);
+
