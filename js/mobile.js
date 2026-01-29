@@ -156,22 +156,47 @@ function copyDiscountCode(event) {
     }
 
     // Set Twitch iframe srcs using correct parent (current hostname)
-    function setTwitchEmbeds() {
+    function setTwitchEmbeds(force = false) {
         try {
+            // If we're on a small screen and not in mobile-live view, avoid touching iframes unless forced.
+            if (mq.matches && !document.body.classList.contains('mobile-live') && !force) {
+                return; // do not reload embeds when user switches to Links/Games on mobile
+            }
+
             const host = location.hostname || 'localhost';
             const player = document.querySelector('.twitch-player-iframe');
             const chat = document.querySelector('.twitch-chat-iframe');
             const channel = (player && player.dataset && player.dataset.channel) || (chat && chat.dataset && chat.dataset.channel) || 'hd1920x1080';
-            if (player && (!player.src || player.src.indexOf('twitch.tv') === -1)) {
-                player.src = `https://player.twitch.tv/?channel=${encodeURIComponent(channel)}&parent=${encodeURIComponent(host)}&muted=true`;
-            } else if (player) {
-                // always ensure parent matches host
-                player.src = `https://player.twitch.tv/?channel=${encodeURIComponent(channel)}&parent=${encodeURIComponent(host)}&muted=true`;
+            const desiredPlayerSrc = `https://player.twitch.tv/?channel=${encodeURIComponent(channel)}&parent=${encodeURIComponent(host)}&muted=true`;
+            const desiredChatSrc = `https://www.twitch.tv/embed/${encodeURIComponent(channel)}/chat?parent=${encodeURIComponent(host)}&darkpopout`;
+
+            // Only set src if it's missing or actually different to avoid unnecessary reloads
+            if (player) {
+                try {
+                    const current = player.getAttribute('src') || player.src || '';
+                    if (!current || current.indexOf('twitch.tv') === -1) {
+                        player.src = desiredPlayerSrc;
+                    } else if (current !== desiredPlayerSrc) {
+                        // Only change if something meaningful changed (channel/parent)
+                        player.src = desiredPlayerSrc;
+                    }
+                } catch (e) {
+                    // fallback: set it
+                    player.src = desiredPlayerSrc;
+                }
             }
-            if (chat && (!chat.src || chat.src.indexOf('twitch.tv') === -1)) {
-                chat.src = `https://www.twitch.tv/embed/${encodeURIComponent(channel)}/chat?parent=${encodeURIComponent(host)}&darkpopout`;
-            } else if (chat) {
-                chat.src = `https://www.twitch.tv/embed/${encodeURIComponent(channel)}/chat?parent=${encodeURIComponent(host)}&darkpopout`;
+
+            if (chat) {
+                try {
+                    const currentChat = chat.getAttribute('src') || chat.src || '';
+                    if (!currentChat || currentChat.indexOf('twitch.tv') === -1) {
+                        chat.src = desiredChatSrc;
+                    } else if (currentChat !== desiredChatSrc) {
+                        chat.src = desiredChatSrc;
+                    }
+                } catch (e) {
+                    chat.src = desiredChatSrc;
+                }
             }
             // attach load/error handlers and fallback for chat iframe
             try {
