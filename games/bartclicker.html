@@ -292,6 +292,10 @@
         }
         
         /* Modal and Leaderboard Styles */
+        body.modal-open {
+            overflow: hidden;
+        }
+        
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -529,6 +533,41 @@
             color: var(--accent);
         }
         
+        /* Rebirth Confirmation Modal */
+        #rebirth-confirm-modal .modal-content {
+            text-align: left;
+        }
+        
+        #rebirth-confirm-modal .warning-text {
+            color: #ff6b6b;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        
+        #rebirth-confirm-modal .benefit-text {
+            color: #51cf66;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        
+        #rebirth-confirm-modal ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 10px 0;
+        }
+        
+        #rebirth-confirm-modal ul li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        #rebirth-confirm-modal ul li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+        }
+        
         .username-display {
             position: fixed;
             top: 20px;
@@ -662,6 +701,29 @@
             </div>
             <div class="modal-buttons">
                 <button class="modal-button modal-button-secondary" onclick="closeLeaderboard()">Schließen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rebirth Confirmation Modal -->
+    <div class="modal-overlay" id="rebirth-confirm-modal">
+        <div class="modal">
+            <h2>♻️ Rebirth durchführen?</h2>
+            <div class="modal-content">
+                <p class="warning-text">Du verlierst:</p>
+                <ul>
+                    <li>Alle Barthaare</li>
+                    <li>Alle Shop-Items</li>
+                </ul>
+                <p class="benefit-text">Du erhältst:</p>
+                <ul>
+                    <li>2x Clicks & Auto-Clicks</li>
+                    <li>Höhere Item-Kosten</li>
+                </ul>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-button modal-button-primary" onclick="confirmRebirth()">Bestätigen</button>
+                <button class="modal-button modal-button-secondary" onclick="cancelRebirth()">Abbrechen</button>
             </div>
         </div>
     </div>
@@ -1340,13 +1402,27 @@
                 return; // Can't afford
             }
             
-            // Confirm rebirth
-            const confirmMsg = `Rebirth durchführen?\n\nDu verlierst:\n- Alle Barthaare\n- Alle Shop-Items\n\nDu erhältst:\n- 2x Clicks & Auto-Clicks\n- Höhere Item-Kosten`;
+            // Show custom confirmation modal
+            document.getElementById('rebirth-confirm-modal').classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+        
+        function confirmRebirth() {
+            // Hide modal
+            document.getElementById('rebirth-confirm-modal').classList.remove('active');
+            document.body.classList.remove('modal-open');
             
-            if (!confirm(confirmMsg)) {
-                return;
-            }
-            
+            // Perform rebirth
+            performRebirth();
+        }
+        
+        function cancelRebirth() {
+            // Hide modal
+            document.getElementById('rebirth-confirm-modal').classList.remove('active');
+            document.body.classList.remove('modal-open');
+        }
+        
+        function performRebirth() {
             // Reset energy and items
             energy = 0;
             totalEver = 0;
@@ -1539,11 +1615,11 @@
                 .reduce((acc, item) => acc + (item.count * item.cps), 0) * rebirthMultiplier;
             
             // Calculate click power with rebirth multiplier
-            // Base click power is 1, upgrades are multiplied by rebirth
+            // Base click power is 1, upgrades add to it, then multiplied by rebirth
             const upgradeClickPower = shopItems
                 .filter(item => item.type === "click")
                 .reduce((acc, item) => acc + (item.count * item.clickPower), 0);
-            clickPower = 1 + (upgradeClickPower * rebirthMultiplier);
+            clickPower = (1 + upgradeClickPower) * rebirthMultiplier;
             
             // Update display
             let cpsText = `Barthaare: ${cps.toFixed(1)} / s`;
@@ -1667,6 +1743,7 @@
             localStorage.setItem('bart_clicker_username', username);
             showUsernameDisplay();
             document.getElementById('username-modal').classList.remove('active');
+            document.body.classList.remove('modal-open');
             
             // Sync username to database
             needsSync = true;
@@ -1680,6 +1757,7 @@
         
         function skipUsername() {
             document.getElementById('username-modal').classList.remove('active');
+            document.body.classList.remove('modal-open');
         }
         
         async function updateLeaderboard() {
@@ -1717,15 +1795,18 @@
             if (!username) {
                 alert('Du musst zuerst einen Nutzernamen angeben, um die Bestenliste zu sehen!');
                 document.getElementById('username-modal').classList.add('active');
+                document.body.classList.add('modal-open');
                 return;
             }
             
             document.getElementById('leaderboard-modal').classList.add('active');
+            document.body.classList.add('modal-open');
             await loadLeaderboardData();
         }
         
         function closeLeaderboard() {
             document.getElementById('leaderboard-modal').classList.remove('active');
+            document.body.classList.remove('modal-open');
         }
 
         function goToStart() {
@@ -1812,6 +1893,25 @@
 
         createShop();
         createRebirthButton();
+        
+        // Add click outside modal handlers
+        document.getElementById('leaderboard-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLeaderboard();
+            }
+        });
+        
+        document.getElementById('rebirth-confirm-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                cancelRebirth();
+            }
+        });
+        
+        document.getElementById('username-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                skipUsername();
+            }
+        });
         
         // Load username first
         loadUsername();
