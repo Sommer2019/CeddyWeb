@@ -2,9 +2,9 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Impressum von HD - FullHD Media">
-    <link rel="icon" href="img/logo128.png" type="image/png"> content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/logo128.png" type="image/png">
     <title>Hawedere's Bart Imperium</title>
     <style>
         :root {
@@ -84,7 +84,7 @@
         #avatar-svg {
             width: 100%;
             height: auto;
-            max-height: 75vh;
+            max-height: 85vh;
             filter: drop-shadow(0 15px 40px rgba(0,0,0,0.6));
             transition: transform 0.05s;
         }
@@ -309,6 +309,34 @@
             display: flex;
         }
         
+        /* Leaderboard modal positioned on left side for desktop */
+        #leaderboard-modal {
+            justify-content: flex-start;
+        }
+        
+        @media (min-width: 769px) {
+            #leaderboard-modal .modal {
+                margin-left: 0;
+                max-height: 100vh;
+                border-radius: 0 15px 15px 0;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            #leaderboard-modal .leaderboard-list {
+                flex: 1;
+                max-height: none;
+                overflow-y: auto;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            #leaderboard-modal {
+                justify-content: center;
+            }
+        }
+        
         .modal {
             background: var(--panel-bg);
             border: 2px solid var(--accent);
@@ -378,8 +406,8 @@
         
         .leaderboard-btn {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 70px;
+            left: 20px;
             padding: 12px 20px;
             background: var(--accent);
             color: white;
@@ -389,6 +417,14 @@
             cursor: pointer;
             z-index: 100;
             transition: all 0.2s;
+        }
+        
+        @media (max-width: 768px) {
+            .leaderboard-btn {
+                top: 20px;
+                left: auto;
+                right: 20px;
+            }
         }
         
         .leaderboard-btn:hover {
