@@ -4,44 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00c35883-868f-4c61-99bc-64796ad3d22a" name="Changes" comment="Enhance mobile experience by improving fullscreen functionality and layout for donation embeds">
+    <list default="true" id="00c35883-868f-4c61-99bc-64796ad3d22a" name="Changes" comment="Refactor image paths to use centralized Logos directory for better organization">
+      <change afterPath="$PROJECT_DIR$/.idea/copilotDiffState.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/SECOND_VOTING_FEATURE.md" beforeDir="false" afterPath="$PROJECT_DIR$/doku/SECOND_VOTING_FEATURE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Banner.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Evolve.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/Logos/Evolve.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Frugends.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/Logos/Frugends.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/HD.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/HDProfile.webp" beforeDir="false" afterPath="$PROJECT_DIR$/img/Logos/HDProfile.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/MinecraftRessourcePack.webp" beforeDir="false" afterPath="$PROJECT_DIR$/img/Logos/MinecraftRessourcePack.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/NClip.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/Logos/NClip.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/OB.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/Logos/OB.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/OB/HDKlo.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/OB/KatzeBart.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/OB/ZungenBart.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/OB/bartigerBart.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/OB/frostigerBart.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/OB/hübscherBart.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/OB/stolzerBart.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Puzzle.svg" beforeDir="false" afterPath="$PROJECT_DIR$/img/Logos/Puzzle.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/StreamElements.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/Logos/StreamElements.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/StreamPlan.webp" beforeDir="false" afterPath="$PROJECT_DIR$/img/Logos/StreamPlan.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/X.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/cdm.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/Logos/cdm.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/discord.svg" beforeDir="false" afterPath="$PROJECT_DIR$/img/Logos/discord.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/email.svg" beforeDir="false" afterPath="$PROJECT_DIR$/img/Logos/email.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/instagram.svg" beforeDir="false" afterPath="$PROJECT_DIR$/img/Logos/instagram.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/tiktok.svg" beforeDir="false" afterPath="$PROJECT_DIR$/img/Logos/tiktok.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/twitch.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/youtube.svg" beforeDir="false" afterPath="$PROJECT_DIR$/img/Logos/youtube.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/mobile.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/mobile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ob.html" beforeDir="false" afterPath="$PROJECT_DIR$/ob.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ob/media.html" beforeDir="false" afterPath="$PROJECT_DIR$/ob/media.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ob/photos.html" beforeDir="false" afterPath="$PROJECT_DIR$/ob/photos.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ob/posts.html" beforeDir="false" afterPath="$PROJECT_DIR$/ob/posts.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ob/videos.html" beforeDir="false" afterPath="$PROJECT_DIR$/ob/videos.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/streamelements.html" beforeDir="false" afterPath="$PROJECT_DIR$/streamelements.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sw.js" beforeDir="false" afterPath="$PROJECT_DIR$/sw.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,26 +64,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "masterpushed",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Daten/Coding/HD/img",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "D:/Daten/Coding/HD/html/src/main/java/org/example/Main.java",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;masterpushed&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Daten/Coding/HD/img&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;D:/Daten/Coding/HD/html/src/main/java/org/example/Main.java&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Daten\Coding\HD\img" />
@@ -164,14 +129,8 @@
       <workItem from="1769337544883" duration="8663000" />
       <workItem from="1769357147214" duration="1401000" />
       <workItem from="1769359142826" duration="7675000" />
-    </task>
-    <task id="LOCAL-00019" summary="Enhance voting system: add no results message, embed button, and improve error handling">
-      <option name="closed" value="true" />
-      <created>1768575215831</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1768575215831</updated>
+      <workItem from="1769711164075" duration="149000" />
+      <workItem from="1769711429465" duration="1634000" />
     </task>
     <task id="LOCAL-00020" summary="Enhance voting system: add no results message, embed button, and improve error handling">
       <option name="closed" value="true" />
@@ -557,7 +516,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769367280018</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="Refactor image paths to use centralized Logos directory for better organization">
+      <option name="closed" value="true" />
+      <created>1769712982018</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1769712982019</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -575,7 +542,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update workspace.xml to modify change list and fix XML formatting" />
     <MESSAGE value="Update posts.html to enhance layout and improve user interface elements" />
     <MESSAGE value="Update meta title in multiple HTML files to reflect branding change" />
     <MESSAGE value="Add initial voting page and related assets" />
@@ -600,7 +566,8 @@
     <MESSAGE value="Update manifest.json to change background and theme colors, and modify categories for better alignment with app purpose" />
     <MESSAGE value="Add offline support with service worker and create offline page" />
     <MESSAGE value="Enhance mobile experience by improving fullscreen functionality and layout for donation embeds" />
-    <option name="LAST_COMMIT_MESSAGE" value="Enhance mobile experience by improving fullscreen functionality and layout for donation embeds" />
+    <MESSAGE value="Refactor image paths to use centralized Logos directory for better organization" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor image paths to use centralized Logos directory for better organization" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -609,6 +576,12 @@
           <url>file://$PROJECT_DIR$/html/src/main/java/org/example/Main.java</url>
           <line>13</line>
           <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/js/mobile.js</url>
+          <line>49</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

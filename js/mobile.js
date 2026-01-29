@@ -59,9 +59,10 @@ function copyDiscountCode(event) {
 (function mobileToggleAndDonations() {
     const linksBtn = document.getElementById('mobile-links-btn');
     const liveBtn = document.getElementById('mobile-live-btn');
+    const gamesBtn = document.getElementById('mobile-games-btn');
     const donationEmbed = document.getElementById('donation-embed');
-    if (!linksBtn || !liveBtn || !donationEmbed) {
-        // nothing to wire
+    if (!linksBtn || !liveBtn) {
+        // nothing to wire (games optional)
         return;
     }
 
@@ -69,37 +70,45 @@ function copyDiscountCode(event) {
     let donationsLoaded = false;
 
     function setMobileView(mode) {
+        const liveSection = document.getElementById('live-section');
+        const linksSection = document.getElementById('links-section');
+        const gamesSection = document.getElementById('games-section');
+
         if (mode === 'live') {
             document.body.classList.add('mobile-live');
-            document.body.classList.remove('mobile-links');
-            liveBtn.classList.add('active'); linksBtn.classList.remove('active');
-            liveBtn.setAttribute('aria-selected', 'true'); linksBtn.setAttribute('aria-selected', 'false');
-            if (!donationsLoaded) loadDonations();
+            document.body.classList.remove('mobile-links', 'mobile-games');
+            liveBtn.classList.add('active'); linksBtn.classList.remove('active'); if (gamesBtn) gamesBtn.classList.remove('active');
+            liveBtn.setAttribute('aria-selected', 'true'); linksBtn.setAttribute('aria-selected', 'false'); if (gamesBtn) gamesBtn.setAttribute('aria-selected', 'false');
+            if (!donationsLoaded && donationEmbed) loadDonations();
             // ensure embeds and visibility are correct for mobile live
             try { setTwitchEmbeds(); } catch(e) {}
             try { updateEmbedDisplayForMobile(); } catch(e) {}
-            // Force live-section visible and chat visible
-            try {
-                const liveSection = document.getElementById('live-section');
-                if (liveSection) liveSection.style.display = 'block';
-                const chatWrap = document.querySelector('.responsive-embed.chat');
-                if (chatWrap) chatWrap.style.display = 'block';
-            } catch (e) { /* ignore */ }
+            // Force sections visibility
+            try { if (liveSection) liveSection.style.display = 'block'; if (linksSection) linksSection.style.display = 'none'; if (gamesSection) gamesSection.style.display = 'none'; } catch (e) { /* ignore */ }
+        } else if (mode === 'games') {
+            document.body.classList.add('mobile-games');
+            document.body.classList.remove('mobile-links', 'mobile-live');
+            if (gamesBtn) gamesBtn.classList.add('active'); linksBtn.classList.remove('active'); liveBtn.classList.remove('active');
+            if (gamesBtn) gamesBtn.setAttribute('aria-selected', 'true'); linksBtn.setAttribute('aria-selected', 'false'); liveBtn.setAttribute('aria-selected', 'false');
+            // hide donation/live embeds when in games mode
+            try { if (liveSection) liveSection.style.display = 'none'; if (linksSection) linksSection.style.display = 'none'; if (gamesSection) gamesSection.style.display = 'block'; } catch (e) { }
+            try { updateEmbedDisplayForMobile(); } catch(e) {}
         } else {
+            // links
             document.body.classList.add('mobile-links');
-            document.body.classList.remove('mobile-live');
-            linksBtn.classList.add('active'); liveBtn.classList.remove('active');
-            liveBtn.setAttribute('aria-selected', 'false'); linksBtn.setAttribute('aria-selected', 'true');
+            document.body.classList.remove('mobile-live', 'mobile-games');
+            linksBtn.classList.add('active'); liveBtn.classList.remove('active'); if (gamesBtn) gamesBtn.classList.remove('active');
+            liveBtn.setAttribute('aria-selected', 'false'); linksBtn.setAttribute('aria-selected', 'true'); if (gamesBtn) gamesBtn.setAttribute('aria-selected', 'false');
             // update visibility when switching away from live
             try { updateEmbedDisplayForMobile(); } catch(e) {}
-            // Force live-section hidden when in links mode on mobile
-            try { const liveSection = document.getElementById('live-section'); if (liveSection) liveSection.style.display = 'none'; } catch(e) {}
+            // Force sections visibility
+            try { if (liveSection) liveSection.style.display = 'none'; if (linksSection) linksSection.style.display = 'block'; if (gamesSection) gamesSection.style.display = 'none'; } catch(e) {}
         }
         try { localStorage.setItem('mobileView', mode); } catch (e) {}
     }
 
     function applyInitial() {
-        if (!mq.matches) { document.body.classList.remove('mobile-live', 'mobile-links'); linksBtn.classList.remove('active'); liveBtn.classList.remove('active'); return; }
+        if (!mq.matches) { document.body.classList.remove('mobile-live', 'mobile-links', 'mobile-games'); linksBtn.classList.remove('active'); liveBtn.classList.remove('active'); if (gamesBtn) gamesBtn.classList.remove('active'); return; }
         const saved = (function(){ try { return localStorage.getItem('mobileView'); } catch(e){ return null; } })() || 'live';
         setMobileView(saved);
     }
@@ -138,8 +147,9 @@ function copyDiscountCode(event) {
                     // ensure iframe srcs are set
                     setTwitchEmbeds();
                 } else {
-                    // links view: hide live area
+                    // links or games view: hide live area
                     if (chatWrap) chatWrap.style.display = 'none';
+                    if (playerWrap) playerWrap.style.display = 'none';
                 }
             }
         } catch (e) { console.warn('updateEmbedDisplayForMobile failed', e); }
@@ -297,11 +307,13 @@ function copyDiscountCode(event) {
     // Wire up buttons & media query listener
     linksBtn.addEventListener('click', () => setMobileView('links'));
     liveBtn.addEventListener('click', () => setMobileView('live'));
+    if (gamesBtn) gamesBtn.addEventListener('click', () => setMobileView('games'));
     // When switching to live, ensure iframes have correct src
     liveBtn.addEventListener('click', () => setTwitchEmbeds());
     // update donation visibility whenever view switches
     linksBtn.addEventListener('click', () => updateDonationVisibility());
     liveBtn.addEventListener('click', () => updateDonationVisibility());
+    if (gamesBtn) gamesBtn.addEventListener('click', () => updateDonationVisibility());
 
     mq.addListener(applyInitial);
     applyInitial();

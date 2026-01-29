@@ -67,8 +67,13 @@
 
     /* Hide Clips & Partner sections on mobile by default; show them when user selects Links */
     .clips-section { display: none !important; }
+    /* Hide Games section by default on mobile; shown only for mobile-games */
+    .games-section { display: none !important; }
     /* When in mobile 'links' view, show the clips/partner blocks */
     body.mobile-links .clips-section { display: block !important; }
+
+    /* Ensure games-section (which uses .clips-section) is shown when user selects Games */
+    body.mobile-games #games-section { display: block !important; }
 
     /* On mobile show combined and chat fullscreen controls */
     .fs-combined, .fs-chat { display: inline-flex; }
