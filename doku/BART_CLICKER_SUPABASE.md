@@ -14,8 +14,11 @@ Eine neue Tabelle `bart_clicker_game_state` wurde in Supabase erstellt:
 CREATE TABLE IF NOT EXISTS bart_clicker_game_state (
     id BIGSERIAL PRIMARY KEY,
     ip_hash TEXT NOT NULL UNIQUE,
+    username TEXT,
     energy NUMERIC NOT NULL DEFAULT 0,
     total_ever NUMERIC NOT NULL DEFAULT 0,
+    rebirth_count INTEGER NOT NULL DEFAULT 0,
+    rebirth_multiplier NUMERIC NOT NULL DEFAULT 1,
     shop_items JSONB NOT NULL DEFAULT '[]',
     last_updated TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -24,12 +27,17 @@ CREATE TABLE IF NOT EXISTS bart_clicker_game_state (
 **Spalten:**
 - `id`: Eindeutige ID für jeden Eintrag
 - `ip_hash`: SHA-256 Hash der IP-Adresse des Spielers (UNIQUE)
+- `username`: Optionaler Benutzername (wird mit Spielstand synchronisiert)
 - `energy`: Aktuelle Energie/Punkte des Spielers
 - `total_ever`: Gesamtenergie, die jemals gesammelt wurde (für Bart-Wachstum)
+- `rebirth_count`: Anzahl der Wiedergeburten
+- `rebirth_multiplier`: Multiplikator durch Wiedergeburten
 - `shop_items`: JSON-Array mit gekauften Shop-Items und deren Status
 - `last_updated`: Zeitstempel der letzten Aktualisierung
 
-**SQL-Befehl:** Der vollständige SQL-Befehl zur Erstellung der Tabelle ist in `doku/bart_clicker_table.sql` verfügbar.
+**SQL-Befehle:** 
+- Der vollständige SQL-Befehl zur Erstellung der Tabelle ist in `doku/bart_clicker_table.sql` verfügbar
+- Für bestehende Installationen: `doku/bart_clicker_add_username_migration.sql` enthält das Migration-Script
 
 ### 2. IP-Hashing
 
@@ -72,6 +80,16 @@ async function loadGameState() {
     if (data) {
         energy = data.energy;
         totalEver = data.total_ever;
+        rebirthCount = data.rebirth_count;
+        rebirthMultiplier = data.rebirth_multiplier;
+        
+        // Benutzername laden, falls gesetzt
+        if (data.username) {
+            username = data.username;
+            localStorage.setItem('bart_clicker_username', username);
+            showUsernameDisplay();
+        }
+        
         // Shop-Items wiederherstellen
         shopItems.forEach((item, i) => {
             if (data.shop_items[i]) {
@@ -83,20 +101,26 @@ async function loadGameState() {
 }
 ```
 
+**Neue Funktion:** Der Benutzername wird jetzt auch aus der Datenbank geladen. Wenn ein Benutzername in der Datenbank gespeichert ist, wird er automatisch wiederhergestellt, ohne dass der Benutzer ihn erneut eingeben muss.
+
 ### 4. Speichern des Spielstands
 
 Der Spielstand wird in folgenden Situationen gespeichert:
 
 1. **Beim Kauf eines Items**: Nach jedem Shop-Kauf
-2. **Auto-Save**: Alle 10 Sekunden automatisch
+2. **Auto-Save**: Alle 30 Sekunden automatisch
 3. **Beim Verlassen der Seite**: Wenn der Benutzer die Seite schließt oder verlässt
+4. **Beim Setzen des Benutzernamens**: Wenn der Benutzer einen Namen eingibt
 
 ```javascript
 async function saveGameState() {
     const gameState = {
         ip_hash: ipHash,
+        username: username || null, // Benutzername wird mitgespeichert
         energy: energy,
         total_ever: totalEver,
+        rebirth_count: rebirthCount,
+        rebirth_multiplier: rebirthMultiplier,
         shop_items: shopItems.map(item => ({
             id: item.id,
             count: item.count,
@@ -107,10 +131,11 @@ async function saveGameState() {
     // Update oder Insert
     await supabase
         .from('bart_clicker_game_state')
-        .update(gameState)
-        .eq('ip_hash', ipHash);
+        .upsert(gameState, { onConflict: 'ip_hash' });
 }
 ```
+
+**Wichtig:** Der Benutzername wird jetzt automatisch mit dem Spielstand synchronisiert. Wenn der Spieler einen Namen setzt, wird dieser in der Datenbank gespeichert und auf anderen Geräten mit derselben IP wiederhergestellt.
 
 ### 5. Supabase Integration
 
@@ -155,10 +180,19 @@ CREATE POLICY "Allow users to update their own game state"
 
 ### SQL-Befehl ausführen
 
+**Für neue Installationen:**
 1. Öffne das Supabase Dashboard: https://supabase.com/dashboard
 2. Navigiere zu deinem Projekt
 3. Gehe zu "SQL Editor"
 4. Kopiere den Inhalt von `doku/bart_clicker_table.sql` und führe ihn aus
+
+**Für bestehende Installationen (Migration):**
+1. Öffne das Supabase Dashboard: https://supabase.com/dashboard
+2. Navigiere zu deinem Projekt
+3. Gehe zu "SQL Editor"
+4. Kopiere den Inhalt von `doku/bart_clicker_add_username_migration.sql` und führe ihn aus
+
+Dies fügt die `username`, `rebirth_count` und `rebirth_multiplier` Spalten zur bestehenden Tabelle hinzu.
 
 Alternativ kannst du auch den Inhalt aus `doku/supabase-schema.sql` am Ende finden, wo die Tabelle bereits hinzugefügt wurde.
 
@@ -204,8 +238,12 @@ Alternativ kannst du auch den Inhalt aus `doku/supabase-schema.sql` am Ende find
 Das Bart Klicker Spiel speichert jetzt automatisch den Spielstand in Supabase:
 - ✅ IP-Adresse wird gehasht (SHA-256)
 - ✅ Spielstand wird in `bart_clicker_game_state` Tabelle gespeichert
+- ✅ **Benutzername wird mit dem Spielstand synchronisiert**
 - ✅ Automatisches Laden beim Öffnen der Seite
-- ✅ Automatisches Speichern alle 10 Sekunden
+- ✅ Automatisches Speichern alle 30 Sekunden
 - ✅ Speichern beim Verlassen der Seite
 - ✅ Speichern nach jedem Shop-Kauf
-- ✅ SQL-Befehl in `doku/bart_clicker_table.sql` verfügbar
+- ✅ Speichern beim Setzen des Benutzernamens
+- ✅ SQL-Befehle in `doku/bart_clicker_table.sql` und `doku/bart_clicker_add_username_migration.sql` verfügbar
+
+**Neue Feature:** Wenn ein Benutzer seinen Benutzernamen setzt, wird dieser in der Datenbank gespeichert. Beim nächsten Besuch (mit derselben IP) wird der Benutzername automatisch wiederhergestellt, ohne dass er erneut eingegeben werden muss.

@@ -816,6 +816,12 @@
                     rebirthCount = parseInt(localData.rebirth_count) || 0;
                     rebirthMultiplier = parseFloat(localData.rebirth_multiplier) || 1;
                     
+                    // Restore username from localStorage if available
+                    if (localData.username) {
+                        username = localData.username;
+                        showUsernameDisplay();
+                    }
+                    
                     // Add offline earnings
                     if (offlineProgress > 0) {
                         energy += offlineProgress;
@@ -867,6 +873,13 @@
                             totalEver = parseFloat(data.total_ever) || 0;
                             rebirthCount = parseInt(data.rebirth_count) || 0;
                             rebirthMultiplier = parseFloat(data.rebirth_multiplier) || 1;
+                            
+                            // Load username from Supabase if available
+                            if (data.username) {
+                                username = data.username;
+                                localStorage.setItem('bart_clicker_username', username);
+                                showUsernameDisplay();
+                            }
                             
                             if (data.shop_items && Array.isArray(data.shop_items)) {
                                 data.shop_items.forEach((savedItem) => {
@@ -983,6 +996,7 @@
         function saveToLocalStorage() {
             try {
                 const gameState = {
+                    username: username || null, // Include username in localStorage
                     energy: energy,
                     total_ever: totalEver,
                     rebirth_count: rebirthCount,
@@ -1026,6 +1040,7 @@
                 
                 const gameState = {
                     ip_hash: ipHash,
+                    username: username || null, // Include username if set
                     energy: energy,
                     total_ever: totalEver,
                     rebirth_count: rebirthCount,
@@ -1652,6 +1667,12 @@
             localStorage.setItem('bart_clicker_username', username);
             showUsernameDisplay();
             document.getElementById('username-modal').classList.remove('active');
+            
+            // Sync username to database
+            needsSync = true;
+            if (navigator.onLine) {
+                syncToSupabase();
+            }
             
             // Update leaderboard immediately
             updateLeaderboard();

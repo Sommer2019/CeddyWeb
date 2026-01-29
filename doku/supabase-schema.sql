@@ -282,8 +282,11 @@ CREATE POLICY "Allow service role to manage streams"
 CREATE TABLE IF NOT EXISTS bart_clicker_game_state (
     id BIGSERIAL PRIMARY KEY,
     ip_hash TEXT NOT NULL UNIQUE,
+    username TEXT,
     energy NUMERIC NOT NULL DEFAULT 0,
     total_ever NUMERIC NOT NULL DEFAULT 0,
+    rebirth_count INTEGER NOT NULL DEFAULT 0,
+    rebirth_multiplier NUMERIC NOT NULL DEFAULT 1,
     shop_items JSONB NOT NULL DEFAULT '[]',
     last_updated TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
