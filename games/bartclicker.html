@@ -75,6 +75,10 @@
             align-items: center;
             cursor: pointer;
             margin-top: 20px;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         #avatar-svg {
@@ -103,7 +107,9 @@
                 border-left: none;
                 border-top: 1px solid var(--box-border);
                 box-shadow: 0 -10px 40px rgba(0,0,0,0.6);
-                max-height: 40vh;
+                max-height: none;
+                min-height: 50vh;
+                overflow-y: auto;
             }
         }
 
@@ -114,6 +120,48 @@
             letter-spacing: 2px;
             margin: 0 0 15px 0;
             opacity: 0.8;
+        }
+        
+        .shop-section {
+            margin-bottom: 20px;
+        }
+        
+        .shop-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 8px 0;
+            user-select: none;
+        }
+        
+        .shop-section-header h3 {
+            color: var(--accent);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 0;
+            opacity: 0.9;
+        }
+        
+        .toggle-icon {
+            color: var(--accent);
+            font-size: 1rem;
+            transition: transform 0.3s;
+        }
+        
+        .toggle-icon.collapsed {
+            transform: rotate(-90deg);
+        }
+        
+        .shop-section-items {
+            max-height: 1000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .shop-section-items.collapsed {
+            max-height: 0;
         }
 
         .shop-list { flex: 1; overflow-y: auto; }
@@ -158,8 +206,67 @@
 
         .item-info { flex: 1; min-width: 0; }
         .item-name { font-weight: 700; display: block; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .item-description { color: var(--muted); font-size: 0.7rem; margin-top: 2px; }
         .item-cost { color: var(--accent); font-weight: bold; font-size: 0.75rem; }
         .item-count { font-size: 1rem; font-weight: 900; color: var(--muted); opacity: 0.3; }
+        
+        .rebirth-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--box-border);
+        }
+        
+        .rebirth-card {
+            background: linear-gradient(135deg, rgba(124, 77, 255, 0.15), rgba(255, 215, 0, 0.1));
+            border: 2px solid var(--accent);
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .rebirth-card:hover:not(.disabled) {
+            background: linear-gradient(135deg, rgba(124, 77, 255, 0.25), rgba(255, 215, 0, 0.2));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(124, 77, 255, 0.3);
+        }
+        
+        .rebirth-card.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        
+        .rebirth-icon {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        
+        .rebirth-title {
+            font-weight: 900;
+            font-size: 1rem;
+            color: #FFD700;
+            margin-bottom: 5px;
+        }
+        
+        .rebirth-description {
+            font-size: 0.7rem;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+        
+        .rebirth-cost {
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .rebirth-count {
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: #FFD700;
+        }
 
         .particle {
             position: fixed;
@@ -182,6 +289,205 @@
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
+        }
+        
+        /* Modal and Leaderboard Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal {
+            background: var(--panel-bg);
+            border: 2px solid var(--accent);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+        
+        .modal h2 {
+            color: var(--accent);
+            margin-top: 0;
+            text-align: center;
+        }
+        
+        .modal input {
+            width: 100%;
+            padding: 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--box-border);
+            border-radius: 8px;
+            color: #e6eef8;
+            font-size: 1rem;
+            margin: 15px 0;
+        }
+        
+        .modal input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .modal-button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .modal-button-primary {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .modal-button-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(124, 77, 255, 0.4);
+        }
+        
+        .modal-button-secondary {
+            background: var(--card-bg);
+            color: var(--muted);
+        }
+        
+        .modal-button-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .leaderboard-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.2s;
+        }
+        
+        .leaderboard-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(124, 77, 255, 0.4);
+        }
+        
+        .leaderboard-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .leaderboard-tab {
+            flex: 1;
+            padding: 10px;
+            background: var(--card-bg);
+            border: 1px solid var(--box-border);
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        
+        .leaderboard-tab.active {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+        
+        .leaderboard-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--box-border);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .leaderboard-rank {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            min-width: 40px;
+        }
+        
+        .leaderboard-rank.gold {
+            color: #FFD700;
+        }
+        
+        .leaderboard-rank.silver {
+            color: #C0C0C0;
+        }
+        
+        .leaderboard-rank.bronze {
+            color: #CD7F32;
+        }
+        
+        .leaderboard-info {
+            flex: 1;
+            margin-left: 15px;
+        }
+        
+        .leaderboard-name {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        
+        .leaderboard-stats {
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+        
+        .leaderboard-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+        
+        .username-display {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 8px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--box-border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            z-index: 100;
+        }
+        
+        .username-display span {
+            color: var(--accent);
+            font-weight: bold;
         }
         
         /* Respect user's motion preferences */
@@ -217,6 +523,11 @@
                     <path d="M30 32 L70 32 L70 25 Q 50 15 30 25 Z" fill="#7C4DFF" />
                     <!-- Kleiner Knopf oben -->
                     <circle cx="50" cy="18" r="2" fill="#5c38cc" />
+                    <!-- Rebirth Badge (hidden by default) -->
+                    <g id="rebirth-badge" style="display: none;">
+                        <circle cx="65" cy="20" r="6" fill="#FFD700" stroke="#FFA500" stroke-width="1" />
+                        <text x="65" y="23" font-size="8" font-weight="bold" fill="#000" text-anchor="middle" font-family="Arial">♻</text>
+                    </g>
                 </g>
 
                 <!-- Brille -->
@@ -231,6 +542,11 @@
 
                 <!-- DYNAMISCHER BART -->
                 <path id="beard-path" d="M30 60 Q 50 60 70 60 L 70 65 Q 50 65 30 65 Z" fill="#3d2b1f" />
+                
+                <!-- Event decorations (hidden by default) -->
+                <g id="beard-clover" style="display: none;">
+                    <text x="50" y="70" font-size="12" fill="#00FF00" text-anchor="middle" font-family="Arial">🍀</text>
+                </g>
             </svg>
         </div>
     </main>
@@ -240,7 +556,54 @@
         <div class="shop-list" id="item-list">
             <!-- Items kommen per JS -->
         </div>
+        <div class="rebirth-section" id="rebirth-section">
+            <!-- Rebirth button comes via JS -->
+        </div>
     </aside>
+    
+    <!-- Username Display (top left) -->
+    <div class="username-display" id="username-display" style="display: none;">
+        Spieler: <span id="username-text"></span>
+    </div>
+    
+    <!-- Leaderboard Button (top right) -->
+    <button class="leaderboard-btn" id="leaderboard-btn" onclick="openLeaderboard()">
+        🏆 Bestenliste
+    </button>
+    
+    <!-- Username Modal -->
+    <div class="modal-overlay" id="username-modal">
+        <div class="modal">
+            <h2>Willkommen beim Bartclicker!</h2>
+            <p>Gib einen Nutzernamen ein, um in der Bestenliste teilzunehmen (optional):</p>
+            <input type="text" id="username-input" placeholder="Dein Nutzername" maxlength="20">
+            <div class="modal-buttons">
+                <button class="modal-button modal-button-primary" onclick="setUsername()">Speichern</button>
+                <button class="modal-button modal-button-secondary" onclick="skipUsername()">Später</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Leaderboard Modal -->
+    <div class="modal-overlay" id="leaderboard-modal">
+        <div class="modal" style="max-width: 600px;">
+            <h2>🏆 Bestenliste</h2>
+            <div class="leaderboard-tabs">
+                <div class="leaderboard-tab active" id="tab-barthaare" onclick="switchLeaderboardTab('barthaare')">
+                    Barthaare
+                </div>
+                <div class="leaderboard-tab" id="tab-rebirths" onclick="switchLeaderboardTab('rebirths')">
+                    Rebirths
+                </div>
+            </div>
+            <div class="leaderboard-list" id="leaderboard-list">
+                <!-- Leaderboard entries come via JS -->
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-button modal-button-secondary" onclick="closeLeaderboard()">Schließen</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Load config.js first for Supabase configuration -->
     <script src="../js/config.js"></script>
@@ -269,6 +632,10 @@
         let lastClickTime = 0;
         let lastSaveTime = Date.now(); // Track when we last saved for offline progress
         let needsSync = false; // Track if local changes need syncing to Supabase
+        let rebirthCount = 0; // Rebirth counter
+        let rebirthMultiplier = 1; // Multiplier from rebirths
+        let username = null; // Player username (optional)
+        let currentLeaderboardTab = 'barthaare'; // Current leaderboard view
 
         // Game balance constants
         const COMBO_WINDOW_MS = 500; // Time window for combo clicks
@@ -385,6 +752,8 @@
                     // Restore game state
                     energy = parseFloat(localData.energy) || 0;
                     totalEver = parseFloat(localData.total_ever) || 0;
+                    rebirthCount = parseInt(localData.rebirth_count) || 0;
+                    rebirthMultiplier = parseFloat(localData.rebirth_multiplier) || 1;
                     
                     // Add offline earnings
                     if (offlineProgress > 0) {
@@ -435,6 +804,8 @@
                             // Supabase data is newer, use it
                             energy = parseFloat(data.energy) || 0;
                             totalEver = parseFloat(data.total_ever) || 0;
+                            rebirthCount = parseInt(data.rebirth_count) || 0;
+                            rebirthMultiplier = parseFloat(data.rebirth_multiplier) || 1;
                             
                             if (data.shop_items && Array.isArray(data.shop_items)) {
                                 data.shop_items.forEach((savedItem) => {
@@ -490,14 +861,19 @@
                 });
             }
             
-            return savedCps * cappedSeconds;
+            // Apply rebirth multiplier if player has rebirthed
+            const savedRebirthMultiplier = parseFloat(savedState.rebirth_multiplier) || 1;
+            savedCps *= savedRebirthMultiplier;
+            
+            // Offline earnings are reduced to 5% of potential online earnings
+            return savedCps * cappedSeconds * 0.05;
         }
         
         // Show offline progress message
         function showOfflineProgressMessage(progress) {
             if (progress < 1) return;
             
-            const hours = Math.floor(progress / 3600 / 1);
+            const hours = Math.floor(progress / 3600);
             const minutes = Math.floor((progress / 60) % 60);
             
             let timeText = '';
@@ -548,6 +924,8 @@
                 const gameState = {
                     energy: energy,
                     total_ever: totalEver,
+                    rebirth_count: rebirthCount,
+                    rebirth_multiplier: rebirthMultiplier,
                     shop_items: shopItems.map(item => ({
                         id: item.id,
                         count: item.count,
@@ -589,6 +967,8 @@
                     ip_hash: ipHash,
                     energy: energy,
                     total_ever: totalEver,
+                    rebirth_count: rebirthCount,
+                    rebirth_multiplier: rebirthMultiplier,
                     shop_items: shopItems.map(item => ({
                         id: item.id,
                         count: item.count,
@@ -643,23 +1023,273 @@
 
         function createShop() {
             const container = document.getElementById('item-list');
-            shopItems.forEach((item, i) => {
-                const itemType = item.type === "click" ? "Klick-Upgrade" : "Auto-Produzent";
-                const itemEffect = item.type === "click" 
-                    ? `+${item.clickPower} pro Klick` 
-                    : `+${item.cps.toFixed(1)}/s`;
-                
-                container.innerHTML += `
-                    <div class="item-card disabled" id="card-${i}" onclick="buyItem(${i})" title="${itemType}: ${itemEffect}">
-                        <div class="item-icon">${item.icon}</div>
-                        <div class="item-info">
-                            <span class="item-name">${item.name}</span>
-                            <span class="item-cost" id="cost-${i}">${item.cost}</span>
-                        </div>
-                        <div class="item-count" id="count-${i}">0</div>
+            
+            // Separate items by type
+            const autoClickItems = shopItems.filter(item => item.type === "passive");
+            const clickBoostItems = shopItems.filter(item => item.type === "click");
+            
+            // Check if mobile
+            const isMobile = window.innerWidth <= 768;
+            const collapsedClass = isMobile ? 'collapsed' : '';
+            
+            // Create Auto-Clicks section
+            container.innerHTML += `
+                <div class="shop-section">
+                    <div class="shop-section-header" onclick="toggleSection('auto')">
+                        <h3>⚙️ Auto-Clicks</h3>
+                        <span class="toggle-icon ${collapsedClass}" id="toggle-auto">▼</span>
                     </div>
-                `;
+                    <div class="shop-section-items ${collapsedClass}" id="section-auto">
+                        ${autoClickItems.map((item, i) => {
+                            const itemIndex = shopItems.findIndex(it => it.id === item.id);
+                            return `
+                                <div class="item-card disabled" id="card-${itemIndex}" onclick="buyItem(${itemIndex})">
+                                    <div class="item-icon">${item.icon}</div>
+                                    <div class="item-info">
+                                        <span class="item-name">${item.name}</span>
+                                        <span class="item-description">+${item.cps.toFixed(1)}/s</span>
+                                        <span class="item-cost" id="cost-${itemIndex}">${item.cost}</span>
+                                    </div>
+                                    <div class="item-count" id="count-${itemIndex}">0</div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+            
+            // Create Click-Boosts section
+            container.innerHTML += `
+                <div class="shop-section">
+                    <div class="shop-section-header" onclick="toggleSection('click')">
+                        <h3>💪 Click-Boosts</h3>
+                        <span class="toggle-icon ${collapsedClass}" id="toggle-click">▼</span>
+                    </div>
+                    <div class="shop-section-items ${collapsedClass}" id="section-click">
+                        ${clickBoostItems.map((item, i) => {
+                            const itemIndex = shopItems.findIndex(it => it.id === item.id);
+                            return `
+                                <div class="item-card disabled" id="card-${itemIndex}" onclick="buyItem(${itemIndex})">
+                                    <div class="item-icon">${item.icon}</div>
+                                    <div class="item-info">
+                                        <span class="item-name">${item.name}</span>
+                                        <span class="item-description">+${item.clickPower} pro Klick</span>
+                                        <span class="item-cost" id="cost-${itemIndex}">${item.cost}</span>
+                                    </div>
+                                    <div class="item-count" id="count-${itemIndex}">0</div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function toggleSection(sectionId) {
+            const section = document.getElementById(`section-${sectionId}`);
+            const toggle = document.getElementById(`toggle-${sectionId}`);
+            
+            if (section.classList.contains('collapsed')) {
+                section.classList.remove('collapsed');
+                toggle.classList.remove('collapsed');
+            } else {
+                section.classList.add('collapsed');
+                toggle.classList.add('collapsed');
+            }
+        }
+        
+        function createRebirthButton() {
+            const container = document.getElementById('rebirth-section');
+            container.innerHTML = `
+                <div class="rebirth-card" id="rebirth-card" onclick="doRebirth()">
+                    <div class="rebirth-icon">♻️</div>
+                    <div class="rebirth-title">REBIRTH</div>
+                    <div class="rebirth-description">Verdoppelt Clicks & Auto-Clicks<br>Erhöht Kosten</div>
+                    <div class="rebirth-cost" id="rebirth-cost">0</div>
+                    <div class="rebirth-count" id="rebirth-count-display">Rebirths: 0</div>
+                </div>
+            `;
+        }
+        
+        function calculateRebirthCost() {
+            // Cost is 4x the most expensive item the player can afford
+            const maxCost = Math.max(...shopItems.map(item => item.cost));
+            return Math.floor(maxCost * 4);
+        }
+        
+        function updateRebirthUI() {
+            const rebirthCost = calculateRebirthCost();
+            const costElement = document.getElementById('rebirth-cost');
+            const countElement = document.getElementById('rebirth-count-display');
+            const card = document.getElementById('rebirth-card');
+            
+            if (costElement) {
+                costElement.innerText = rebirthCost.toLocaleString();
+            }
+            
+            if (countElement) {
+                countElement.innerText = `Rebirths: ${rebirthCount}`;
+            }
+            
+            if (card) {
+                if (energy >= rebirthCost) {
+                    card.classList.remove('disabled');
+                } else {
+                    card.classList.add('disabled');
+                }
+            }
+        }
+        
+        function updateRebirthBadge() {
+            const badge = document.getElementById('rebirth-badge');
+            if (badge) {
+                if (rebirthCount > 0) {
+                    badge.style.display = 'block';
+                    // Update the text to show rebirth count if > 1
+                    const badgeText = badge.querySelector('text');
+                    if (badgeText && rebirthCount > 1) {
+                        badgeText.textContent = rebirthCount;
+                    }
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        }
+        
+        function updateBeardAppearance(endY) {
+            const beard = document.getElementById('beard-path');
+            const clover = document.getElementById('beard-clover');
+            
+            // Default beard color
+            let beardColor = '#3d2b1f';
+            let showClover = false;
+            
+            // Check for active event and apply appropriate styling
+            if (activeEvent) {
+                switch (activeEvent.name) {
+                    case "Goldener Bart!":
+                        // Golden beard event
+                        beardColor = '#FFD700';
+                        break;
+                    case "Glücks-Klick!":
+                        // Lucky clover event - show clover decoration
+                        showClover = true;
+                        break;
+                    case "Doppel-Power!":
+                        // Purple glow for double power
+                        beardColor = '#9370DB';
+                        break;
+                    case "Turbo-Haare!":
+                        // Green for turbo
+                        beardColor = '#00FF88';
+                        break;
+                    case "Mega-Wachstum!":
+                        // Red/pink for mega growth
+                        beardColor = '#FF6B6B';
+                        break;
+                }
+            } else if (energy > 5000) {
+                // Default purple for high energy
+                beardColor = '#7C4DFF';
+            }
+            
+            beard.setAttribute('fill', beardColor);
+            
+            // Update clover decoration
+            if (clover) {
+                clover.style.display = showClover ? 'block' : 'none';
+                // Position clover in the middle of the beard
+                const cloverY = endY - 5;
+                const cloverText = clover.querySelector('text');
+                if (cloverText) {
+                    cloverText.setAttribute('y', cloverY);
+                }
+            }
+        }
+        
+        function doRebirth() {
+            const rebirthCost = calculateRebirthCost();
+            
+            if (energy < rebirthCost) {
+                return; // Can't afford
+            }
+            
+            // Confirm rebirth
+            const confirmMsg = `Rebirth durchführen?\n\nDu verlierst:\n- Alle Barthaare\n- Alle Shop-Items\n\nDu erhältst:\n- 2x Clicks & Auto-Clicks\n- Höhere Item-Kosten`;
+            
+            if (!confirm(confirmMsg)) {
+                return;
+            }
+            
+            // Reset energy and items
+            energy = 0;
+            totalEver = 0;
+            shopItems.forEach(item => {
+                item.count = 0;
+                // Reset costs to base values and apply rebirth cost multiplier
+                const baseItem = [
+                    { id: 0, cost: 15 },
+                    { id: 1, cost: 100 },
+                    { id: 2, cost: 500 },
+                    { id: 3, cost: 2500 },
+                    { id: 4, cost: 12000 },
+                    { id: 5, cost: 60000 },
+                    { id: 6, cost: 250000 },
+                    { id: 7, cost: 50 },
+                    { id: 8, cost: 500 },
+                    { id: 9, cost: 5000 },
+                    { id: 10, cost: 50000 }
+                ].find(b => b.id === item.id);
+                
+                if (baseItem) {
+                    item.cost = Math.floor(baseItem.cost * Math.pow(1.5, rebirthCount + 1));
+                }
             });
+            
+            // Increase rebirth counter and multiplier
+            rebirthCount++;
+            rebirthMultiplier = Math.pow(2, rebirthCount);
+            
+            // Recalculate and update
+            recalcCps();
+            updateUI();
+            updateRebirthUI();
+            saveGameState();
+            
+            // Update leaderboard after rebirth
+            if (username) {
+                updateLeaderboard();
+            }
+            
+            // Show notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+                color: #000;
+                padding: 30px 40px;
+                border-radius: 15px;
+                font-size: 1.5rem;
+                font-weight: bold;
+                text-align: center;
+                z-index: 10000;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            `;
+            notification.innerHTML = `
+                <div style="font-size: 3rem; margin-bottom: 10px;">♻️</div>
+                <div>REBIRTH!</div>
+                <div style="font-size: 1.2rem; margin-top: 10px;">Multiplier: ${rebirthMultiplier}x</div>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 1s';
+                setTimeout(() => notification.remove(), 1000);
+            }, 3000);
         }
 
         function doClick(e) {
@@ -777,20 +1407,25 @@
         }
 
         function recalcCps() {
-            // Calculate passive income
+            // Calculate passive income with rebirth multiplier
             cps = shopItems
                 .filter(item => item.type === "passive")
-                .reduce((acc, item) => acc + (item.count * item.cps), 0);
+                .reduce((acc, item) => acc + (item.count * item.cps), 0) * rebirthMultiplier;
             
-            // Calculate click power
-            clickPower = 1 + shopItems
+            // Calculate click power with rebirth multiplier
+            // Base click power is 1, upgrades are multiplied by rebirth
+            const upgradeClickPower = shopItems
                 .filter(item => item.type === "click")
                 .reduce((acc, item) => acc + (item.count * item.clickPower), 0);
+            clickPower = 1 + (upgradeClickPower * rebirthMultiplier);
             
             // Update display
             let cpsText = `Barthaare: ${cps.toFixed(1)} / s`;
             if (clickPower > 1) {
                 cpsText += ` | Klick: ${clickPower.toFixed(0)}`;
+            }
+            if (rebirthCount > 0) {
+                cpsText += ` | ♻️${rebirthMultiplier}x`;
             }
             document.getElementById('cps-display').innerText = cpsText;
         }
@@ -807,6 +1442,12 @@
                 if (energy >= item.cost) card.classList.remove('disabled');
                 else card.classList.add('disabled');
             });
+            
+            // Update rebirth button
+            updateRebirthUI();
+            
+            // Update rebirth badge on cap
+            updateRebirthBadge();
 
             // Beard growth logic - based on current energy so it shrinks when spending
             const beard = document.getElementById('beard-path');
@@ -823,8 +1464,8 @@
             `;
             beard.setAttribute('d', pathData);
 
-            if(energy > 5000) beard.setAttribute('fill', '#7C4DFF');
-            else beard.setAttribute('fill', '#3d2b1f');
+            // Update beard color and decorations based on active event
+            updateBeardAppearance(endY);
         }
 
         setInterval(() => {
@@ -866,11 +1507,186 @@
             setTimeout(() => p.remove(), PARTICLE_DURATION_MS);
         }
 
+        // Username and Leaderboard Functions
+        function loadUsername() {
+            const saved = localStorage.getItem('bart_clicker_username');
+            if (saved) {
+                username = saved;
+                showUsernameDisplay();
+            } else {
+                // Show username modal on first visit
+                setTimeout(() => {
+                    document.getElementById('username-modal').classList.add('active');
+                }, 1000);
+            }
+        }
+        
+        function showUsernameDisplay() {
+            if (username) {
+                document.getElementById('username-text').innerText = username;
+                document.getElementById('username-display').style.display = 'block';
+            }
+        }
+        
+        function setUsername() {
+            const input = document.getElementById('username-input');
+            const name = input.value.trim();
+            
+            if (name.length < 3) {
+                alert('Nutzername muss mindestens 3 Zeichen lang sein!');
+                return;
+            }
+            
+            username = name;
+            localStorage.setItem('bart_clicker_username', username);
+            showUsernameDisplay();
+            document.getElementById('username-modal').classList.remove('active');
+            
+            // Update leaderboard immediately
+            updateLeaderboard();
+        }
+        
+        function skipUsername() {
+            document.getElementById('username-modal').classList.remove('active');
+        }
+        
+        async function updateLeaderboard() {
+            if (!username) return; // Only update if user has a username
+            
+            try {
+                const ipHash = await getUserIpHash();
+                const supabase = await getSupabaseClient();
+                
+                const leaderboardEntry = {
+                    ip_hash: ipHash,
+                    username: username,
+                    energy: Math.floor(energy),
+                    total_ever: Math.floor(totalEver),
+                    rebirth_count: rebirthCount,
+                    last_updated: new Date().toISOString()
+                };
+                
+                // Upsert to leaderboard table
+                const { error } = await supabase
+                    .from('bart_clicker_leaderboard')
+                    .upsert(leaderboardEntry, { onConflict: 'ip_hash' });
+                
+                if (error) {
+                    console.error('Error updating leaderboard:', error);
+                } else {
+                    console.log('Leaderboard updated');
+                }
+            } catch (error) {
+                console.error('Error updating leaderboard:', error);
+            }
+        }
+        
+        async function openLeaderboard() {
+            if (!username) {
+                alert('Du musst zuerst einen Nutzernamen angeben, um die Bestenliste zu sehen!');
+                document.getElementById('username-modal').classList.add('active');
+                return;
+            }
+            
+            document.getElementById('leaderboard-modal').classList.add('active');
+            await loadLeaderboardData();
+        }
+        
+        function closeLeaderboard() {
+            document.getElementById('leaderboard-modal').classList.remove('active');
+        }
+        
+        function switchLeaderboardTab(tab) {
+            currentLeaderboardTab = tab;
+            
+            // Update tab styling
+            document.getElementById('tab-barthaare').classList.toggle('active', tab === 'barthaare');
+            document.getElementById('tab-rebirths').classList.toggle('active', tab === 'rebirths');
+            
+            // Reload data
+            loadLeaderboardData();
+        }
+        
+        async function loadLeaderboardData() {
+            try {
+                const supabase = await getSupabaseClient();
+                
+                // Determine sort field
+                const sortField = currentLeaderboardTab === 'barthaare' ? 'total_ever' : 'rebirth_count';
+                
+                // Fetch top 50 players
+                const { data, error } = await supabase
+                    .from('bart_clicker_leaderboard')
+                    .select('*')
+                    .order(sortField, { ascending: false })
+                    .limit(50);
+                
+                if (error) {
+                    console.error('Error loading leaderboard:', error);
+                    document.getElementById('leaderboard-list').innerHTML = '<p style="text-align: center; color: var(--muted);">Fehler beim Laden der Bestenliste</p>';
+                    return;
+                }
+                
+                displayLeaderboard(data);
+            } catch (error) {
+                console.error('Error loading leaderboard:', error);
+                document.getElementById('leaderboard-list').innerHTML = '<p style="text-align: center; color: var(--muted);">Offline - Bestenliste nicht verfügbar</p>';
+            }
+        }
+        
+        function displayLeaderboard(data) {
+            const list = document.getElementById('leaderboard-list');
+            
+            if (!data || data.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: var(--muted);">Noch keine Einträge</p>';
+                return;
+            }
+            
+            const ipHash = userIpHash;
+            
+            list.innerHTML = data.map((entry, index) => {
+                const rank = index + 1;
+                let rankClass = '';
+                if (rank === 1) rankClass = 'gold';
+                else if (rank === 2) rankClass = 'silver';
+                else if (rank === 3) rankClass = 'bronze';
+                
+                const isCurrentUser = entry.ip_hash === ipHash;
+                const highlightStyle = isCurrentUser ? 'background: rgba(124, 77, 255, 0.2); border-color: var(--accent);' : '';
+                
+                const value = currentLeaderboardTab === 'barthaare' 
+                    ? Math.floor(entry.total_ever).toLocaleString()
+                    : entry.rebirth_count;
+                
+                const valueLabel = currentLeaderboardTab === 'barthaare' ? 'Barthaare' : 'Rebirths';
+                
+                return `
+                    <div class="leaderboard-item" style="${highlightStyle}">
+                        <div class="leaderboard-rank ${rankClass}">#${rank}</div>
+                        <div class="leaderboard-info">
+                            <div class="leaderboard-name">${entry.username}${isCurrentUser ? ' (Du)' : ''}</div>
+                            <div class="leaderboard-stats">${valueLabel}</div>
+                        </div>
+                        <div class="leaderboard-value">${value}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
         createShop();
+        createRebirthButton();
+        
+        // Load username first
+        loadUsername();
         
         // Load game state on startup
         loadGameState().then(() => {
             updateUI();
+            
+            // Update leaderboard if user has a username
+            if (username) {
+                updateLeaderboard();
+            }
             
             // Set up localStorage auto-save every 10 seconds
             setInterval(() => {
@@ -883,6 +1699,13 @@
                     syncToSupabase();
                 }
             }, AUTO_SYNC_INTERVAL);
+            
+            // Set up leaderboard update every 60 seconds
+            setInterval(() => {
+                if (username && navigator.onLine) {
+                    updateLeaderboard();
+                }
+            }, 60000);
         });
         
         // Handle page visibility changes (tab switching, minimizing)
