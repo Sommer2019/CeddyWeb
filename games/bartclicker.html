@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hawedere's Beard Empire | Sidebar Pro</title>
+    <style>
+        :root {
+            --bg-black: #070607;
+            --accent: #7C4DFF;
+            --muted: #9aa0a6;
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --box-gradient: linear-gradient(180deg, rgba(124, 77, 255, 0.12), rgba(0, 0, 0, 0.05));
+            --box-border: rgba(124, 77, 255, 0.1);
+            --panel-bg: #0b0b0d;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-black);
+            color: #e6eef8;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* LINKS: DER AVATAR-BEREICH */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 40px;
+            background: radial-gradient(circle at center, #1a1033 0%, #070607 80%);
+            overflow-y: auto;
+        }
+
+        .stats-header { text-align: center; margin-bottom: 20px; }
+        .score-big {
+            font-size: 4rem;
+            font-weight: 900;
+            margin: 0;
+            background: linear-gradient(to bottom, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(124, 77, 255, 0.4));
+        }
+
+        .character-container {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        #avatar-svg {
+            width: 100%;
+            height: auto;
+            max-height: 75vh;
+            filter: drop-shadow(0 15px 40px rgba(0,0,0,0.6));
+            transition: transform 0.05s;
+        }
+        #avatar-svg:active { transform: scale(0.97); }
+
+        /* RECHTS: DER SCHMALE SHOP */
+        aside {
+            width: 260px; /* Schmaler gemacht */
+            background: var(--panel-bg);
+            border-left: 1px solid var(--box-border);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 15px;
+            box-shadow: -10px 0 40px rgba(0,0,0,0.6);
+        }
+
+        aside h2 {
+            color: var(--accent);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0 0 15px 0;
+            opacity: 0.8;
+        }
+
+        .shop-list { flex: 1; overflow-y: auto; }
+        .shop-list::-webkit-scrollbar { width: 3px; }
+        .shop-list::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+
+        .item-card {
+            background: var(--card-bg);
+            border: 1px solid var(--box-border);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .item-card.disabled {
+            opacity: 0.2;
+            filter: grayscale(1);
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .item-card:hover:not(.disabled) {
+            background: rgba(124, 77, 255, 0.08);
+            border-color: var(--accent);
+        }
+
+        .item-icon {
+            font-size: 20px;
+            min-width: 35px;
+            height: 35px;
+            background: var(--box-gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .item-info { flex: 1; min-width: 0; }
+        .item-name { font-weight: 700; display: block; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .item-cost { color: var(--accent); font-weight: bold; font-size: 0.75rem; }
+        .item-count { font-size: 1rem; font-weight: 900; color: var(--muted); opacity: 0.3; }
+
+        .particle {
+            position: fixed;
+            color: #fff;
+            font-weight: 900;
+            pointer-events: none;
+            text-shadow: 0 0 8px var(--accent);
+            animation: particleUp 0.6s ease-out forwards;
+            z-index: 100;
+        }
+        @keyframes particleUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-70px); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <div class="stats-header">
+            <h1 class="score-big" id="score-display">0</h1>
+            <p id="cps-display" style="color: var(--muted); font-size: 0.9rem; margin: 5px 0 0 0;">Wuchs: 0 / s</p>
+        </div>
+
+        <div class="character-container" onclick="doClick(event)">
+            <svg id="avatar-svg" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- Kopf -->
+                <rect x="30" y="30" width="40" height="35" rx="6" fill="#d4a373" />
+                
+                <!-- CAP (SNAPBACK) -->
+                <g id="cap">
+                    <!-- Schirm -->
+                    <rect x="25" y="32" width="50" height="5" rx="2" fill="#7C4DFF" />
+                    <!-- Krone -->
+                    <path d="M30 32 L70 32 L70 25 Q 50 15 30 25 Z" fill="#7C4DFF" />
+                    <!-- Kleiner Knopf oben -->
+                    <circle cx="50" cy="18" r="2" fill="#5c38cc" />
+                </g>
+
+                <!-- Brille -->
+                <g stroke="#111" stroke-width="1.2" fill="none">
+                    <rect x="34" y="42" width="10" height="7" rx="1" />
+                    <rect x="56" y="42" width="10" height="7" rx="1" />
+                    <path d="M44 46 h12" />
+                </g>
+                <!-- Augen -->
+                <circle cx="39" cy="45" r="1" fill="#000" />
+                <circle cx="61" cy="45" r="1" fill="#000" />
+
+                <!-- DYNAMISCHER BART -->
+                <path id="beard-path" d="M30 60 Q 50 60 70 60 L 70 65 Q 50 65 30 65 Z" fill="#3d2b1f" />
+            </svg>
+        </div>
+    </main>
+
+    <aside>
+        <h2>Bart-Shop</h2>
+        <div class="shop-list" id="item-list">
+            <!-- Items kommen per JS -->
+        </div>
+    </aside>
+
+    <script>
+        let energy = 0;
+        let totalEver = 0;
+        let cps = 0;
+
+        const shopItems = [
+            { id: 0, name: "Bart-Kamm", cost: 15, cps: 0.1, icon: "🪮" },
+            { id: 1, name: "WLAN-Bartöl", cost: 100, cps: 1, icon: "💧" },
+            { id: 2, name: "Energy Drink", cost: 500, cps: 4, icon: "⚡" },
+            { id: 3, name: "Loot-Lama", cost: 2500, cps: 12, icon: "🦙" },
+            { id: 4, name: "Sektenschwur", cost: 12000, cps: 45, icon: "🐑" },
+            { id: 5, name: "Dampf-Pflege", cost: 60000, cps: 180, icon: "⚙️" },
+            { id: 6, name: "Bart-Fabrik", cost: 250000, cps: 800, icon: "🏭" }
+        ].map(item => ({ ...item, count: 0 }));
+
+        function createShop() {
+            const container = document.getElementById('item-list');
+            shopItems.forEach((item, i) => {
+                container.innerHTML += `
+                    <div class="item-card disabled" id="card-${i}" onclick="buyItem(${i})">
+                        <div class="item-icon">${item.icon}</div>
+                        <div class="item-info">
+                            <span class="item-name">${item.name}</span>
+                            <span class="item-cost" id="cost-${i}">${item.cost}</span>
+                        </div>
+                        <div class="item-count" id="count-${i}">0</div>
+                    </div>
+                `;
+            });
+        }
+
+        function doClick(e) {
+            energy++;
+            totalEver++;
+            showParticle(e.clientX, e.clientY);
+            updateUI();
+        }
+
+        function showParticle(x, y) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.innerText = "+1";
+            p.style.left = x + 'px';
+            p.style.top = y + 'px';
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 600);
+        }
+
+        function buyItem(i) {
+            if (energy >= shopItems[i].cost) {
+                energy -= shopItems[i].cost;
+                shopItems[i].count++;
+                shopItems[i].cost = Math.floor(shopItems[i].cost * 1.15);
+                recalcCps();
+                updateUI();
+            }
+        }
+
+        function recalcCps() {
+            cps = shopItems.reduce((acc, item) => acc + (item.count * item.cps), 0);
+            document.getElementById('cps-display').innerText = `Wachs: ${cps.toFixed(1)} / s`;
+        }
+
+        function updateUI() {
+            document.getElementById('score-display').innerText = Math.floor(energy).toLocaleString();
+
+            // Shop status & Grey out logic
+            shopItems.forEach((item, i) => {
+                const card = document.getElementById(`card-${i}`);
+                document.getElementById(`cost-${i}`).innerText = item.cost.toLocaleString();
+                document.getElementById(`count-${i}`).innerText = item.count;
+                
+                if (energy >= item.cost) card.classList.remove('disabled');
+                else card.classList.add('disabled');
+            });
+
+            // Beard growth logic
+            const beard = document.getElementById('beard-path');
+            const growth = Math.sqrt(totalEver) * 1.6; // Bart wächst pixelgenau
+            const startY = 60;
+            const endY = startY + growth;
+            
+            const pathData = `
+                M 30 ${startY} 
+                Q 50 ${startY + 3} 70 ${startY} 
+                L 70 ${endY} 
+                Q 50 ${endY + 12 + growth/10} 30 ${endY} 
+                Z
+            `;
+            beard.setAttribute('d', pathData);
+
+            if(totalEver > 5000) beard.setAttribute('fill', '#7C4DFF');
+        }
+
+        setInterval(() => {
+            if (cps > 0) {
+                energy += (cps / 10);
+                totalEver += (cps / 10);
+                updateUI();
+            }
+        }, 100);
+
+        createShop();
+        updateUI();
+    </script>
+</body>
+</html>
