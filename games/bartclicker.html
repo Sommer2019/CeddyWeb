@@ -619,12 +619,12 @@
     
     <!-- Username Display (top left) -->
     <div class="username-display" id="username-display" style="display: none;">
-        Spieler: <span id="username-text"></span>
+        <span id="username-text"></span>
     </div>
 
     <!-- Leaderboard Button (top right) -->
     <button class="leaderboard-btn" id="leaderboard-btn" onclick="openLeaderboard()">
-        🏆 Bestenliste
+        🏆
     </button>
 
     <!-- Home Button (bottom left) -->
@@ -1208,9 +1208,59 @@
                     badge.style.display = 'block';
                     // Update the text to show rebirth count if > 1
                     const badgeText = badge.querySelector('text');
-                    if (badgeText && rebirthCount > 1) {
-                        badgeText.textContent = rebirthCount;
+                    if (badgeText) {
+                        badgeText.textContent = rebirthCount > 1 ? rebirthCount : '♻';
                     }
+
+                    // Determine color based on rebirthCount
+                    // 1 -> Bronze, 2 -> Silver, 3 -> Gold, >=4 -> rainbow by hue
+                    let fillColor = '#FFD700';
+                    let strokeColor = '#FFA500';
+
+                    if (rebirthCount === 1) {
+                        fillColor = '#CD7F32'; // bronze
+                        strokeColor = '#8C5A2B';
+                    } else if (rebirthCount === 2) {
+                        fillColor = '#C0C0C0'; // silver
+                        strokeColor = '#9A9A9A';
+                    } else if (rebirthCount === 3) {
+                        fillColor = '#FFD700'; // gold
+                        strokeColor = '#FFA500';
+                    } else if (rebirthCount >= 4) {
+                        // rainbow: vary hue so higher rebirths look more vibrant
+                        const hue = (rebirthCount * 37) % 360; // step by 37 for variety
+                        fillColor = `hsl(${hue} 75% 55%)`;
+                        strokeColor = `hsl(${(hue + 20) % 360} 75% 45%)`;
+                    }
+
+                    // Apply to circle and text elements
+                    const circle = badge.querySelector('circle');
+                    if (circle) {
+                        circle.setAttribute('fill', fillColor);
+                        if (strokeColor) circle.setAttribute('stroke', strokeColor);
+                    }
+
+                    // Set text color for contrast (black or white) based on perceived luminance
+                    if (badgeText) {
+                        // compute luminance roughly from HSL or hex; use computed style on a temporary element
+                        function colorToRgb(color) {
+                            const tmp = document.createElement('span');
+                            tmp.style.color = color;
+                            tmp.style.display = 'none';
+                            document.body.appendChild(tmp);
+                            const cs = getComputedStyle(tmp).color;
+                            document.body.removeChild(tmp);
+                            const m = cs.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
+                            if (m) return { r: +m[1], g: +m[2], b: +m[3] };
+                            return { r: 255, g: 255, b: 255 };
+                        }
+
+                        const rgb = colorToRgb(fillColor);
+                        const luminance = (0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b) / 255;
+                        const textColor = luminance > 0.6 ? '#000000' : '#ffffff';
+                        badgeText.setAttribute('fill', textColor);
+                    }
+
                 } else {
                     badge.style.display = 'none';
                 }
@@ -1817,3 +1867,4 @@
     </script>
 </body>
 </html>
+
