@@ -84,7 +84,7 @@
         #avatar-svg {
             width: 100%;
             height: auto;
-            max-height: 85vh;
+            max-height: 9985vh;
             filter: drop-shadow(0 15px 40px rgba(0,0,0,0.6));
             transition: transform 0.05s;
         }
@@ -426,10 +426,30 @@
                 right: 20px;
             }
         }
-        
+
         .leaderboard-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(124, 77, 255, 0.4);
+        }
+
+        .home-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 10px 14px;
+            background: var(--card-bg);
+            color: var(--muted);
+            border: 1px solid var(--box-border);
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.2s;
+        }
+
+        .home-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
         .leaderboard-tabs {
@@ -601,10 +621,15 @@
     <div class="username-display" id="username-display" style="display: none;">
         Spieler: <span id="username-text"></span>
     </div>
-    
+
     <!-- Leaderboard Button (top right) -->
     <button class="leaderboard-btn" id="leaderboard-btn" onclick="openLeaderboard()">
         🏆 Bestenliste
+    </button>
+
+    <!-- Home Button (bottom left) -->
+    <button class="home-btn" id="home-btn" onclick="goToStart()" title="Zur Startseite">
+        ⤴ Zur Startseite
     </button>
     
     <!-- Username Modal -->
@@ -1630,6 +1655,11 @@
         
         function closeLeaderboard() {
             document.getElementById('leaderboard-modal').classList.remove('active');
+        }
+
+        function goToStart() {
+            // Navigiert zur Startseite — bei Bedarf `index.html` anpassen
+            location.href = '../';
         }
         
         function switchLeaderboardTab(tab) {

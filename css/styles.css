@@ -142,6 +142,41 @@ body {
     outline: 2px solid rgba(124, 77, 255, 0.08)
 }
 
+
+.games-section {
+    margin: 12px 0;
+    padding: 12px;
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(124, 77, 255, 0.04), rgba(0, 0, 0, 0.08));
+    border: 1px solid rgba(124, 77, 255, 0.06)
+}
+
+.games-section .section-title {
+    margin: 0 0 12px 0;
+    color: var(--accent);
+    font-size: 18px
+}
+
+.games-grid {
+    display: grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap: 12px
+}
+
+
+.games-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid rgba(124, 77, 255, 0.06);
+    transition: transform .12s ease, box-shadow .12s ease
+}
+
 .icon {
     width: 48px;
     height: 48px;

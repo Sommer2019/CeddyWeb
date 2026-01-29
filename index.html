@@ -29,8 +29,10 @@
 <main class="container">
     <!-- Mobile Toggle: nur sichtbar auf kleinen Displays -->
     <div class="mobile-toggle" role="tablist" aria-label="Ansicht wechseln">
-        <button id="mobile-live-btn" class="active" role="tab" aria-controls="live-section" aria-selected="true">Live</button>
+        <button id="mobile-live-btn" class="active" role="tab" aria-controls="live-section" aria-selected="true">Live
+        </button>
         <button id="mobile-links-btn" role="tab" aria-controls="links-section" aria-selected="false">Links</button>
+        <button id="mobile-games-btn" role="tab" aria-controls="games-section" aria-selected="false">Games</button>
     </div>
 
     <!-- Eingebettete Live-Feeds -->
@@ -38,7 +40,9 @@
         <div class="embed-wrapper">
             <!-- Twitch Embed (responsive) -->
             <div class="embed-card fullwidth">
-                <a href="https://www.twitch.tv/hd1920x1080"><div class="embed-title">Live</div></a>
+                <a href="https://www.twitch.tv/hd1920x1080">
+                    <div class="embed-title">Live</div>
+                </a>
                 <div class="responsive-embed-row" style="display:flex;gap:1rem;align-items:stretch;">
                     <div class="responsive-embed player" style="flex:1 1 0;">
                         <iframe
@@ -58,14 +62,16 @@
                                 style="width:100%;height:100%;border:0;"></iframe>
                         <!-- Fallback link für Fälle, in denen das Twitch-Embed blockiert wird -->
                         <div style="margin-top:.5rem; font-size:.9rem;">
-                            <a href="https://www.twitch.tv/hd1920x1080/chat" target="_blank" rel="noopener noreferrer">Chat im neuen Tab öffnen</a>
+                            <a href="https://www.twitch.tv/hd1920x1080/chat" target="_blank" rel="noopener noreferrer">Chat
+                                im neuen Tab öffnen</a>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Donation placeholder: wird beim Wechsel in Live-View gefüllt -->
-            <div id="donation-embed" class="embed-card fullwidth" aria-live="polite" aria-atomic="true" style="display:none;">
+            <div id="donation-embed" class="embed-card fullwidth" aria-live="polite" aria-atomic="true"
+                 style="display:none;">
                 <!-- Wird dynamisch befüllt (fetch von streamelements.html) -->
                 <div class="loading">Lade Spenden-Übersicht…</div>
             </div>
@@ -88,7 +94,7 @@
 
             <a class="link-card"
                href="streamelements.html"
-                rel="noopener noreferrer">
+               rel="noopener noreferrer">
                 <img src="img/Logos/StreamElements.png" alt="StreamElements" class="icon">
                 <div class="card-text">
                     <strong>StreamElements</strong>
@@ -96,13 +102,11 @@
                 </div>
             </a>
 
-           <a class="link-card"
-               href="http://tng.gl/c/hd1920x1080"
-               target="_blank" rel="noopener noreferrer">
-                <img src="img/Logos/Puzzle.svg" alt="Puzzle" class="icon">
+            <a class="link-card" href="clipdesmonats.html" target="_self" rel="noopener">
+                <img src="img/Logos/cdm.png" alt="Clip des Monats" class="icon">
                 <div class="card-text">
-                    <strong>Tanggle.io</strong>
-                    <span>Live mitpuzzeln</span>
+                    <strong>Clip des Monats</strong>
+                    <span>Votet für die Top 10 Clips des letzten Monats</span>
                 </div>
             </a>
 
@@ -131,6 +135,49 @@
                 </div>
             </a>
 
+            <a class="link-card" href="https://discord.gg/Zp5KNqCHzc" target="_blank" rel="noopener noreferrer">
+                <img src="img/Logos/discord.svg" alt="Discord" class="icon">
+                <div class="card-text">
+                    <strong>Discord</strong>
+                    <span>Server beitreten</span>
+                </div>
+            </a>
+
+            <a class="link-card" href="mailto:Admin@HD1920x1080.de?subject=Kontaktanfrage" target="_self"
+               rel="noopener">
+                <img src="img/Logos/email.svg" alt="E-Mail" class="icon">
+                <div class="card-text">
+                    <strong>Kontakt</strong>
+                    <span>Kontakt per E‑Mail</span>
+                </div>
+            </a>
+
+            <a class="link-card" href="ob.html" target="_self" rel="noopener">
+                <img src="img/Logos/OB.png" alt="OnlyBart" class="icon">
+                <div class="card-text">
+                    <strong>OnlyBart</strong>
+                    <span>Ganz viel Bart :)</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Game-Related Links (jetzt mit einheitlicher Struktur zu Clips) -->
+    <section id="games-section" class="clips-section" aria-label="Game-Related Links">
+        <h2 class="section-title">Game-Related Links</h2>
+        <div class="clips-grid">
+
+            <a class="link-card"
+               href="http://tng.gl/c/hd1920x1080"
+               target="_blank" rel="noopener noreferrer">
+                <img src="img/Logos/Puzzle.svg" alt="Puzzle" class="icon">
+                <div class="card-text">
+                    <strong>Tanggle.io</strong>
+                    <span>Live mitpuzzeln</span>
+                </div>
+            </a>
+
+
             <a class="link-card"
                href="https://github.com/HD1920x1080Media/Minecraft-Ressource-Pack/archive/refs/tags/latest.zip"
                data-file="https://github.com/HD1920x1080Media/Minecraft-Ressource-Pack/archive/refs/tags/latest.zip"
@@ -148,28 +195,35 @@
                 <div class="modal-backdrop" onclick="hideDownloadConfirm()" aria-hidden="true"></div>
                 <div class="modal-card" role="document">
                     <h3 class="modal-title">Download bestätigen</h3>
-                    <p class="modal-message">Möchtest du das Resource-Pack herunterladen: <strong>HD1920x1080_V1.10.zip</strong>?</p>
+                    <p class="modal-message">Möchtest du das Resource-Pack herunterladen:
+                        <strong>HD1920x1080_V1.10.zip</strong>?</p>
                     <div class="modal-actions">
-                        <button type="button" class="btn btn-secondary" onclick="hideDownloadConfirm()">Abbrechen</button>
+                        <button type="button" class="btn btn-secondary" onclick="hideDownloadConfirm()">Abbrechen
+                        </button>
                         <button type="button" class="btn btn-primary" onclick="confirmDownload()">Herunterladen</button>
                     </div>
                 </div>
             </div>
 
             <script>
+                // Download-Modal (eine Implementierung, Duplikate entfernt)
                 function showDownloadConfirm(file) {
                     const modal = document.getElementById('download-modal');
                     modal.dataset.file = file;
                     modal.classList.add('is-open');
                     modal.setAttribute('aria-hidden', 'false');
                     // focus first action for keyboard users
-                    setTimeout(() => { modal.querySelector('.btn-secondary')?.focus(); }, 10);
+                    setTimeout(() => {
+                        modal.querySelector('.btn-secondary')?.focus();
+                    }, 10);
                 }
+
                 function hideDownloadConfirm() {
                     const modal = document.getElementById('download-modal');
                     modal.classList.remove('is-open');
                     modal.setAttribute('aria-hidden', 'true');
                 }
+
                 function confirmDownload() {
                     const modal = document.getElementById('download-modal');
                     const file = modal.dataset.file;
@@ -185,37 +239,54 @@
                 }
             </script>
 
-            <a class="link-card" href="https://discord.gg/Zp5KNqCHzc" target="_blank" rel="noopener noreferrer">
-                <img src="img/Logos/discord.svg" alt="Discord" class="icon">
+            <a class="link-card" href="games/bartclicker.html" rel="noopener noreferrer">
+                <svg id="avatar-svg" viewBox="25 15 75 75" width="48" height="48" preserveAspectRatio="xMidYMid meet"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <!-- Kopf -->
+                    <rect x="30" y="30" width="40" height="40" rx="6" fill="#d4a373"></rect>
+
+                    <!-- CAP (SNAPBACK) -->
+                    <g id="cap">
+                        <!-- Schirm -->
+                        <rect x="25" y="32" width="50" height="5" rx="2" fill="#7C4DFF"></rect>
+                        <!-- Krone -->
+                        <path d="M30 32 L70 32 L70 25 Q 50 15 30 25 Z" fill="#7C4DFF"></path>
+                        <!-- Kleiner Knopf oben -->
+                        <circle cx="50" cy="18" r="2" fill="#5c38cc"></circle>
+                    </g>
+
+                    <!-- Brille -->
+                    <g stroke="#111" stroke-width="1.2" fill="none">
+                        <rect x="34" y="42" width="10" height="7" rx="1"></rect>
+                        <rect x="56" y="42" width="10" height="7" rx="1"></rect>
+                        <path d="M44 46 h12"></path>
+                    </g>
+                    <!-- Augen -->
+                    <circle cx="39" cy="45" r="1" fill="#000"></circle>
+                    <circle cx="61" cy="45" r="1" fill="#000"></circle>
+
+                    <!-- DYNAMISCHER BART -->
+                    <path id="beard-path" d="
+                        M 30 60
+                        Q 50 63 70 60
+                        L 70 76.26418691481385
+                        Q 50 89.89060560629524 30 76.26418691481385
+                        Z
+                        " fill="#3d2b1f"></path>
+
+                    <!-- Event decorations (hidden by default) -->
+                    <g id="beard-clover" style="display: none;">
+                        <text x="50" y="71.26418691481385" font-size="12" fill="#00FF00" text-anchor="middle"
+                              font-family="Arial">🍀
+                        </text>
+                    </g>
+                </svg>
                 <div class="card-text">
-                    <strong>Discord</strong>
-                    <span>Server beitreten</span>
+                    <strong>Bartclicker</strong>
+                    <span>Bartclicker spielen</span>
                 </div>
             </a>
 
-            <a class="link-card" href="mailto:Admin@HD1920x1080.de?subject=Kontaktanfrage" target="_self" rel="noopener">
-                <img src="img/Logos/email.svg" alt="E-Mail" class="icon">
-                <div class="card-text">
-                    <strong>Kontakt</strong>
-                    <span>Kontakt per E‑Mail</span>
-                </div>
-            </a>
-
-            <a class="link-card" href="ob.html" target="_self" rel="noopener">
-                <img src="img/Logos/OB.png" alt="OnlyBart" class="icon">
-                <div class="card-text">
-                    <strong>OnlyBart</strong>
-                    <span>Ganz viel Bart :)</span>
-                </div>
-            </a>
-
-             <a class="link-card" href="clipdesmonats.html" target="_self" rel="noopener">
-                <img src="img/Logos/cdm.png" alt="Clip des Monats" class="icon">
-                <div class="card-text">
-                    <strong>Clip des Monats</strong>
-                    <span>Votet für die Top 10 Clips des letzten Monats</span>
-                </div>
-            </a>
         </div>
     </section>
 
@@ -252,10 +323,11 @@
     </section>
 
     <!-- Getrennte Box für Partner -->
-    <section class="clips-section" aria-label="Clips und Shorts">
+    <section class="clips-section" aria-label="Partner">
         <h2 class="section-title">Partner</h2>
         <div class="clips-grid">
-            <a class="link-card" href="https://yvolve.shop/?bg_ref=cnbZIhbZxH" target="_blank" rel="noopener noreferrer" data-code="FullHD" onclick="copyDiscountCode(event)">
+            <a class="link-card" href="https://yvolve.shop/?bg_ref=cnbZIhbZxH" target="_blank" rel="noopener noreferrer"
+               data-code="FullHD" onclick="copyDiscountCode(event)">
                 <img src="img/Logos/Evolve.png" alt="Evolve" class="icon">
                 <div class="card-text">
                     <strong>Yvolve</strong>
@@ -272,7 +344,9 @@
                 </div>
             </a>
 
-            <a class="link-card" href="https://frugends.com/?srsltid=AfmBOoqjyBjbK5TWs0tAS4ELgV93XqTXzl84OChVKd93OVkjeWfH8wFT" target="_blank"
+            <a class="link-card"
+               href="https://frugends.com/?srsltid=AfmBOoqjyBjbK5TWs0tAS4ELgV93XqTXzl84OChVKd93OVkjeWfH8wFT"
+               target="_blank"
                rel="noopener noreferrer" data-code="FullHD" onclick="copyDiscountCode(event)">
                 <img src="img/Logos/Frugends.png" alt="Frugends" class="icon">
                 <div class="card-text">
@@ -284,17 +358,19 @@
     </section>
 
     <footer class="footer">
-        <p>© <span id="year"></span> FullHD Media <a href="impressum.html">Impressum</a> | <a href="datenschutz.html">Datenschutz</a></p>
+        <p>© <span id="year"></span> FullHD Media <a href="impressum.html">Impressum</a> | <a href="datenschutz.html">Datenschutz</a>
+        </p>
     </footer>
 </main>
 
 <script src="js/mobile.js"></script>
 
- <!-- Cookie Consent Banner -->
- <div id="cookie-banner" class="cookie-banner">
+<!-- Cookie Consent Banner -->
+<div id="cookie-banner" class="cookie-banner">
     <div class="cookie-banner-content">
         <div class="cookie-banner-text">
-            Wir verwenden Cookies, um anonymisierte Seitenaufrufe zu erfassen und unsere Website zu verbessern. Weitere Informationen finden Sie in unserer <a href="datenschutz.html">Datenschutzerklärung</a>.
+            Wir verwenden Cookies, um anonymisierte Seitenaufrufe zu erfassen und unsere Website zu verbessern. Weitere
+            Informationen finden Sie in unserer <a href="datenschutz.html">Datenschutzerklärung</a>.
         </div>
         <div class="cookie-banner-buttons">
             <button id="cookie-accept" class="btn btn-accept">Akzeptieren</button>
