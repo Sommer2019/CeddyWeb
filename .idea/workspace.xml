@@ -4,123 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00c35883-868f-4c61-99bc-64796ad3d22a" name="Changes" comment="Migrate website to Vite + React SPA architecture with TypeScript support">
+    <list default="true" id="00c35883-868f-4c61-99bc-64796ad3d22a" name="Changes" comment="Refactor project structure and add new files for voting and cookie consent features">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CNAME" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DEPLOYMENT_ANLEITUNG.md" beforeDir="false" afterPath="$PROJECT_DIR$/public/doku/DEPLOYMENT_ANLEITUNG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MIGRATION.md" beforeDir="false" afterPath="$PROJECT_DIR$/public/doku/MIGRATION.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/actuator/data.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/actuator/data.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio/1080.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio/1920.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio/CenterShock.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio/FIRE.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio/Fliege1.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio/Fliege2.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio/Fliege3.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio/MajorTom.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio/Sandwich.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio/knock.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/audio/scream.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/clip-voting.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/cookie-banner.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/mobile.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/ob-square-images.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/styles.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/API_KEY_SETUP.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/BART_CLICKER_IMPLEMENTATION.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/BART_CLICKER_README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/BART_CLICKER_SUPABASE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/CDJ_IMPLEMENTATION_SUMMARY.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/CDJ_VOTING_FEATURE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/DATABASE_MIGRATION.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/FINAL_SUMMARY.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/IMPLEMENTATION_COMPLETE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/IMPLEMENTATION_SUMMARY.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/MIGRATION.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/PAGEVIEW_TRACKING_SETUP.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/SECOND_VOTING_FEATURE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/SETUP_GUIDE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/STREAM_STATUS_FEATURE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/STREAM_STATUS_SECURITY_SUMMARY.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/SUPABASE_CONFIG_SETUP.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/SUPABASE_SETUP.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/USERNAME_PERSISTENCE_IMPLEMENTATION.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/USERNAME_PERSISTENCE_SECURITY_SUMMARY.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/USERNAME_UNIQUENESS_IP_CHANGE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/USERNAME_UNIQUENESS_SECURITY_SUMMARY.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/bart_clicker_add_offline_upgrades_migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/bart_clicker_add_username_migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/bart_clicker_leaderboard_table.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/bart_clicker_make_username_unique_migration.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/bart_clicker_table.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doku/supabase-schema.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Logos/Evolve.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Logos/Frugends.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Logos/HDProfile.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Logos/MinecraftRessourcePack.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Logos/NClip.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Logos/OB.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Logos/Puzzle.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Logos/StreamElements.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Logos/StreamPlan.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Logos/cdm.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Logos/discord.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Logos/email.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Logos/instagram.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Logos/tiktok.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Logos/youtube.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/OB/Banner.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/OB/HDKlo.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/OB/KatzeBart.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/OB/ZungenBart.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/OB/bartigerBart.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/OB/festlicherBart.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/OB/frostigerBart.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/OB/hübscherBart.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/OB/stolzerBart.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/OnlyBart.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/home.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/logo128.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/logo512.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/clip-des-jahres.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/clip-voting.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/cookie-consent.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/mobile.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/page-view-tracker.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/stream-status.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/supabase-client.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/manifest.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ob.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CookieBanner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CookieBanner.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/BartClicker.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/BartClicker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/BartClicker.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/ClipDesJahres.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/ClipDesJahres.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ClipDesJahres.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/ClipDesMonats.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/ClipDesMonats.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ClipDesMonats.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Datenschutz.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Datenschutz.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Datenschutz.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Home.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Impressum.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Impressum.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Impressum.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Offline.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Offline.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Offline.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/StreamElements.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/StreamElements.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/StreamElements.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/StreamPlan.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/StreamPlan.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/StreamPlan.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sw.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/votingData/clips.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/votingData/config.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/votingData/votes.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/mobile.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -185,6 +73,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "feat/react",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/Daten/Coding/HD/img",
@@ -245,15 +134,7 @@
       <workItem from="1769359142826" duration="7675000" />
       <workItem from="1769711164075" duration="149000" />
       <workItem from="1769711429465" duration="2701000" />
-      <workItem from="1769795506517" duration="5678000" />
-    </task>
-    <task id="LOCAL-00025" summary="Enhance voting system: add no results message, embed button, and improve error handling">
-      <option name="closed" value="true" />
-      <created>1768576369592</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1768576369592</updated>
+      <workItem from="1769795506517" duration="5942000" />
     </task>
     <task id="LOCAL-00026" summary="Enhance voting system: add no results message, embed button, and improve error handling">
       <option name="closed" value="true" />
@@ -639,7 +520,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769801696857</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="Refactor project structure and add new files for voting and cookie consent features">
+      <option name="closed" value="true" />
+      <created>1769802440214</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1769802440214</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -672,7 +561,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update download links for resource pack to point to the latest release on GitHub" />
     <MESSAGE value="Enhance donation page: add audio triggers and modal for donation interactions" />
     <MESSAGE value="Fix audio file path for Taschengeld donation trigger" />
     <MESSAGE value="Fix audio file path case sensitivity for Taschengeld donation trigger" />
@@ -697,7 +585,8 @@
     <MESSAGE value="Enhance mobile experience by improving Twitch embed handling and responsiveness" />
     <MESSAGE value="Enhance beard SVG rendering with dynamic hair and outline elements for improved visual depth" />
     <MESSAGE value="Migrate website to Vite + React SPA architecture with TypeScript support" />
-    <option name="LAST_COMMIT_MESSAGE" value="Migrate website to Vite + React SPA architecture with TypeScript support" />
+    <MESSAGE value="Refactor project structure and add new files for voting and cookie consent features" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor project structure and add new files for voting and cookie consent features" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

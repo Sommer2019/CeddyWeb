@@ -379,10 +379,6 @@ export default function Home(): JSX.Element {
             </a>
           </div>
         </section>
-
-        <footer className="footer">
-          <p>© {new Date().getFullYear()} FullHD Media <Link to="/impressum">Impressum</Link> | <Link to="/datenschutz">Datenschutz</Link></p>
-        </footer>
       </main>
 
       {/* Download-Modal */}

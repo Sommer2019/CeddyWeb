@@ -571,6 +571,66 @@ body {
     }
 }
 
+@media (max-width: 720px) {
+    .container {
+        padding: 8px 12px;
+    }
+
+    .profile-box {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        /* auf mobile auch margin in profile-box ? */
+    }
+
+    .profile-img {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 8px;
+    }
+    .profile-info h1 {
+        font-size: 24px;
+    }
+
+    /* Links: 3 Spalten auf Mobile */
+    .link-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .link-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 8px;
+        aspect-ratio: 1 / 1;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .link-card .icon {
+        width: 36px;
+        height: 36px;
+        margin-bottom: 4px;
+    }
+
+    .card-text strong {
+        font-size: 0.8rem;
+        /* reduce line-height to fit text better */
+        line-height: 1.1;
+    }
+
+    .card-text span {
+        display: none;
+    }
+
+    /* Keep streamplan and streamelements spanning full rows or specific behavior if needed, otherwise 3 columns grid handles it */
+
+
+    /* Clips and Games Grids: 3 columns on mobile */
+    .clips-grid, .games-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
 @media (max-width: 700px) {
     .link-grid {
         grid-template-columns:repeat(2, 1fr)

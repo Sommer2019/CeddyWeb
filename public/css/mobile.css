@@ -42,6 +42,9 @@
     body.mobile-live #live-section { display: block; }
     body.mobile-links #links-section { display: block; }
     body.mobile-links #live-section { display: none; }
+    /* hide links and live section when mobile-games is active */
+    body.mobile-games #links-section { display: none; }
+    body.mobile-games #live-section { display: none; }
     /* Ensure donation embed sits under the stream/chat and is visible only in live mode */
     body.mobile-live #donation-embed { display: block !important; }
     /* make embed area reasonably sized on small screens */
@@ -71,8 +74,57 @@
     /* When in mobile 'links' view, show the clips/partner blocks */
     body.mobile-links .clips-section { display: block !important; }
 
+    body.mobile-games #links-section { display: none; }
+    body.mobile-games #live-section { display: none; }
+    body.mobile-games .clips-section { display: none !important; }
+
     /* Ensure games-section (which uses .clips-section) is shown when user selects Games */
     body.mobile-games #games-section { display: block !important; }
+
+    /* For game-related, clips, and partner sections: 3 columns on mobile */
+    body.mobile-links .clips-grid,
+    body.mobile-links .link-grid,
+    body.mobile-games .clips-grid,
+    body.mobile-games .games-grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 8px !important;
+    }
+
+    /* Style the cards to be compact squares on mobile */
+    body.mobile-links .link-card,
+    body.mobile-games .link-card {
+        flex-direction: column !important;
+        text-align: center !important;
+        padding: 6px !important;
+        aspect-ratio: 1 / 1 !important;
+        justify-content: center !important;
+        align-items: center !important;
+        min-height: auto !important;
+    }
+
+    /* Adjust icon size for 3-column layout */
+    body.mobile-links .link-card .icon,
+    body.mobile-games .link-card .icon {
+        width: 32px !important;
+        height: 32px !important;
+        margin-bottom: 4px !important;
+        margin-right: 0 !important;
+    }
+
+    /* Adjust text sizing */
+    body.mobile-links .link-card .card-text strong,
+    body.mobile-games .link-card .card-text strong {
+        font-size: 0.75rem !important;
+        line-height: 1.1 !important;
+        word-break: break-word !important;
+    }
+
+    /* Hide descriptions to save space */
+    body.mobile-links .link-card .card-text span,
+    body.mobile-games .link-card .card-text span {
+        display: none !important;
+    }
 
     /* On mobile show combined and chat fullscreen controls */
     .fs-combined, .fs-chat { display: inline-flex; }
