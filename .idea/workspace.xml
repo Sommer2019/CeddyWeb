@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00c35883-868f-4c61-99bc-64796ad3d22a" name="Changes" comment="Enhance mobile experience by improving Twitch embed handling and responsiveness">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/bartclicker.html" beforeDir="false" afterPath="$PROJECT_DIR$/games/bartclicker.html" afterDir="false" />
+    <list default="true" id="00c35883-868f-4c61-99bc-64796ad3d22a" name="Changes" comment="Hide links and live sections in mobile view when games are active">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/deploy-page.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy-page.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/deploy-pages.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy-pages.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +36,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feat/db" />
+        <entry key="$PROJECT_DIR$" value="masterpushed" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -64,26 +64,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;masterpushed&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Daten/Coding/HD/img&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;D:/Daten/Coding/HD/html/src/main/java/org/example/Main.java&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "masterpushed",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Daten/Coding/HD/img",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.dev.executor": "Run",
+    "onboarding.tips.debug.path": "D:/Daten/Coding/HD/html/src/main/java/org/example/Main.java",
+    "ts.external.directory.path": "D:\\Daten\\Coding\\HD\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Daten\Coding\HD\img" />
@@ -91,12 +93,29 @@
       <recent name="D:\Daten\Coding\HD\html" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Daten\Coding\HD\public\doku" />
       <recent name="D:\Daten\Coding\HD\img\Logos" />
       <recent name="D:\Daten\Coding\HD\img\OB" />
       <recent name="D:\Daten\Coding\HD\img" />
       <recent name="D:\Daten\Coding\HD" />
-      <recent name="D:\Daten\Coding\HD\doku" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.dev" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -131,79 +150,7 @@
       <workItem from="1769359142826" duration="7675000" />
       <workItem from="1769711164075" duration="149000" />
       <workItem from="1769711429465" duration="2701000" />
-      <workItem from="1769795506517" duration="1515000" />
-    </task>
-    <task id="LOCAL-00022" summary="Enhance voting system: add no results message, embed button, and improve error handling">
-      <option name="closed" value="true" />
-      <created>1768575969855</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1768575969855</updated>
-    </task>
-    <task id="LOCAL-00023" summary="Enhance voting system: add no results message, embed button, and improve error handling">
-      <option name="closed" value="true" />
-      <created>1768576185204</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1768576185204</updated>
-    </task>
-    <task id="LOCAL-00024" summary="Enhance voting system: add no results message, embed button, and improve error handling">
-      <option name="closed" value="true" />
-      <created>1768576320405</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1768576320405</updated>
-    </task>
-    <task id="LOCAL-00025" summary="Enhance voting system: add no results message, embed button, and improve error handling">
-      <option name="closed" value="true" />
-      <created>1768576369592</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1768576369592</updated>
-    </task>
-    <task id="LOCAL-00026" summary="Enhance voting system: add no results message, embed button, and improve error handling">
-      <option name="closed" value="true" />
-      <created>1768576746909</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1768576746909</updated>
-    </task>
-    <task id="LOCAL-00027" summary="Enhance voting system: add no results message, embed button, and improve error handling">
-      <option name="closed" value="true" />
-      <created>1768576979907</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1768576979907</updated>
-    </task>
-    <task id="LOCAL-00028" summary="Enhance voting system: add no results message, embed button, and improve error handling">
-      <option name="closed" value="true" />
-      <created>1768577103917</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1768577103917</updated>
-    </task>
-    <task id="LOCAL-00029" summary="Enhance voting system: add no results message, embed button, and improve error handling">
-      <option name="closed" value="true" />
-      <created>1768577226060</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1768577226060</updated>
-    </task>
-    <task id="LOCAL-00030" summary="Enhance voting system: add no results message, embed button, and improve error handling">
-      <option name="closed" value="true" />
-      <created>1768577363873</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1768577363873</updated>
+      <workItem from="1769795506517" duration="5942000" />
     </task>
     <task id="LOCAL-00031" summary="Enhance voting system: add no results message, embed button, and improve error handling">
       <option name="closed" value="true" />
@@ -525,11 +472,98 @@
       <option name="project" value="LOCAL" />
       <updated>1769713526573</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="Enhance beard SVG rendering with dynamic hair and outline elements for improved visual depth">
+      <option name="closed" value="true" />
+      <created>1769797075292</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1769797075292</updated>
+    </task>
+    <task id="LOCAL-00072" summary="Migrate website to Vite + React SPA architecture with TypeScript support">
+      <option name="closed" value="true" />
+      <created>1769798195348</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1769798195348</updated>
+    </task>
+    <task id="LOCAL-00073" summary="Add OnlyBart pages and enhance navigation structure">
+      <option name="closed" value="true" />
+      <created>1769801696857</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1769801696857</updated>
+    </task>
+    <task id="LOCAL-00074" summary="Refactor project structure and add new files for voting and cookie consent features">
+      <option name="closed" value="true" />
+      <created>1769802440214</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1769802440214</updated>
+    </task>
+    <task id="LOCAL-00075" summary="Hide links and live sections in mobile view when games are active">
+      <option name="closed" value="true" />
+      <created>1769803902078</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1769803902078</updated>
+    </task>
+    <task id="LOCAL-00076" summary="Hide links and live sections in mobile view when games are active">
+      <option name="closed" value="true" />
+      <created>1769804635031</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1769804635031</updated>
+    </task>
+    <task id="LOCAL-00077" summary="Hide links and live sections in mobile view when games are active">
+      <option name="closed" value="true" />
+      <created>1769804691828</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1769804691828</updated>
+    </task>
+    <task id="LOCAL-00078" summary="Hide links and live sections in mobile view when games are active">
+      <option name="closed" value="true" />
+      <created>1769805337906</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1769805337906</updated>
+    </task>
+    <task id="LOCAL-00079" summary="Hide links and live sections in mobile view when games are active">
+      <option name="closed" value="true" />
+      <created>1769805482304</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1769805482304</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/src/main.jsx" />
+        <option value="$PROJECT_DIR$/src/App.jsx" />
+        <option value="$PROJECT_DIR$/src/pages/Home.jsx" />
+        <option value="$PROJECT_DIR$/src/pages/BartClicker.jsx" />
+        <option value="$PROJECT_DIR$/src/pages/ClipDesMonats.jsx" />
+        <option value="$PROJECT_DIR$/src/pages/StreamPlan.jsx" />
+        <option value="$PROJECT_DIR$/src/pages/StreamElements.jsx" />
+        <option value="$PROJECT_DIR$/src/pages/Impressum.jsx" />
+        <option value="$PROJECT_DIR$/src/pages/Datenschutz.jsx" />
+        <option value="$PROJECT_DIR$/src/pages/Offline.jsx" />
+        <option value="$PROJECT_DIR$/src/pages/ClipDesJahres.jsx" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -543,10 +577,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add initial voting page and related assets" />
-    <MESSAGE value="Enhance voting system: add no results message, embed button, and improve error handling" />
-    <MESSAGE value="Update download links for resource pack to point to the latest release on GitHub" />
-    <MESSAGE value="Enhance donation page: add audio triggers and modal for donation interactions" />
     <MESSAGE value="Fix audio file path for Taschengeld donation trigger" />
     <MESSAGE value="Fix audio file path case sensitivity for Taschengeld donation trigger" />
     <MESSAGE value="Update 404.html to redirect to the homepage on error" />
@@ -568,7 +598,11 @@
     <MESSAGE value="Refactor image paths to use centralized Logos directory for better organization" />
     <MESSAGE value="Enhance mobile experience by adding games section and improving visibility controls" />
     <MESSAGE value="Enhance mobile experience by improving Twitch embed handling and responsiveness" />
-    <option name="LAST_COMMIT_MESSAGE" value="Enhance mobile experience by improving Twitch embed handling and responsiveness" />
+    <MESSAGE value="Enhance beard SVG rendering with dynamic hair and outline elements for improved visual depth" />
+    <MESSAGE value="Migrate website to Vite + React SPA architecture with TypeScript support" />
+    <MESSAGE value="Refactor project structure and add new files for voting and cookie consent features" />
+    <MESSAGE value="Hide links and live sections in mobile view when games are active" />
+    <option name="LAST_COMMIT_MESSAGE" value="Hide links and live sections in mobile view when games are active" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
