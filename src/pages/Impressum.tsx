@@ -1,11 +1,34 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Impressum(): JSX.Element {
   return (
-    <div style={{padding: '1rem'}}>
-      <h1>Impressum</h1>
-      <iframe src="/impressum.html" title="Impressum" style={{width: '100%', height: '80vh', border: 'none'}} />
-    </div>
+    <main className="container">
+      <div>
+        <div className="embed-card fullwidth">
+          <h1 style={{ color: 'var(--accent)', marginTop: 0 }}>Impressum</h1>
+          <p>
+            <strong>Stefan Slapnik</strong>
+            <br />
+            FullHD Media
+            <br />
+            Kolpingstraße 9
+            <br />
+            95615 Marktredwitz
+          </p>
+          <p>
+            Kontakt:{' '}
+            <a href="mailto:Admin@HD1920x1080.de?subject=Anfrage%20Impressum">
+              Admin@HD1920x1080.de
+            </a>
+          </p>
+          <p style={{ marginTop: 18 }}>
+            <Link to="/" className="btn">
+              ← Zurück
+            </Link>
+          </p>
+        </div>
+      </div>
+    </main>
   )
 }
-

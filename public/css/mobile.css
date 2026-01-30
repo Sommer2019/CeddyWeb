@@ -1,0 +1,110 @@
+/* Mobile-specific styles previously inline in index.html */
+
+/* Mobile toggle UI - hidden on wide screens */
+.mobile-toggle { display: none; gap: .5rem; margin: .75rem 0; }
+.mobile-toggle button { flex: 1; padding: .5rem 0.75rem; border-radius: 6px; border: 1px solid rgba(0,0,0,0.08); background: #fff; }
+.mobile-toggle button.active { background: #111; color: #fff; }
+
+/* Donation embed placeholder styling */
+#donation-embed { margin-top: 1rem; display: none !important; }
+#donation-embed .embed-card { padding: .75rem; }
+
+/* Donation tiles: show only price initially */
+#donation-embed .triggers-list { display:flex; flex-wrap:wrap; gap:10px; padding:0; margin:0; list-style:none; justify-content:center; align-items:center; }
+#donation-embed .triggers-list li { display:flex; flex-direction:column; align-items:center; justify-content:center; width:84px; height:84px; min-width:84px; border-radius:10px; background:#000; box-shadow:0 1px 4px rgba(0,0,0,0.2); padding:8px; cursor:pointer; position:relative; text-align:center; overflow:hidden; }
+#donation-embed .triggers-list li .price-badge { display:block; font-weight:700; font-size:1rem; color:#fff; }
+#donation-embed .triggers-list li .trigger-desc { display:none; font-size:0.8rem; margin-top:6px; color:#ddd; }
+#donation-embed .triggers-list li .trigger-desc.small { font-size:0.75rem; }
+/* expanded state shows description and expands tile */
+#donation-embed .triggers-list li.expanded { min-width:200px; width:auto; height:auto; padding:12px; align-items:flex-start; }
+#donation-embed .triggers-list li.expanded .trigger-desc { display:block; }
+#donation-embed .triggers-list li.expanded .price-badge { font-size:1.1rem; }
+
+/* Fullscreen control buttons */
+.embed-controls { position: absolute; top: 10px; right: 12px; z-index: 999; }
+.fs-btn { background: rgba(0,0,0,0.45); color: #fff; border: 0; width:34px; height:34px; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; font-size:14px; margin-left:6px; cursor:pointer }
+.fs-btn:hover { background: rgba(255,255,255,0.06); }
+/* small overlay buttons inside embed areas */
+.responsive-embed .fs-btn { position: absolute; top:8px; right:8px; z-index: 999; }
+.responsive-embed { position: relative; }
+.responsive-embed.player .fs-player { right: 8px; }
+.responsive-embed.chat .fs-chat { right: 8px; }
+
+/* Default control visibility: show player fullscreen; hide combined/chat on desktop by default */
+.fs-combined, .fs-chat { display: none; }
+
+@media (max-width: 720px) {
+    .mobile-toggle { display: flex; }
+    /* Default on mobile: show links, hide live content */
+    #live-section { display: none; }
+    /* When body has mobile-live class, show live and donation, hide links */
+    body.mobile-live #links-section { display: none; }
+    body.mobile-live #live-section { display: block; }
+    body.mobile-links #links-section { display: block; }
+    body.mobile-links #live-section { display: none; }
+    /* Ensure donation embed sits under the stream/chat and is visible only in live mode */
+    body.mobile-live #donation-embed { display: block !important; }
+    /* make embed area reasonably sized on small screens */
+    .responsive-embed-row { min-height: 220px; }
+
+    /* On small screens stack player and chat vertically for better UX */
+    .responsive-embed-row { display:flex; flex-direction:column; }
+    /* allow explicit heights on mobile by disabling desktop aspect-ratio */
+    .responsive-embed { aspect-ratio: auto !important; min-height: 0 !important; }
+    /* player: allow it to grow; chat: fixed height for consistent visibility */
+    .responsive-embed.player { min-height: 260px; height: auto; flex: 1 1 auto; display: block !important; }
+    .responsive-embed.player iframe { min-height: 260px; }
+    /* Erhöhte Chat-Höhe auf Mobilgeräten */
+    .responsive-embed.chat { height: 380px; min-height: 380px; flex: 0 0 auto; max-width: none; display: block !important; }
+    .responsive-embed.chat iframe { height: 100%; }
+
+    /* Force visibility for live mode on mobile in case inline styles hide it */
+    body.mobile-live .responsive-embed.chat { display: block !important; }
+    body.mobile-live .responsive-embed.player { display: block !important; }
+    /* also ensure the live section itself is visible when mobile-live */
+    body.mobile-live #live-section { display: block !important; }
+
+    /* Hide Clips & Partner sections on mobile by default; show them when user selects Links */
+    .clips-section { display: none !important; }
+    /* Hide Games section by default on mobile; shown only for mobile-games */
+    .games-section { display: none !important; }
+    /* When in mobile 'links' view, show the clips/partner blocks */
+    body.mobile-links .clips-section { display: block !important; }
+
+    /* Ensure games-section (which uses .clips-section) is shown when user selects Games */
+    body.mobile-games #games-section { display: block !important; }
+
+    /* On mobile show combined and chat fullscreen controls */
+    .fs-combined, .fs-chat { display: inline-flex; }
+    .embed-controls { right: 8px; top: 8px; }
+}
+
+/* Stream offline message mobile styling */
+@media (max-width: 720px) {
+    .stream-offline-message {
+        padding: 1rem;
+        min-height: 260px;
+    }
+    
+    .offline-icon {
+        font-size: 3rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .stream-offline-message h2 {
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+    }
+    
+    .next-stream-info {
+        padding: 1rem;
+    }
+    
+    .stream-title {
+        font-size: 1.1rem;
+    }
+    
+    .stream-time {
+        font-size: 0.95rem;
+    }
+}

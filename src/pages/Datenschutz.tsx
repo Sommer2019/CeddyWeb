@@ -1,11 +1,97 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Datenschutz(): JSX.Element {
   return (
-    <div style={{padding: '1rem'}}>
-      <h1>Datenschutz</h1>
-      <iframe src="/datenschutz.html" title="Datenschutz" style={{width: '100%', height: '80vh', border: 'none'}} />
-    </div>
+    <main className="container">
+      <div>
+        <div className="embed-card fullwidth">
+          <h1 style={{ color: 'var(--accent)', marginTop: 0 }}>
+            Datenschutzerklärung
+          </h1>
+
+          <h2>Verantwortlicher</h2>
+          <p>
+            <strong>Stefan Slapnik</strong>
+            <br />
+            FullHD Media
+            <br />
+            Kolpingstraße 9
+            <br />
+            95615 Marktredwitz
+          </p>
+          <p>
+            Kontakt:{' '}
+            <a href="mailto:Admin@HD1920x1080.de?subject=Anfrage%20Datenschutz">
+              Admin@HD1920x1080.de
+            </a>
+          </p>
+
+          <h2>Teilnahme an Abstimmungen (Twitch-Voting)</h2>
+          <p>
+            Wenn Sie an einer Abstimmung auf unserer Website teilnehmen
+            (&quot;Voten&quot;), verarbeiten wir Daten, um die Integrität der
+            Abstimmung sicherzustellen.
+          </p>
+          <h3>Verarbeitung bei Interaktion</h3>
+          <p>
+            Erst beim Klick auf den Abstimmungs-Button wird Ihre IP-Adresse
+            erhoben, umgehend mit einem &quot;Salt&quot; (einem geheimen
+            Zusatzschlüssel) versehen und als kryptografischer Hash gespeichert.
+          </p>
+          <h3>Zweck</h3>
+          <p>
+            Verhinderung von Mehrfachabstimmungen (Spam-/Manipulationsschutz).
+          </p>
+          <h3>Speicherdauer</h3>
+          <p>
+            Der Hash wird nach Abschluss der Abstimmungsrunde (standardmäßig
+            nach maximal 10 Tagen) automatisch aus unserer Datenbank gelöscht.
+          </p>
+          <h3>Rechtsgrundlage</h3>
+          <p>
+            Art. 6 Abs. 1 lit. f DSGVO (Berechtigtes Interesse an einer
+            manipulationsfreien Abstimmung).
+          </p>
+
+          <h2>Seitenaufrufe und Analyse</h2>
+          <p>
+            Wenn Sie Ihre Einwilligung durch den Cookie-Banner erteilen,
+            erfassen wir anonymisierte Seitenaufrufe, um die Nutzung unserer
+            Website zu verstehen und zu verbessern.
+          </p>
+          <h3>Verarbeitung</h3>
+          <p>
+            Bei jedem Seitenaufruf wird der Seitenpfad, Zeitstempel und ggf.
+            Weiterleitungsinformationen gespeichert. Es werden keine
+            personenbezogenen Daten wie IP-Adressen gespeichert.
+          </p>
+          <h3>Zweck</h3>
+          <p>Analyse der Seitennutzung zur Verbesserung des Angebots.</p>
+          <h3>Rechtsgrundlage</h3>
+          <p>Art. 6 Abs. 1 lit. a DSGVO (Einwilligung).</p>
+          <h3>Widerruf</h3>
+          <p>
+            Sie können Ihre Einwilligung jederzeit widerrufen, indem Sie die
+            Cookies in Ihrem Browser löschen oder unsere Website erneut besuchen
+            und im Cookie-Banner ablehnen.
+          </p>
+
+          <h2>Ihre Rechte</h2>
+          <p>
+            Sie haben das Recht auf Auskunft, Berichtigung, Löschung,
+            Einschränkung der Verarbeitung, Datenübertragbarkeit und
+            Widerspruch. Wenden Sie sich dazu bitte an die oben angegebene
+            Kontaktadresse.
+          </p>
+
+          <p style={{ marginTop: 18 }}>
+            <Link to="/" className="btn">
+              ← Zurück
+            </Link>
+          </p>
+        </div>
+      </div>
+    </main>
   )
 }
-
