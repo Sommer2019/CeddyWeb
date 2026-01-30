@@ -1357,9 +1357,13 @@
             rebirthCount -= OFFLINE_UPGRADE_COST;
             offlineEarningUpgrades++;
             
+            // Recalculate rebirth multiplier immediately after spending rebirths
+            rebirthMultiplier = Math.pow(2, rebirthCount);
+            
             // Update UI
             updateRebirthUI();
             updateOfflineUpgradeUI();
+            recalcCps(); // Update CPS and click power with new multiplier
             saveGameState();
             
             // Show notification
