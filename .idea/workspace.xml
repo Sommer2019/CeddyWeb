@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00c35883-868f-4c61-99bc-64796ad3d22a" name="Changes" comment="Enhance mobile experience by adding games section and improving visibility controls">
-      <change beforePath="$PROJECT_DIR$/js/mobile.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/mobile.js" afterDir="false" />
+    <list default="true" id="00c35883-868f-4c61-99bc-64796ad3d22a" name="Changes" comment="Enhance mobile experience by improving Twitch embed handling and responsiveness">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/games/bartclicker.html" beforeDir="false" afterPath="$PROJECT_DIR$/games/bartclicker.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,15 +130,8 @@
       <workItem from="1769357147214" duration="1401000" />
       <workItem from="1769359142826" duration="7675000" />
       <workItem from="1769711164075" duration="149000" />
-      <workItem from="1769711429465" duration="1965000" />
-    </task>
-    <task id="LOCAL-00021" summary="Enhance voting system: add no results message, embed button, and improve error handling">
-      <option name="closed" value="true" />
-      <created>1768575688582</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1768575688582</updated>
+      <workItem from="1769711429465" duration="2701000" />
+      <workItem from="1769795506517" duration="1515000" />
     </task>
     <task id="LOCAL-00022" summary="Enhance voting system: add no results message, embed button, and improve error handling">
       <option name="closed" value="true" />
@@ -523,7 +517,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769713319442</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="Enhance mobile experience by improving Twitch embed handling and responsiveness">
+      <option name="closed" value="true" />
+      <created>1769713526572</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1769713526573</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -541,7 +543,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update meta title in multiple HTML files to reflect branding change" />
     <MESSAGE value="Add initial voting page and related assets" />
     <MESSAGE value="Enhance voting system: add no results message, embed button, and improve error handling" />
     <MESSAGE value="Update download links for resource pack to point to the latest release on GitHub" />
@@ -566,7 +567,8 @@
     <MESSAGE value="Enhance mobile experience by improving fullscreen functionality and layout for donation embeds" />
     <MESSAGE value="Refactor image paths to use centralized Logos directory for better organization" />
     <MESSAGE value="Enhance mobile experience by adding games section and improving visibility controls" />
-    <option name="LAST_COMMIT_MESSAGE" value="Enhance mobile experience by adding games section and improving visibility controls" />
+    <MESSAGE value="Enhance mobile experience by improving Twitch embed handling and responsiveness" />
+    <option name="LAST_COMMIT_MESSAGE" value="Enhance mobile experience by improving Twitch embed handling and responsiveness" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -579,7 +581,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/js/mobile.js</url>
           <line>49</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>

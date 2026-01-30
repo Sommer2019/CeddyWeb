@@ -609,7 +609,7 @@
             <svg id="avatar-svg" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
                 <!-- Kopf -->
                 <rect x="30" y="30" width="40" height="35" rx="6" fill="#d4a373" />
-                
+
                 <!-- CAP (SNAPBACK) -->
                 <g id="cap">
                     <!-- Schirm -->
@@ -636,8 +636,17 @@
                 <circle cx="61" cy="45" r="1" fill="#000" />
 
                 <!-- DYNAMISCHER BART -->
-                <path id="beard-path" d="M30 60 Q 50 60 70 60 L 70 65 Q 50 65 30 65 Z" fill="#3d2b1f" />
-                
+                <g id="beard-group">
+                    <!-- Basis-Beard (dynamisch gesetzt) - fill-rule erlaubt inneres "Mundloch" als Subpath -->
+                    <path id="beard-path" d="M30 60 Q 50 60 70 60 L 70 65 Q 50 65 30 65 Z" fill="#3d2b1f" fill-rule="evenodd" />
+
+                    <!-- Haarstruktur: stroke-only Kopie des Pfades; wird in updateUI synchronisiert -->
+                    <path id="beard-hair" d="M30 60 Q 50 60 70 60 L 70 65 Q 50 65 30 65 Z" fill="none" stroke="#22160f" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 4" opacity="0.85" pointer-events="none" />
+
+                    <!-- Subtiler Outline für Tiefe -->
+                    <path id="beard-outline" d="M30 60 Q 50 60 70 60 L 70 65 Q 50 65 30 65 Z" fill="none" stroke="#000" stroke-width="0.6" opacity="0.12" pointer-events="none" />
+                </g>
+
                 <!-- Event decorations (hidden by default) -->
                 <g id="beard-clover" style="display: none;">
                     <text x="50" y="70" font-size="12" fill="#00FF00" text-anchor="middle" font-family="Arial">🍀</text>
@@ -1518,19 +1527,30 @@
             }
             
             beard.setAttribute('fill', beardColor);
-            
-            // Update clover decoration
-            if (clover) {
-                clover.style.display = showClover ? 'block' : 'none';
-                // Position clover in the middle of the beard
-                const cloverY = endY - 5;
-                const cloverText = clover.querySelector('text');
-                if (cloverText) {
-                    cloverText.setAttribute('y', cloverY);
-                }
+            // Haarstruktur-Farbe anpassen (leicht dunkler/selbstähnlich zur Füllfarbe)
+            const beardHair = document.getElementById('beard-hair');
+            if (beardHair) {
+                beardHair.setAttribute('stroke', beardColor);
+                beardHair.setAttribute('stroke-opacity', '0.75');
             }
-        }
-        
+            const beardOutline = document.getElementById('beard-outline');
+            if (beardOutline) {
+                beardOutline.setAttribute('stroke', '#000');
+                beardOutline.setAttribute('opacity', '0.12');
+            }
+
+             // Update clover decoration
+             if (clover) {
+                 clover.style.display = showClover ? 'block' : 'none';
+                 // Position clover in the middle of the beard
+                 const cloverY = endY - 5;
+                 const cloverText = clover.querySelector('text');
+                 if (cloverText) {
+                     cloverText.setAttribute('y', cloverY);
+                 }
+             }
+         }
+
         function doRebirth() {
             const rebirthCost = calculateRebirthCost();
             
@@ -1796,17 +1816,34 @@
             const startY = 60;
             const endY = startY + growth;
             
-            const pathData = `
-                M 30 ${startY} 
-                Q 50 ${startY + 3} 70 ${startY} 
-                L 70 ${endY} 
-                Q 50 ${endY + 12 + growth/10} 30 ${endY} 
-                Z
-            `;
-            beard.setAttribute('d', pathData);
+            // Mundloch bleibt fix im Kopfbereich (wächst/nach unten nicht mit dem Bart mit)
+            const mouthW = 12; // feste Breite des Mundlochs
+            const mouthH = 4;  // feste Höhe des Mundlochs
+            const mouthY = 62; // feste Y-Position im Kopfbereich (passt zur Kopfform)
+            const mouthCX = 50; // Mundzentrum X (mittig auf dem Kopf)
 
-            // Update beard color and decorations based on active event
-            updateBeardAppearance(endY);
+             const pathData = `
+                 M 30 ${startY}
+                 Q 50 ${startY + 3} 70 ${startY}
+                 L 70 ${endY}
+                 Q 50 ${endY + 12 + growth/10} 30 ${endY}
+                 Z
+
+                M ${mouthCX - mouthW/2} ${mouthY}
+                a ${mouthW/2} ${mouthH/2} 0 1 0 ${mouthW} 0
+                a ${mouthW/2} ${mouthH/2} 0 1 0 -${mouthW} 0
+                Z
+             `;
+
+             beard.setAttribute('d', pathData);
+            // Synchronisiere Haar- und Outline-Pfade mit der Basisform, damit Textur und Kontur mitwachsen
+            const beardHair = document.getElementById('beard-hair');
+            if (beardHair) beardHair.setAttribute('d', pathData);
+            const beardOutline = document.getElementById('beard-outline');
+            if (beardOutline) beardOutline.setAttribute('d', pathData);
+
+             // Update beard color and decorations based on active event
+             updateBeardAppearance(endY);
         }
 
         setInterval(() => {
