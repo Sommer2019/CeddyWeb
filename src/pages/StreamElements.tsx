@@ -171,11 +171,7 @@ export default function StreamElements(): JSX.Element {
               <span>Donation</span>
             </div>
           </a>
-          <p style={{ marginTop: 18 }}>
-            <Link to="/" className="btn">
-              ← Zurück
-            </Link>
-          </p>
+
         </div>
       </div>
 

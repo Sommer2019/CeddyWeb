@@ -508,7 +508,6 @@ export default function BartClicker(): JSX.Element {
         </div>
       )}
       <button type="button" className="bart-leaderboard-btn" onClick={openLeaderboard}>🏆</button>
-      <Link to="/" className="bart-home-btn">⤴ Zur Startseite</Link>
 
       {particles.map(({ id, x, y, value }) => (
         <div

@@ -19,8 +19,7 @@ import Footer from './components/Footer.tsx'
 import CookieBanner from './components/CookieBanner.tsx'
 
 export default function App() {
-  const { pathname } = useLocation()
-  const isHome = pathname === '/'
+  useLocation()
 
   return (
     <div>
@@ -34,13 +33,12 @@ export default function App() {
                 <Link to="/clipdesjahres">Clip des Jahres</Link>
                 <Link to="/bartclicker">Bartclicker</Link>
                 <Link to="/ob">OnlyBart</Link>
-                <Link to="/impressum">Impressum</Link>
-                <Link to="/datenschutz">Datenschutz</Link>
               </nav>
             </div>
           </header>
           <main>
             <Routes>
+              <Route path="/" element={<Home />} />
               <Route path="/streamplan" element={<StreamPlan />} />
               <Route path="/streamelements" element={<StreamElements />} />
               <Route path="/clipdesmonats" element={<ClipDesMonats />} />

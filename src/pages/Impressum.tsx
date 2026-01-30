@@ -22,11 +22,7 @@ export default function Impressum(): JSX.Element {
               Admin@HD1920x1080.de
             </a>
           </p>
-          <p style={{ marginTop: 18 }}>
-            <Link to="/" className="btn">
-              ← Zurück
-            </Link>
-          </p>
+
         </div>
       </div>
     </main>

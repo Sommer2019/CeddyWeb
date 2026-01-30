@@ -14,6 +14,11 @@ export default function CookieBanner() {
     setVisible(false)
   }
 
+  function reject() {
+    localStorage.setItem('cookie_accepted', '0')
+    setVisible(false)
+  }
+
   if (!visible) return null
 
   return (
@@ -27,9 +32,11 @@ export default function CookieBanner() {
           <button type="button" className="btn btn-accept" onClick={accept}>
             Akzeptieren
           </button>
+          <button type="button" className="btn btn-reject" onClick={reject}>
+            Ablehnen
+          </button>
         </div>
       </div>
     </div>
   )
 }
-

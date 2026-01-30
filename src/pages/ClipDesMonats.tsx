@@ -388,12 +388,6 @@ export default function ClipDesMonats(): JSX.Element {
             </div>
           </div>
         </div>
-
-        <p style={{ marginTop: 18 }}>
-          <Link to="/" className="btn">
-            ← Zurück
-          </Link>
-        </p>
       </div>
     </main>
   )

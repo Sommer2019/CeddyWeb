@@ -85,11 +85,7 @@ export default function Datenschutz(): JSX.Element {
             Kontaktadresse.
           </p>
 
-          <p style={{ marginTop: 18 }}>
-            <Link to="/" className="btn">
-              ← Zurück
-            </Link>
-          </p>
+
         </div>
       </div>
     </main>

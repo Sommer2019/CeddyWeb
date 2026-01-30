@@ -72,9 +72,6 @@ export default function Offline(): JSX.Element {
             <strong>Twitch-Channel öffnen</strong>
           </div>
         </a>
-        <p style={{ marginTop: 18 }}>
-          <Link to="/">Zurück zur Startseite</Link>
-        </p>
       </div>
     </div>
   )

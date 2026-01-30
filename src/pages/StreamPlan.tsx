@@ -33,11 +33,7 @@ export default function StreamPlan(): JSX.Element {
               />
             </div>
           </a>
-          <p style={{ marginTop: 18 }}>
-            <Link to="/" className="btn">
-              ← Zurück
-            </Link>
-          </p>
+
         </div>
       </div>
     </main>
