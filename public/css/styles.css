@@ -1,0 +1,35 @@
+/* Copied from css/styles.css */
+:root {
+    --bg-black: #070607;
+    --accent: #7C4DFF; /* lilablau */
+    --muted: #9aa0a6;
+    --card-bg: rgba(255, 255, 255, 0.02);
+    /* Shared box gradient + subtle border color */
+    --box-gradient: linear-gradient(180deg, rgba(124, 77, 255, 0.16), rgba(0, 0, 0, 0.12));
+    --box-border: rgba(124, 77, 255, 0.06);
+}
+
+* {
+    box-sizing: border-box
+}
+
+html, body {
+    height: 100%
+}
+
+body {
+    margin: 0;
+    font-family: Inter, Segoe UI, Arial, Helvetica, sans-serif;
+    background: var(--bg-black);
+    color: #e6eef8;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 12px 20px
+}
+
+/* (truncated - full file exists in original css folder) */
+
