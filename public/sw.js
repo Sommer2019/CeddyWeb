@@ -1,19 +1,22 @@
-const CACHE_NAME = 'hd-static-v1';
+const CACHE_NAME = 'hd-static-v3';
+
+// Precache only URLs that actually exist in the deployed app.
+// Keep this list conservative: missing entries will be fetched from network normally.
 const PRECACHE_URLS = [
   '/',
   '/index.html',
   '/offline.html',
   '/manifest.json',
+  '/sw.js',
   '/css/styles.css',
   '/css/mobile.css',
   '/css/cookie-banner.css',
-  '/js/mobile.js',
+  '/css/clip-voting.css',
+  // JS files that are served as static assets (not Vite-bundled)
   '/js/config.js',
   '/js/cookie-consent.js',
   '/js/page-view-tracker.js',
   '/js/supabase-client.js',
-  '/streamelements.html',
-  '/games/bartclicker.html',
   '/img/Logos/StreamElements.png',
   '/img/Logos/HDProfile.webp',
   '/img/logo128.png'
@@ -41,6 +44,13 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
+// Allow the page to trigger immediate activation of an updated SW
+self.addEventListener('message', (event) => {
+  if (event?.data?.type === 'SKIP_WAITING') {
+    try { self.skipWaiting(); } catch (e) {}
+  }
+});
+
 // Helper: safe fetch that rejects on non-OK
 function fetchSafe(request) {
   return fetch(request).then(response => {
@@ -59,11 +69,16 @@ self.addEventListener('fetch', event => {
     return;
   }
 
+  // Never intercept Vite dev-source paths. If a stale index.html tries to load /src/*,
+  // we want this to fail fast and/or be served by the network (not SW cache).
+  if (url.pathname.startsWith('/src/')) {
+    return;
+  }
+
   // Navigation requests: try network first, fallback to cache, then offline page
   if (req.mode === 'navigate') {
     event.respondWith(
       fetchSafe(req).then(networkResponse => {
-        // update the cache in background
         const copy = networkResponse.clone();
         caches.open(CACHE_NAME).then(cache => cache.put(req, copy)).catch(()=>{});
         return networkResponse;
@@ -82,14 +97,17 @@ self.addEventListener('fetch', event => {
         }).catch(()=>{});
         return cached;
       }
-      // no cache -> try network, then fallback to offline page for navigations or generic failure
+
       return fetch(req).then(resp => {
         if (!resp || resp.status !== 200) return resp;
+
+        // Don't cache anything under /src/ (shouldn't happen in prod, but play safe)
+        if (url.pathname.startsWith('/src/')) return resp;
+
         const respClone = resp.clone();
         caches.open(CACHE_NAME).then(cache => cache.put(req, respClone)).catch(()=>{});
         return resp;
       }).catch(() => {
-        // If image request failed, respond with a transparent gif response (minimal)
         if (req.destination === 'image') {
           return new Response('', { status: 503, statusText: 'Service Unavailable' });
         }

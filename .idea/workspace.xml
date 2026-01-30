@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="00c35883-868f-4c61-99bc-64796ad3d22a" name="Changes" comment="Hide links and live sections in mobile view when games are active">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/deploy-pages.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy-pages.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/deploy.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/css/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/sw.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/sw.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,22 +150,6 @@
       <workItem from="1769711164075" duration="149000" />
       <workItem from="1769711429465" duration="2701000" />
       <workItem from="1769795506517" duration="5942000" />
-    </task>
-    <task id="LOCAL-00027" summary="Enhance voting system: add no results message, embed button, and improve error handling">
-      <option name="closed" value="true" />
-      <created>1768576979907</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1768576979907</updated>
-    </task>
-    <task id="LOCAL-00028" summary="Enhance voting system: add no results message, embed button, and improve error handling">
-      <option name="closed" value="true" />
-      <created>1768577103917</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1768577103917</updated>
     </task>
     <task id="LOCAL-00029" summary="Enhance voting system: add no results message, embed button, and improve error handling">
       <option name="closed" value="true" />
@@ -548,7 +527,23 @@
       <option name="project" value="LOCAL" />
       <updated>1769803902078</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="Hide links and live sections in mobile view when games are active">
+      <option name="closed" value="true" />
+      <created>1769804635031</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1769804635031</updated>
+    </task>
+    <task id="LOCAL-00077" summary="Hide links and live sections in mobile view when games are active">
+      <option name="closed" value="true" />
+      <created>1769804691828</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1769804691828</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

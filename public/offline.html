@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Offline – HD1920x1080</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/mobile.css" />
+  <link rel="stylesheet" href="/css/cookie-banner.css" />
+  <style>
+    .offline-wrap { max-width: 720px; margin: 24px auto; padding: 16px; }
+    .offline-card { background: var(--box-gradient); border: 1px solid var(--box-border); border-radius: 14px; padding: 16px; box-shadow: 0 12px 36px rgba(0,0,0,.40); }
+    .offline-card h1 { margin: 0 0 8px 0; color: var(--accent); font-size: 22px; }
+    .offline-card p { margin: 0 0 10px 0; color: rgba(230,238,248,0.92); }
+    .offline-actions { display:flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+    .offline-actions a { display:inline-flex; align-items:center; justify-content:center; padding: 10px 12px; border-radius: 10px; text-decoration:none; color: inherit; border: 1px solid rgba(124,77,255,0.12); background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.10)); }
+    .offline-actions a:hover { transform: translateY(-2px); }
+  </style>
+</head>
+<body>
+  <main class="offline-wrap">
+    <div class="offline-card">
+      <h1>Du bist offline</h1>
+      <p>Die Seite konnte gerade nicht geladen werden. Bitte prüf deine Internetverbindung und versuch’s nochmal.</p>
+      <div class="offline-actions">
+        <a href="/">Neu laden</a>
+        <a href="/">Zur Startseite</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
+

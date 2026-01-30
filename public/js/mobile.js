@@ -357,6 +357,12 @@ function copyDiscountCode(event) {
             navigator.serviceWorker.register('/sw.js').then(reg => {
                 // register success
                 console.log('ServiceWorker registered', reg.scope);
+
+                // If there's already a waiting worker, activate it immediately
+                if (reg.waiting) {
+                    try { reg.waiting.postMessage({ type: 'SKIP_WAITING' }); } catch (e) {}
+                }
+
                 // Listen for updates
                 reg.addEventListener && reg.addEventListener('updatefound', () => {
                     const newWorker = reg.installing;
@@ -365,8 +371,17 @@ function copyDiscountCode(event) {
                         if (newWorker.state === 'installed') {
                             // new content available
                             console.log('ServiceWorker: new content installed');
+                            // If we already have a controller, we are updating -> activate immediately
+                            if (navigator.serviceWorker.controller) {
+                                try { newWorker.postMessage({ type: 'SKIP_WAITING' }); } catch (e) {}
+                            }
                         }
                     });
+                });
+
+                // Reload once the new SW controls the page
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    window.location.reload();
                 });
             }).catch(err => console.warn('ServiceWorker registration failed', err));
         }
