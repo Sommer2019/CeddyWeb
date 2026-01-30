@@ -636,8 +636,10 @@ body {
         grid-template-columns:repeat(2, 1fr)
     }
 
-    .clips-grid {
-        grid-template-columns:repeat(2, 1fr)
+    /* Clips/Games sollen auch im Desktop/Tablet-Bereich 3-spaltig bleiben */
+    .clips-grid,
+    .games-grid {
+        grid-template-columns:repeat(3, 1fr)
     }
 
     .embed-wrapper {
