@@ -6,7 +6,7 @@
 CREATE TABLE IF NOT EXISTS bart_clicker_game_state (
     id BIGSERIAL PRIMARY KEY,
     ip_hash TEXT NOT NULL UNIQUE,
-    username TEXT,
+    username TEXT UNIQUE,  -- UNIQUE: Username muss eindeutig sein
     energy NUMERIC NOT NULL DEFAULT 0,
     total_ever NUMERIC NOT NULL DEFAULT 0,
     rebirth_count INTEGER NOT NULL DEFAULT 0,
@@ -16,8 +16,9 @@ CREATE TABLE IF NOT EXISTS bart_clicker_game_state (
     last_updated TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- Index für bessere Performance
+-- Indexes für bessere Performance
 CREATE INDEX IF NOT EXISTS idx_bart_clicker_ip_hash ON bart_clicker_game_state(ip_hash);
+CREATE INDEX IF NOT EXISTS idx_bart_clicker_game_state_username ON bart_clicker_game_state(username) WHERE username IS NOT NULL;
 
 -- Row Level Security (RLS) aktivieren
 ALTER TABLE bart_clicker_game_state ENABLE ROW LEVEL SECURITY;

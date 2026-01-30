@@ -1138,7 +1138,17 @@
                     .upsert(gameState, { onConflict: 'ip_hash' });
                 
                 if (error) {
-                    console.error('Error syncing to Supabase:', error);
+                    // Check if it's a unique constraint violation on username
+                    if (error.code === '23505' && error.message.includes('username')) {
+                        console.error('Username is already taken:', error);
+                        alert('Dieser Nutzername ist bereits vergeben. Bitte ändere deinen Namen in den Einstellungen.');
+                        // Clear the username to force re-entry
+                        username = null;
+                        localStorage.removeItem('bart_clicker_username');
+                        document.getElementById('username-display').style.display = 'none';
+                    } else {
+                        console.error('Error syncing to Supabase:', error);
+                    }
                 } else {
                     console.log('Game state synced to Supabase');
                     needsSync = false;
@@ -1859,7 +1869,113 @@
             }
         }
         
-        function setUsername() {
+        // Check if username is unique in the database
+        async function checkUsernameUnique(newUsername) {
+            try {
+                const supabase = await getSupabaseClient();
+                const ipHash = await getUserIpHash();
+                
+                // Check in game_state table
+                const { data: gameStateData, error: gameStateError } = await supabase
+                    .from('bart_clicker_game_state')
+                    .select('ip_hash, username')
+                    .ilike('username', newUsername)
+                    .neq('ip_hash', ipHash);
+                
+                if (gameStateError && gameStateError.code !== 'PGRST116') {
+                    console.error('Error checking username in game_state:', gameStateError);
+                }
+                
+                // Check in leaderboard table
+                const { data: leaderboardData, error: leaderboardError } = await supabase
+                    .from('bart_clicker_leaderboard')
+                    .select('ip_hash, username')
+                    .ilike('username', newUsername)
+                    .neq('ip_hash', ipHash);
+                
+                if (leaderboardError && leaderboardError.code !== 'PGRST116') {
+                    console.error('Error checking username in leaderboard:', leaderboardError);
+                }
+                
+                // Username is unique if not found in either table
+                return (!gameStateData || gameStateData.length === 0) && 
+                       (!leaderboardData || leaderboardData.length === 0);
+            } catch (error) {
+                console.error('Error checking username uniqueness:', error);
+                return true; // Allow if offline
+            }
+        }
+        
+        // Handle username change and IP migration
+        async function handleUsernameChange(oldUsername, newUsername) {
+            try {
+                const supabase = await getSupabaseClient();
+                const currentIpHash = await getUserIpHash();
+                
+                // Check if a user with this username exists at a different IP
+                const { data: existingUser, error: existingError } = await supabase
+                    .from('bart_clicker_game_state')
+                    .select('*')
+                    .ilike('username', newUsername)  // Case-insensitive comparison
+                    .neq('ip_hash', currentIpHash)
+                    .maybeSingle();  // Returns null if not found, without error
+                
+                if (existingUser) {
+                    // User exists at different IP - this is an IP change scenario
+                    console.log('User with this username exists at different IP - updating IP...');
+                    
+                    // Merge the game states (keep the better one)
+                    const shouldMigrate = existingUser.total_ever > totalEver;
+                    
+                    if (shouldMigrate) {
+                        // Use the existing user's data (they have more progress)
+                        energy = parseFloat(existingUser.energy) || energy;
+                        totalEver = parseFloat(existingUser.total_ever) || totalEver;
+                        rebirthCount = parseInt(existingUser.rebirth_count) || rebirthCount;
+                        rebirthMultiplier = parseFloat(existingUser.rebirth_multiplier) || rebirthMultiplier;
+                        offlineEarningUpgrades = parseInt(existingUser.offline_earning_upgrades) || offlineEarningUpgrades;
+                        
+                        if (existingUser.shop_items && Array.isArray(existingUser.shop_items)) {
+                            existingUser.shop_items.forEach((savedItem) => {
+                                const item = shopItems.find(i => i.id === savedItem.id);
+                                if (item) {
+                                    item.count = savedItem.count || 0;
+                                    item.cost = savedItem.cost || item.cost;
+                                }
+                            });
+                        }
+                        
+                        recalcCps();
+                        updateUI();
+                        alert('Willkommen zurück! Dein Spielstand wurde wiederhergestellt.');
+                    }
+                    
+                    // Delete the old IP entry
+                    await supabase
+                        .from('bart_clicker_game_state')
+                        .delete()
+                        .eq('ip_hash', existingUser.ip_hash);
+                    
+                    // Delete old leaderboard entry
+                    await supabase
+                        .from('bart_clicker_leaderboard')
+                        .delete()
+                        .eq('ip_hash', existingUser.ip_hash);
+                    
+                    console.log('IP migration completed successfully');
+                }
+                
+                // Now sync with the current IP
+                await syncToSupabase();
+                
+            } catch (error) {
+                console.error('Error handling username change:', error);
+                // Continue with normal sync even if migration fails
+                await syncToSupabase();
+            }
+        }
+        
+        async function setUsername() {
             const input = document.getElementById('username-input');
             const name = input.value.trim();
             
@@ -1868,16 +1984,32 @@
                 return;
             }
             
+            // Check if username is unique (case-insensitive)
+            // Note: There's a small race condition window between this check and the database insert
+            // where another user could take the same username. This is handled by catching the
+            // constraint violation in syncToSupabase() which will prompt the user to choose again.
+            try {
+                const isUnique = await checkUsernameUnique(name);
+                if (!isUnique) {
+                    alert('Dieser Nutzername ist bereits vergeben. Bitte wähle einen anderen Namen.');
+                    return;
+                }
+            } catch (error) {
+                console.error('Error checking username uniqueness:', error);
+                // If offline or error, allow username (will be validated on sync)
+            }
+            
+            const oldUsername = username;
             username = name;
             localStorage.setItem('bart_clicker_username', username);
             showUsernameDisplay();
             document.getElementById('username-modal').classList.remove('active');
             document.body.classList.remove('modal-open');
             
-            // Sync username to database
+            // Sync username to database and handle IP change
             needsSync = true;
             if (navigator.onLine) {
-                syncToSupabase();
+                await handleUsernameChange(oldUsername, username);
             }
             
             // Update leaderboard immediately
@@ -1911,7 +2043,31 @@
                     .upsert(leaderboardEntry, { onConflict: 'ip_hash' });
                 
                 if (error) {
-                    console.error('Error updating leaderboard:', error);
+                    // Check if it's a unique constraint violation on username
+                    if (error.code === '23505' && error.message.includes('username')) {
+                        console.error('Username is already taken in leaderboard:', error);
+                        // Try to delete old entry with same username (case-insensitive) at different IP
+                        const { error: deleteError } = await supabase
+                            .from('bart_clicker_leaderboard')
+                            .delete()
+                            .ilike('username', username)  // Case-insensitive comparison
+                            .neq('ip_hash', ipHash);
+                        
+                        if (!deleteError) {
+                            // Retry the upsert after deleting old entry
+                            const { error: retryError } = await supabase
+                                .from('bart_clicker_leaderboard')
+                                .upsert(leaderboardEntry, { onConflict: 'ip_hash' });
+                            
+                            if (!retryError) {
+                                console.log('Leaderboard updated after IP migration');
+                            } else {
+                                console.error('Error on retry:', retryError);
+                            }
+                        }
+                    } else {
+                        console.error('Error updating leaderboard:', error);
+                    }
                 } else {
                     console.log('Leaderboard updated');
                 }

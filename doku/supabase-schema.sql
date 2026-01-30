@@ -282,7 +282,7 @@ CREATE POLICY "Allow service role to manage streams"
 CREATE TABLE IF NOT EXISTS bart_clicker_game_state (
     id BIGSERIAL PRIMARY KEY,
     ip_hash TEXT NOT NULL UNIQUE,
-    username TEXT,
+    username TEXT UNIQUE,  -- UNIQUE: Username must be unique
     energy NUMERIC NOT NULL DEFAULT 0,
     total_ever NUMERIC NOT NULL DEFAULT 0,
     rebirth_count INTEGER NOT NULL DEFAULT 0,
@@ -292,8 +292,9 @@ CREATE TABLE IF NOT EXISTS bart_clicker_game_state (
     last_updated TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- Index for better performance
+-- Indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_bart_clicker_ip_hash ON bart_clicker_game_state(ip_hash);
+CREATE INDEX IF NOT EXISTS idx_bart_clicker_game_state_username ON bart_clicker_game_state(username) WHERE username IS NOT NULL;
 
 -- Enable RLS for bart_clicker_game_state table
 ALTER TABLE bart_clicker_game_state ENABLE ROW LEVEL SECURITY;
@@ -312,5 +313,40 @@ CREATE POLICY "Allow users to insert their own game state"
 -- Allow users to update their own game state
 CREATE POLICY "Allow users to update their own game state"
     ON bart_clicker_game_state FOR UPDATE
+    USING (true);
+
+-- Table: bart_clicker_leaderboard
+-- Stores leaderboard entries separately from game state
+CREATE TABLE IF NOT EXISTS bart_clicker_leaderboard (
+    ip_hash TEXT PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,  -- UNIQUE: Username must be unique
+    energy NUMERIC NOT NULL DEFAULT 0,
+    total_ever NUMERIC NOT NULL DEFAULT 0,
+    rebirth_count INTEGER NOT NULL DEFAULT 0,
+    last_updated TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Indexes for better performance when sorting leaderboard
+CREATE INDEX IF NOT EXISTS idx_leaderboard_total_ever ON bart_clicker_leaderboard(total_ever DESC);
+CREATE INDEX IF NOT EXISTS idx_leaderboard_rebirth_count ON bart_clicker_leaderboard(rebirth_count DESC);
+CREATE INDEX IF NOT EXISTS idx_leaderboard_username ON bart_clicker_leaderboard(username);
+
+-- Enable RLS for bart_clicker_leaderboard table
+ALTER TABLE bart_clicker_leaderboard ENABLE ROW LEVEL SECURITY;
+
+-- RLS Policies for bart_clicker_leaderboard
+-- Allow users to read the leaderboard
+CREATE POLICY "Allow users to read leaderboard"
+    ON bart_clicker_leaderboard FOR SELECT
+    USING (true);
+
+-- Allow users to insert leaderboard entries
+CREATE POLICY "Allow users to insert leaderboard entries"
+    ON bart_clicker_leaderboard FOR INSERT
+    WITH CHECK (true);
+
+-- Allow users to update leaderboard entries
+CREATE POLICY "Allow users to update leaderboard entries"
+    ON bart_clicker_leaderboard FOR UPDATE
     USING (true);
 

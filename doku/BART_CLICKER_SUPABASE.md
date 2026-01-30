@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS bart_clicker_game_state (
 **Spalten:**
 - `id`: Eindeutige ID für jeden Eintrag
 - `ip_hash`: SHA-256 Hash der IP-Adresse des Spielers (UNIQUE)
-- `username`: Optionaler Benutzername (wird mit Spielstand synchronisiert)
+- `username`: Optionaler Benutzername (UNIQUE - muss eindeutig sein)
 - `energy`: Aktuelle Energie/Punkte des Spielers
 - `total_ever`: Gesamtenergie, die jemals gesammelt wurde (für Bart-Wachstum)
 - `rebirth_count`: Anzahl der Wiedergeburten
@@ -35,9 +35,15 @@ CREATE TABLE IF NOT EXISTS bart_clicker_game_state (
 - `shop_items`: JSON-Array mit gekauften Shop-Items und deren Status
 - `last_updated`: Zeitstempel der letzten Aktualisierung
 
+**WICHTIG:** Der Username ist jetzt UNIQUE! Das bedeutet:
+- Kein Spieler kann denselben Nutzernamen wie ein anderer haben
+- Bei IP-Wechsel wird der alte Eintrag gelöscht und mit neuer IP aktualisiert
+- Keine doppelten Einträge mehr in der Bestenliste
+
 **SQL-Befehle:** 
 - Der vollständige SQL-Befehl zur Erstellung der Tabelle ist in `doku/bart_clicker_table.sql` verfügbar
-- Für bestehende Installationen: `doku/bart_clicker_add_username_migration.sql` enthält das Migration-Script
+- Für die Bestenliste: `doku/bart_clicker_leaderboard_table.sql`
+- Für bestehende Installationen: `doku/bart_clicker_make_username_unique_migration.sql` - macht Usernames UNIQUE und migriert bestehende Daten
 
 ### 2. IP-Hashing
 
