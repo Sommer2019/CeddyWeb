@@ -757,6 +757,7 @@
         let needsSync = false; // Track if local changes need syncing to Supabase
         let rebirthCount = 0; // Rebirth counter
         let rebirthMultiplier = 1; // Multiplier from rebirths
+        let offlineEarningUpgrades = 0; // Number of offline earning upgrades purchased
         let username = null; // Player username (optional)
         let currentLeaderboardTab = 'barthaare'; // Current leaderboard view
 
@@ -770,6 +771,12 @@
         const PARTICLE_DURATION_MS = 600; // Match CSS animation
         const LOCAL_STORAGE_KEY = 'bart_clicker_game_state'; // LocalStorage key
         const AUTO_SYNC_INTERVAL = 30000; // Sync to Supabase every 30 seconds when online
+        
+        // Offline earning constants
+        const BASE_OFFLINE_PERCENTAGE = 0.05; // 5% base offline earnings
+        const OFFLINE_UPGRADE_BONUS = 0.05; // Each upgrade adds 5% more
+        const MAX_OFFLINE_UPGRADES = 10; // Max 10 upgrades (5% -> 55%)
+        const OFFLINE_UPGRADE_COST = 1; // Cost 1 rebirth point per upgrade
 
         const shopItems = [
             { id: 0, name: "Bart-Kamm", cost: 15, cps: 0.1, icon: "🪮", type: "passive" },
@@ -870,13 +877,14 @@
                 const localData = loadFromLocalStorage();
                 if (localData) {
                     // Calculate offline progress
-                    const offlineProgress = calculateOfflineProgress(localData);
+                    const offlineData = calculateOfflineProgress(localData);
                     
                     // Restore game state
                     energy = parseFloat(localData.energy) || 0;
                     totalEver = parseFloat(localData.total_ever) || 0;
                     rebirthCount = parseInt(localData.rebirth_count) || 0;
                     rebirthMultiplier = parseFloat(localData.rebirth_multiplier) || 1;
+                    offlineEarningUpgrades = parseInt(localData.offline_earning_upgrades) || 0;
                     
                     // Restore username from localStorage if available
                     if (localData.username) {
@@ -885,10 +893,10 @@
                     }
                     
                     // Add offline earnings
-                    if (offlineProgress > 0) {
-                        energy += offlineProgress;
-                        totalEver += offlineProgress;
-                        showOfflineProgressMessage(offlineProgress);
+                    if (offlineData.progress > 0) {
+                        energy += offlineData.progress;
+                        totalEver += offlineData.progress;
+                        showOfflineProgressMessage(offlineData.progress, offlineData.offlineSeconds);
                     }
                     
                     // Restore shop items
@@ -907,7 +915,7 @@
                     console.log('Game state loaded from localStorage');
                     
                     // Mark for sync if we had offline progress
-                    if (offlineProgress > 0) {
+                    if (offlineData.progress > 0) {
                         needsSync = true;
                     }
                 }
@@ -935,6 +943,7 @@
                             totalEver = parseFloat(data.total_ever) || 0;
                             rebirthCount = parseInt(data.rebirth_count) || 0;
                             rebirthMultiplier = parseFloat(data.rebirth_multiplier) || 1;
+                            offlineEarningUpgrades = parseInt(data.offline_earning_upgrades) || 0;
                             
                             // Load username from Supabase if available
                             if (data.username) {
@@ -976,15 +985,16 @@
         
         // Calculate offline progress based on CPS
         function calculateOfflineProgress(savedState) {
-            if (!savedState || !savedState.last_updated) return 0;
+            if (!savedState || !savedState.last_updated) return { progress: 0, offlineSeconds: 0 };
             
             const lastSaved = new Date(savedState.last_updated).getTime();
             const now = Date.now();
             const offlineSeconds = (now - lastSaved) / 1000;
             
-            // Cap offline time at 24 hours
-            const maxOfflineSeconds = 24 * 60 * 60;
-            const cappedSeconds = Math.min(offlineSeconds, maxOfflineSeconds);
+            // Cap offline time at 1 hour per session, but max 24 hours total
+            const maxOfflineSeconds = 24 * 60 * 60; // 24 hours absolute max
+            const cappedTotalSeconds = Math.min(offlineSeconds, maxOfflineSeconds);
+            const cappedSeconds = Math.min(1 * 60 * 60, cappedTotalSeconds); // 1 hour per session
             
             // Calculate CPS from saved state
             let savedCps = 0;
@@ -1001,16 +1011,21 @@
             const savedRebirthMultiplier = parseFloat(savedState.rebirth_multiplier) || 1;
             savedCps *= savedRebirthMultiplier;
             
-            // Offline earnings are reduced to 5% of potential online earnings
-            return savedCps * cappedSeconds * 0.05;
+            // Calculate offline percentage based on upgrades
+            const savedOfflineUpgrades = parseInt(savedState.offline_earning_upgrades) || 0;
+            const offlinePercentage = BASE_OFFLINE_PERCENTAGE + (savedOfflineUpgrades * OFFLINE_UPGRADE_BONUS);
+            
+            // Offline earnings are reduced to base 5% + upgrades (up to 55%)
+            const progress = savedCps * cappedSeconds * offlinePercentage;
+            return { progress, offlineSeconds: cappedSeconds };
         }
         
         // Show offline progress message
-        function showOfflineProgressMessage(progress) {
+        function showOfflineProgressMessage(progress, offlineSeconds) {
             if (progress < 1) return;
             
-            const hours = Math.floor(progress / 3600);
-            const minutes = Math.floor((progress / 60) % 60);
+            const hours = Math.floor(offlineSeconds / 3600);
+            const minutes = Math.floor((offlineSeconds / 60) % 60);
             
             let timeText = '';
             if (hours > 0) {
@@ -1063,6 +1078,7 @@
                     total_ever: totalEver,
                     rebirth_count: rebirthCount,
                     rebirth_multiplier: rebirthMultiplier,
+                    offline_earning_upgrades: offlineEarningUpgrades,
                     shop_items: shopItems.map(item => ({
                         id: item.id,
                         count: item.count,
@@ -1107,6 +1123,7 @@
                     total_ever: totalEver,
                     rebirth_count: rebirthCount,
                     rebirth_multiplier: rebirthMultiplier,
+                    offline_earning_upgrades: offlineEarningUpgrades,
                     shop_items: shopItems.map(item => ({
                         id: item.id,
                         count: item.count,
@@ -1246,13 +1263,23 @@
                     <div class="rebirth-cost" id="rebirth-cost">0</div>
                     <div class="rebirth-count" id="rebirth-count-display">Rebirths: 0</div>
                 </div>
+                <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--box-border);">
+                    <h3 style="color: var(--accent); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 10px 0; opacity: 0.9;">Offline Upgrades</h3>
+                    <div class="rebirth-card" id="offline-upgrade-card" onclick="buyOfflineUpgrade()">
+                        <div class="rebirth-icon">💤</div>
+                        <div class="rebirth-title">Offline Boost</div>
+                        <div class="rebirth-description" id="offline-upgrade-description">Erhöht Offline-Verdienst auf 10%</div>
+                        <div class="rebirth-cost" id="offline-upgrade-cost">Kosten: 1 Rebirth</div>
+                        <div class="rebirth-count" id="offline-upgrade-count">Level: 0/10 (5%)</div>
+                    </div>
+                </div>
             `;
         }
         
         function calculateRebirthCost() {
-            // Cost is 4x the most expensive item the player can afford
+            // Cost is 10x the most expensive item the player can afford
             const maxCost = Math.max(...shopItems.map(item => item.cost));
-            return Math.floor(maxCost * 4);
+            return Math.floor(maxCost * 10);
         }
         
         function updateRebirthUI() {
@@ -1276,6 +1303,101 @@
                     card.classList.add('disabled');
                 }
             }
+        }
+        
+        function updateOfflineUpgradeUI() {
+            const costElement = document.getElementById('offline-upgrade-cost');
+            const countElement = document.getElementById('offline-upgrade-count');
+            const descElement = document.getElementById('offline-upgrade-description');
+            const card = document.getElementById('offline-upgrade-card');
+            
+            if (countElement) {
+                const currentPercentage = Math.round((BASE_OFFLINE_PERCENTAGE + offlineEarningUpgrades * OFFLINE_UPGRADE_BONUS) * 100);
+                countElement.innerText = `Level: ${offlineEarningUpgrades}/${MAX_OFFLINE_UPGRADES} (${currentPercentage}%)`;
+            }
+            
+            if (descElement) {
+                if (offlineEarningUpgrades >= MAX_OFFLINE_UPGRADES) {
+                    descElement.innerText = 'Maximum erreicht!';
+                } else {
+                    const nextPercentage = Math.round((BASE_OFFLINE_PERCENTAGE + (offlineEarningUpgrades + 1) * OFFLINE_UPGRADE_BONUS) * 100);
+                    descElement.innerText = `Erhöht Offline-Verdienst auf ${nextPercentage}%`;
+                }
+            }
+            
+            if (costElement) {
+                if (offlineEarningUpgrades >= MAX_OFFLINE_UPGRADES) {
+                    costElement.innerText = 'MAX';
+                } else {
+                    costElement.innerText = `Kosten: ${OFFLINE_UPGRADE_COST} Rebirth`;
+                }
+            }
+            
+            if (card) {
+                // Disable if max upgrades or not enough rebirths
+                if (offlineEarningUpgrades >= MAX_OFFLINE_UPGRADES || rebirthCount < OFFLINE_UPGRADE_COST) {
+                    card.classList.add('disabled');
+                } else {
+                    card.classList.remove('disabled');
+                }
+            }
+        }
+        
+        function buyOfflineUpgrade() {
+            // Check if we can buy
+            if (offlineEarningUpgrades >= MAX_OFFLINE_UPGRADES) {
+                return; // Already at max
+            }
+            
+            if (rebirthCount < OFFLINE_UPGRADE_COST) {
+                return; // Not enough rebirths
+            }
+            
+            // Purchase upgrade
+            rebirthCount -= OFFLINE_UPGRADE_COST;
+            offlineEarningUpgrades++;
+            
+            // Update UI
+            updateRebirthUI();
+            updateOfflineUpgradeUI();
+            saveGameState();
+            
+            // Show notification
+            showOfflineUpgradeNotification();
+        }
+        
+        function showOfflineUpgradeNotification() {
+            const currentPercentage = Math.round((BASE_OFFLINE_PERCENTAGE + offlineEarningUpgrades * OFFLINE_UPGRADE_BONUS) * 100);
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: var(--panel-bg);
+                border: 2px solid var(--accent);
+                padding: 30px;
+                border-radius: 15px;
+                font-size: 1.5rem;
+                font-weight: bold;
+                text-align: center;
+                z-index: 10000;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+                animation: fadeIn 0.5s ease-out;
+            `;
+            notification.innerHTML = `
+                <div style="font-size: 3rem; margin-bottom: 10px;">💤</div>
+                <div>Offline Boost</div>
+                <div style="font-size: 1.2rem; margin-top: 10px;">Level ${offlineEarningUpgrades}/${MAX_OFFLINE_UPGRADES}</div>
+                <div style="font-size: 2rem; color: #FFD700; margin-top: 15px;">${currentPercentage}% Offline-Verdienst</div>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 1s';
+                setTimeout(() => notification.remove(), 1000);
+            }, 4000);
         }
         
         function updateRebirthBadge() {
@@ -1648,6 +1770,9 @@
             // Update rebirth button
             updateRebirthUI();
             
+            // Update offline upgrade button
+            updateOfflineUpgradeUI();
+            
             // Update rebirth badge on cap
             updateRebirthBadge();
 
@@ -1959,12 +2084,12 @@
                 console.log('Tab visible, calculating offline progress...');
                 const localData = loadFromLocalStorage();
                 if (localData && cps > 0) {
-                    const offlineProgress = calculateOfflineProgress(localData);
-                    if (offlineProgress > 0) {
-                        energy += offlineProgress;
-                        totalEver += offlineProgress;
+                    const offlineData = calculateOfflineProgress(localData);
+                    if (offlineData.progress > 0) {
+                        energy += offlineData.progress;
+                        totalEver += offlineData.progress;
                         updateUI();
-                        showOfflineProgressMessage(offlineProgress);
+                        showOfflineProgressMessage(offlineData.progress, offlineData.offlineSeconds);
                         saveToLocalStorage();
                         if (navigator.onLine) {
                             syncToSupabase();

@@ -287,6 +287,7 @@ CREATE TABLE IF NOT EXISTS bart_clicker_game_state (
     total_ever NUMERIC NOT NULL DEFAULT 0,
     rebirth_count INTEGER NOT NULL DEFAULT 0,
     rebirth_multiplier NUMERIC NOT NULL DEFAULT 1,
+    offline_earning_upgrades INTEGER NOT NULL DEFAULT 0,
     shop_items JSONB NOT NULL DEFAULT '[]',
     last_updated TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
